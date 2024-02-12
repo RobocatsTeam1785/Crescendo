@@ -8,4 +8,6 @@ public class ClimberConstants {
 
     public static final double MAX_EXTENSION = 0;
     public static final double MIN_EXTENSION = 0;
+
+    public static final double MAX_VOLTAGE = 0;
 }
