@@ -49,4 +49,6 @@ public class DriveConstants {
 
         public static final double DRIVE_CONVERSION_FACTOR = 2 * Math.PI * WHEEL_RADIUS / (6.75);
         public static final double TURN_CONVERSION_FACTOR = 2 * Math.PI / (150.0/7.0);
+
+        public static final String AUTO_NAME = "";
 }
