@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -21,7 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private RelativeEncoder topEncoder;
   private RelativeEncoder bottomEncoder;
 
-  private AnalogInput photoSensor;
+  private DigitalInput photoSensor;
 
   private PIDController topPIDController;
   private PIDController bottomPIDController;
@@ -45,7 +45,7 @@ public class IntakeSubsystem extends SubsystemBase {
     topEncoder.setVelocityConversionFactor(IntakeConstants.ENCODER_CONVERSION_FACTOR/60);
     bottomEncoder.setVelocityConversionFactor(IntakeConstants.ENCODER_CONVERSION_FACTOR/60);
 
-    photoSensor = new AnalogInput(IntakeConstants.PHOTO_ELECTRIC_SENSOR_ID);
+    photoSensor = new DigitalInput(IntakeConstants.PHOTO_ELECTRIC_SENSOR_ID);
 
     topPIDController = new PIDController(
       IntakeConstants.TOP_KP,
@@ -80,6 +80,18 @@ public class IntakeSubsystem extends SubsystemBase {
 
     topMotor.setVoltage(topPID+topFF);
     bottomMotor.setVoltage(bottomPID+bottomFF);
+  }
+
+  public double getVelocityTop(){
+    return topEncoder.getVelocity();
+  }
+
+  public double getVelocityBottom(){
+    return bottomEncoder.getVelocity();
+  }
+
+  public boolean getPhotoSensor(){
+    return photoSensor.get();
   }
   @Override
   public void periodic() {
