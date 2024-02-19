@@ -16,8 +16,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
-  private CANSparkMax motor1;
-  private CANSparkMax motor2;
+  private CANSparkMax motor;
 
   private DutyCycleEncoder hexEncoder;
 
@@ -39,12 +38,9 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
     );
     getController().enableContinuousInput(-Math.PI, Math.PI);
 
-    motor1 = new CANSparkMax(ShooterRotConstants.MOTOR_ID_1, MotorType.kBrushless);
-    motor2 = new CANSparkMax(ShooterRotConstants.MOTOR_ID_2, MotorType.kBrushless);
-    motor1.setInverted(true);
-    motor2.setInverted(false);
-    motor1.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    motor2.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    motor = new CANSparkMax(ShooterRotConstants.MOTOR_ID, MotorType.kBrushless);
+    motor.setInverted(false);
+    motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     hexEncoder = new DutyCycleEncoder(ShooterRotConstants.SHAFT_ENCODER_ID);
 
@@ -61,9 +57,9 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
   public void useOutput(double output, TrapezoidProfile.State setpoint) {
     // Use the output (and optionally the setpoint) here
     double feedforward = armFeedforward.calculate(setpoint.position, setpoint.velocity);
-    motor1.setVoltage(output + feedforward);
-    motor2.setVoltage(output + feedforward);
+    motor.setVoltage(output + feedforward);
     SmartDashboard.putNumber("Shooter rot voltage", output + feedforward);
+    double e = motor.getAppliedOutput();
   }
 
   public double getAngle(){//0-1
