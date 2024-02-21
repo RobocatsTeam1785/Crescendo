@@ -18,9 +18,9 @@ public class ShooterSubsystem extends SubsystemBase {
   private final CANSparkMax shooterRotMotor = new CANSparkMax(13, MotorType.kBrushless);
   private final CANSparkMax shooterFeederMotor = new CANSparkMax(14, MotorType.kBrushless);
 
-  private final DutyCycleEncoder hexEncoder = new DutyCycleEncoder(5);
+  private final DutyCycleEncoder hexEncoder = new DutyCycleEncoder(0);
 
-  private final DigitalInput pesensor = new DigitalInput(2);
+  private final DigitalInput pesensor = new DigitalInput(4);
 
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
@@ -31,10 +31,10 @@ public class ShooterSubsystem extends SubsystemBase {
   }
   
   public void handleMotors(double shooterPowTop, double shooterPowBottom, double feederPow, double rotPow){
-    shooterMotorTop.set(shooterPowTop);
-    shooterMotorBottom.set(shooterPowBottom);
-    shooterRotMotor.set(feederPow);
-    shooterFeederMotor.set(rotPow);
+    shooterMotorTop.set(-shooterPowTop);
+    shooterMotorBottom.set(-shooterPowBottom);
+    shooterRotMotor.set(rotPow);
+    shooterFeederMotor.set(feederPow);
   }
 
   @Override

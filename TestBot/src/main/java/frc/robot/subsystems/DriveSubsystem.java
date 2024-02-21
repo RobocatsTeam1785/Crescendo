@@ -55,6 +55,17 @@ public class DriveSubsystem extends SubsystemBase {
     BRTurn.set(turnPow);
   }
 
+  public void handleDrive(double drivePow1, double drivePow2, double drivePow3, double drivePow4, double drivePow5, double drivePow6, double drivePow7, double drivePow8){
+    FLDrive.set(drivePow1);
+    FLTurn.set(drivePow2);
+    FRDrive.set(drivePow3);
+    FRTurn.set(drivePow4);
+    BLDrive.set(drivePow5);
+    BLTurn.set(drivePow6);
+    BRDrive.set(drivePow7);
+    BRTurn.set(drivePow8);
+  }
+
   public void toggleMode(){
     if(isBrake){
       isBrake = false;

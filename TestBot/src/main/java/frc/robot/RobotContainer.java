@@ -16,10 +16,11 @@ public class RobotContainer {
     public RobotContainer(){
         climbSubsystem.setDefaultCommand(new InstantCommand(() -> climbSubsystem.handleClimbers(operatorController.getLeftY(), operatorController.getRightY()),climbSubsystem));
         driveSubsystem.setDefaultCommand(new InstantCommand(() -> driveSubsystem.handleDrive(driverController.getLeftY(), driverController.getLeftX()),driveSubsystem));
-        shooterSubsystem.setDefaultCommand(new InstantCommand(() -> shooterSubsystem.handleMotors(driverController.getRightTriggerAxis(), driverController.getRightTriggerAxis(),operatorController.getLeftTriggerAxis(),driverController.getRightY()),shooterSubsystem));
+        shooterSubsystem.setDefaultCommand(new InstantCommand(() -> shooterSubsystem.handleMotors(driverController.getRightTriggerAxis(),driverController.getRightTriggerAxis(),driverController.getRightY(),operatorController.getLeftTriggerAxis()),shooterSubsystem));
         intakeSubsystem.setDefaultCommand(new InstantCommand(() -> intakeSubsystem.handleMotors(driverController.getLeftTriggerAxis(), driverController.getLeftTriggerAxis()),intakeSubsystem));
-
+        configureButtonBindings();
     }
+
     public void configureButtonBindings(){
         new JoystickButton(driverController, Button.kX.value).onTrue(new InstantCommand(() -> driveSubsystem.toggleMode()));
     }

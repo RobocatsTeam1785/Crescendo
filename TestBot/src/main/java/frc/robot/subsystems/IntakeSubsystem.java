@@ -14,7 +14,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private final CANSparkMax topMotor = new CANSparkMax(9, MotorType.kBrushless);
   private final CANSparkMax bottomMotor = new CANSparkMax(10, MotorType.kBrushless);
 
-  private final DigitalInput pesensor = new DigitalInput(1);
+  //private final DigitalInput pesensor = new DigitalInput(1);
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
@@ -23,13 +23,13 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void handleMotors(double topPow, double bottomPow){
-    topMotor.set(topPow);
-    bottomMotor.set(bottomPow);
+    topMotor.set(-topPow);
+    bottomMotor.set(-bottomPow);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run\
-    SmartDashboard.putBoolean("Photosensor reading intake", pesensor.get());
+    //SmartDashboard.putBoolean("Photosensor reading intake", pesensor.get());
   }
 }

@@ -15,6 +15,7 @@ public class ClimbSubsystem extends SubsystemBase {
   public ClimbSubsystem() {
     climberLeft.setIdleMode(CANSparkMax.IdleMode.kBrake);
     climberRight.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    climberRight.setInverted(true);
   }
 
   public void handleClimbers(double leftPow, double rightPow){
