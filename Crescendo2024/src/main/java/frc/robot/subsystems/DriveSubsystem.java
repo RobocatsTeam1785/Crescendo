@@ -4,102 +4,287 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.ctre.phoenix6.hardware.CANcoder;
+import frc.lib.Constants.DriveConstants;
+
+
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.math.geometry.Pose2d;
+import javax.swing.text.DefaultStyledDocument.ElementSpec;
+
+import edu.wpi.first.networktables.DoubleTopic;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.Topic;
+
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.wpilibj.I2C;
+
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.lib.Swerve.SwerveModule;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.controller.PIDController;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import edu.wpi.first.wpilibj.DriverStation;
+
+import edu.wpi.first.wpilibj.SerialPort;
+
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 
 public class DriveSubsystem extends SubsystemBase {
-  private final CANSparkMax FLDrive = new CANSparkMax(1, MotorType.kBrushless);
-  private final CANSparkMax FLTurn = new CANSparkMax(2, MotorType.kBrushless);
-  private final CANSparkMax FRDrive = new CANSparkMax(3, MotorType.kBrushless);
-  private final CANSparkMax FRTurn = new CANSparkMax(4, MotorType.kBrushless);
-  private final CANSparkMax BLDrive = new CANSparkMax(5, MotorType.kBrushless);
-  private final CANSparkMax BLTurn = new CANSparkMax(6, MotorType.kBrushless);
-  private final CANSparkMax BRDrive = new CANSparkMax(7, MotorType.kBrushless);
-  private final CANSparkMax BRTurn = new CANSparkMax(8, MotorType.kBrushless);
+  private double speedMod = 1;
 
-  private final CANcoder canCoder1 = new CANcoder(1);
-  private final CANcoder canCoder2 = new CANcoder(2);
-  private final CANcoder canCoder3 = new CANcoder(3);
-  private final CANcoder canCoder4 = new CANcoder(4);
+  private final SwerveModule m_frontLeft = new SwerveModule(
+    DriveConstants.FRONT_LEFT_DRIVE_ID,
+    DriveConstants.FRONT_LEFT_TURN_ID,
+    DriveConstants.FRONT_LEFT_CANCODER_ID,
+    DriveConstants.FRONT_LEFT_POS);
+  private final SwerveModule m_frontRight = new SwerveModule(
+    DriveConstants.FRONT_RIGHT_DRIVE_ID,
+    DriveConstants.FRONT_RIGHT_TURN_ID,
+    DriveConstants.FRONT_RIGHT_CANCODER_ID,
+    DriveConstants.FRONT_RIGHT_POS);
+  private final SwerveModule m_backLeft = new SwerveModule(
+    DriveConstants.BACK_LEFT_DRIVE_ID,
+    DriveConstants.BACK_LEFT_TURN_ID,
+    DriveConstants.BACK_LEFT_CANCODER_ID,
+    DriveConstants.BACK_LEFT_POS);
+  private final SwerveModule m_backRight = new SwerveModule(
+    DriveConstants.BACK_RIGHT_DRIVE_ID,
+    DriveConstants.BACK_RIGHT_TURN_ID,
+    DriveConstants.BACK_RIGHT_CANCODER_ID,
+    DriveConstants.BACK_RIGHT_POS);
 
-  private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+    private final NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    private final NetworkTable moduleStats = inst.getTable("Swerve");
+    StructArrayPublisher<SwerveModuleState> publisher = moduleStats.getStructArrayTopic("MyStates", SwerveModuleState.struct).publish();
+    StructArrayPublisher<SwerveModuleState> publisher2 = moduleStats.getStructArrayTopic("SetStates", SwerveModuleState.struct).publish();
 
-  private boolean isBrake = true;
 
+  private final SlewRateLimiter m_xspeedLimiter = new SlewRateLimiter(9999);
+  private final SlewRateLimiter m_yspeedLimiter = new SlewRateLimiter(9999);
+  private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(9999);
+  
+  private final DigitalInput reflector = new DigitalInput(0);
+
+  private final PIDController turnPID = new PIDController(
+    DriveConstants.HEADING_KP,
+    DriveConstants.HEADING_KI,
+    DriveConstants.HEADING_KD);
+
+  private final SwerveDrivePoseEstimator odometry;
+
+  //private final AHRS m_gyro = new AHRS(SPI.Port.kMXP);  
+  private final AHRS m_gyro = new AHRS(I2C.Port.kOnboard);
+
+
+  private final double coef = 1.0/(1-0.05);
+
+  private final SwerveDriveKinematics m_kinematics =
+      new SwerveDriveKinematics(
+          DriveConstants.FRONT_LEFT_POS,
+          DriveConstants.FRONT_RIGHT_POS,
+          DriveConstants.BACK_LEFT_POS,
+          DriveConstants.BACK_RIGHT_POS
+      );
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
-    gyro.reset();
-    FLDrive.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    FLTurn.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    FRDrive.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    FRTurn.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    BLDrive.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    BLTurn.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    BRDrive.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    BRTurn.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
+    //m_gyro.calibrate();
+    m_gyro.reset();
+    turnPID.enableContinuousInput(-180, 180);
+    odometry = new SwerveDrivePoseEstimator(
+      m_kinematics,
+      Rotation2d.fromDegrees(-m_gyro.getAngle()),
+      getModulePositions(),
+      new Pose2d()
+    );
+    AutoBuilder.configureHolonomic(
+                this::getPose, // Robot pose supplier
+                this::setPose, // Method to reset odometry (will be called if your auto has a starting pose)
+                this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+                this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+                new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+                        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                        new PIDConstants(DriveConstants.HEADING_KP, DriveConstants.HEADING_KI, DriveConstants.HEADING_KD), // Rotation PID constants
+                        4.5, // Max module speed, in m/s
+                        0.3556, // Drive base radius in meters. Distance from robot center to furthest module.
+                        new ReplanningConfig() // Default path replanning config. See the API for the options here
+                ),
+                () -> {
+                    // Boolean supplier that controls when the path will be mirrored for the red alliance
+                    // This will flip the path being followed to the red side of the field.
+                    // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                    var alliance = DriverStation.getAlliance();
+                    if (alliance.isPresent()) {
+                        return alliance.get() == DriverStation.Alliance.Red;
+                    }
+                    return false;
+                },
+                this // Reference to this subsystem to set requirements
+        );
   }
 
-  public void handleDrive(double drivePow, double turnPow){
-    FLDrive.set(drivePow);
-    FLTurn.set(turnPow);
-    FRDrive.set(drivePow);
-    FRTurn.set(turnPow);
-    BLDrive.set(drivePow);
-    BLTurn.set(turnPow);
-    BRDrive.set(drivePow);
-    BRTurn.set(turnPow);
+  public Pose2d getPose(){
+    return odometry.getEstimatedPosition();
+  }
+  
+  //Rotation2d.fromDegrees(-m_gyro.getAngle())
+
+  //Rotation2d.fromDegrees(-m_gyro.getAngle())
+
+
+  public void setPose(Pose2d pose){
+    odometry.resetPosition(Rotation2d.fromDegrees(-m_gyro.getAngle()),
+       new SwerveModulePosition[] {
+            m_frontLeft.getPosition(),
+            m_frontRight.getPosition(),
+            m_backLeft.getPosition(),
+            m_backRight.getPosition()
+          },
+          pose);
   }
 
-  public void handleDrive(double drivePow1, double drivePow2, double drivePow3, double drivePow4, double drivePow5, double drivePow6, double drivePow7, double drivePow8){
-    FLDrive.set(drivePow1);
-    FLTurn.set(drivePow2);
-    FRDrive.set(drivePow3);
-    FRTurn.set(drivePow4);
-    BLDrive.set(drivePow5);
-    BLTurn.set(drivePow6);
-    BRDrive.set(drivePow7);
-    BRTurn.set(drivePow8);
+  public ChassisSpeeds getRobotRelativeSpeeds(){
+    return m_kinematics.toChassisSpeeds(
+      new SwerveModuleState[] {
+            m_frontLeft.getState(),
+            m_frontRight.getState(),
+            m_backLeft.getState(),
+            m_backRight.getState()
+      }
+    );
   }
 
-  public void toggleMode(){
-    if(isBrake){
-      isBrake = false;
-      FLDrive.setIdleMode(CANSparkMax.IdleMode.kCoast);
-      FLTurn.setIdleMode(CANSparkMax.IdleMode.kCoast);
-      FRDrive.setIdleMode(CANSparkMax.IdleMode.kCoast);
-      FRTurn.setIdleMode(CANSparkMax.IdleMode.kCoast);
-      BLDrive.setIdleMode(CANSparkMax.IdleMode.kCoast);
-      BLTurn.setIdleMode(CANSparkMax.IdleMode.kCoast);
-      BRDrive.setIdleMode(CANSparkMax.IdleMode.kCoast);
-      BRTurn.setIdleMode(CANSparkMax.IdleMode.kCoast);
+  public void driveRobotRelative(ChassisSpeeds c){
+    var swerveModuleStates = m_kinematics.toSwerveModuleStates(c);
+    setSwerveStates(swerveModuleStates);
+
+  }
+
+  public void drive(double leftX, double leftY, double rightX, double rightY, double leftTrigger, double rightTrigger, int FOV, boolean fieldRelative, double periodSeconds){
+    double xSpeed =
+    -m_xspeedLimiter.calculate(MathUtil.applyDeadband(leftY, 0.075))
+        * speedMod * DriveConstants.TRANSLATIONAL_MAX_SPEED;
+    double ySpeed =
+    -m_yspeedLimiter.calculate(MathUtil.applyDeadband(leftX, 0.075))
+        * speedMod *DriveConstants.TRANSLATIONAL_MAX_SPEED;
+    double rot =
+    m_rotLimiter.calculate(MathUtil.applyDeadband(rightX, 0.075))
+        * speedMod *DriveConstants.ROTATIONAL_MAX_SPEED;
+
+    if(rightTrigger>0.9){
+      rot=-turnPID.calculate(m_gyro.getYaw(), 0);
+    }
+      
+    var swerveModuleStates =
+        m_kinematics.toSwerveModuleStates(
+          ChassisSpeeds.discretize(
+                fieldRelative
+                    ? ChassisSpeeds.fromFieldRelativeSpeeds(
+                        xSpeed, ySpeed, rot, Rotation2d.fromDegrees(-m_gyro.getAngle()))
+                    : new ChassisSpeeds(xSpeed, ySpeed, rot),
+                    periodSeconds
+                ));
+    
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.TRANSLATIONAL_MAX_SPEED);
+    
+    setSwerveStates(swerveModuleStates);
+
+  }
+
+  public void increaseSpeedMod(){
+    speedMod+=0.1;
+    if(speedMod>1){
+      speedMod=1;
+    }
+  }
+  public void decreasePowerMod(){
+    speedMod-=0.1;
+    if(speedMod<0.1){
+      speedMod=0.1;
+    }
+  }
+  public void setSwerveStates(SwerveModuleState[] states){
+    publisher2.set(states);
+    m_frontLeft.setDesiredState(states[0]);
+    m_frontRight.setDesiredState(states[1]);
+    m_backLeft.setDesiredState(states[2]);
+    m_backRight.setDesiredState(states[3]);
+  }
+  public AHRS getGyro(){
+    return m_gyro;
+  }
+  
+  public double normalizeAngle(double angle){
+    if(Math.abs(angle)<=180){
+      return angle;
     }
     else{
-      isBrake = true;
-      FLDrive.setIdleMode(CANSparkMax.IdleMode.kBrake);
-      FLTurn.setIdleMode(CANSparkMax.IdleMode.kBrake);
-      FRDrive.setIdleMode(CANSparkMax.IdleMode.kBrake);
-      FRTurn.setIdleMode(CANSparkMax.IdleMode.kBrake);
-      BLDrive.setIdleMode(CANSparkMax.IdleMode.kBrake);
-      BLTurn.setIdleMode(CANSparkMax.IdleMode.kBrake);
-      BRDrive.setIdleMode(CANSparkMax.IdleMode.kBrake);
-      BRTurn.setIdleMode(CANSparkMax.IdleMode.kBrake);
+      if(angle>180){
+        return angle-360;
+      }
+      else{
+        return angle+360;
+      }
     }
   }
-
+  public PIDController getHeadingController(){
+    return turnPID;
+  }
+  public SwerveModulePosition[] getModulePositions(){
+    return new SwerveModulePosition[] {
+          m_frontLeft.getPosition(),
+          m_frontRight.getPosition(),
+          m_backLeft.getPosition(),
+          m_backRight.getPosition()
+        };
+  }
+  public SwerveModuleState[] getModuleStates(){
+    return new SwerveModuleState[] {
+          m_frontLeft.getState(),
+          m_frontRight.getState(),
+          m_backLeft.getState(),
+          m_backRight.getState()
+        };
+  }
+  public void updateOdometry(){
+     odometry.update(
+      Rotation2d.fromDegrees(-m_gyro.getAngle()), 
+      getModulePositions()
+      );
+  }
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Gyro angle:", gyro.getAngle());
-    SmartDashboard.putNumber("Gyro pitch", gyro.getPitch());
-    SmartDashboard.putNumber("Gyro roll", gyro.getRoll());
-    SmartDashboard.putNumber("CANCoder1 value", canCoder1.getAbsolutePosition().getValueAsDouble());
-    SmartDashboard.putNumber("CANCoder2 value", canCoder2.getAbsolutePosition().getValueAsDouble());
-    SmartDashboard.putNumber("CANCoder3 value", canCoder3.getAbsolutePosition().getValueAsDouble());
-    SmartDashboard.putNumber("CANCoder4 value", canCoder4.getAbsolutePosition().getValueAsDouble());
+    updateOdometry();
+
+    publisher.set(getModuleStates());
+
+    SmartDashboard.putNumber("Gyro Angle", m_gyro.getYaw());
+    SmartDashboard.putNumber("Gyro Roll", m_gyro.getRoll());
+    SmartDashboard.putNumber("Gyro Pitch", m_gyro.getPitch());
+    SmartDashboard.putNumber("Gyro Rot2d", m_gyro.getRotation2d().getDegrees());
+
   }
 }

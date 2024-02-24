@@ -5,42 +5,79 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.DigitalInput;
-
+import frc.lib.Constants.ShooterConstants;
+import com.revrobotics.RelativeEncoder;
 
 public class ShooterSubsystem extends SubsystemBase {
-  private final CANSparkMax shooterMotorTop = new CANSparkMax(15, MotorType.kBrushless);
-  private final CANSparkMax shooterMotorBottom = new CANSparkMax(16, MotorType.kBrushless);
-  private final CANSparkMax shooterRotMotor = new CANSparkMax(13, MotorType.kBrushless);
-  private final CANSparkMax shooterFeederMotor = new CANSparkMax(14, MotorType.kBrushless);
+  private CANSparkMax topShooterMotor;
+  private CANSparkMax bottomShooterMotor;
 
-  private final DutyCycleEncoder hexEncoder = new DutyCycleEncoder(0);
+  private RelativeEncoder topEncoder;
+  private RelativeEncoder bottomEncoder;
+  
+  private PIDController topPIDController;
+  private PIDController bottomPIDController;
 
-  private final DigitalInput pesensor = new DigitalInput(4);
-
+  private SimpleMotorFeedforward topFeedforward;
+  private SimpleMotorFeedforward bottomFeedforward;
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
-    shooterMotorTop.setIdleMode(CANSparkMax.IdleMode.kCoast);
-    shooterMotorBottom.setIdleMode(CANSparkMax.IdleMode.kCoast);
-    shooterRotMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    shooterFeederMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    topShooterMotor = new CANSparkMax(ShooterConstants.TOP_MOTOR_ID, MotorType.kBrushless);
+    bottomShooterMotor = new CANSparkMax(ShooterConstants.BOTTOM_MOTOR_ID, MotorType.kBrushless);
+    topShooterMotor.setInverted(false);
+    bottomShooterMotor.setInverted(true);
+    topShooterMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    bottomShooterMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+
+    topEncoder = topShooterMotor.getEncoder();
+    bottomEncoder = bottomShooterMotor.getEncoder();
+    topEncoder.setPositionConversionFactor(ShooterConstants.ENCODER_CONVERSION_FACTOR);
+    bottomEncoder.setPositionConversionFactor(ShooterConstants.ENCODER_CONVERSION_FACTOR);
+    topEncoder.setVelocityConversionFactor(ShooterConstants.ENCODER_CONVERSION_FACTOR);
+    bottomEncoder.setVelocityConversionFactor(ShooterConstants.ENCODER_CONVERSION_FACTOR);
+
+    topPIDController = new PIDController(
+      ShooterConstants.TOP_KP,
+      ShooterConstants.TOP_KI,
+      ShooterConstants.TOP_KD
+    );
+
+    bottomPIDController = new PIDController(
+      ShooterConstants.BOTTOM_KP,
+      ShooterConstants.BOTTOM_KI,
+      ShooterConstants.BOTTOM_KD
+    );
+
+    topFeedforward = new SimpleMotorFeedforward(
+      ShooterConstants.TOP_KS,
+      ShooterConstants.TOP_KV,
+      ShooterConstants.TOP_KA
+    );
+
+    bottomFeedforward = new SimpleMotorFeedforward(
+      ShooterConstants.BOTTOM_KS,
+      ShooterConstants.BOTTOM_KV,
+      ShooterConstants.BOTTOM_KA
+    );    
   }
-  
-  public void handleMotors(double shooterPowTop, double shooterPowBottom, double feederPow, double rotPow){
-    shooterMotorTop.set(-shooterPowTop);
-    shooterMotorBottom.set(-shooterPowBottom);
-    shooterRotMotor.set(rotPow);
-    shooterFeederMotor.set(feederPow);
+
+  public void setVelocity(double velocity){
+    double topPID = topPIDController.calculate(topEncoder.getVelocity(), velocity);
+    double topFF = topFeedforward.calculate(velocity);
+
+    double bottomPID = bottomPIDController.calculate(bottomEncoder.getVelocity(), velocity);
+    double bottomFF = topFeedforward.calculate(velocity);
+
+    topShooterMotor.setVoltage(topPID + topFF);
+    bottomShooterMotor.setVoltage(bottomPID + bottomFF);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("Photosensor reading shooter", pesensor.get());
-    SmartDashboard.putNumber("Hex encoder reading", hexEncoder.getAbsolutePosition());
   }
 }

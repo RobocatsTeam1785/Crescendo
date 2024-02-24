@@ -6,7 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import edu.wpi.first.wpilibj2.command.Command;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private RobotContainer robotContainer;
+  private Command autoCommand;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -22,22 +23,32 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     robotContainer = new RobotContainer();
+    
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    robotContainer.setPeriod(getPeriod());
   }
 
-
   @Override
-  public void autonomousInit() {}
+  public void autonomousInit() {
+    autoCommand = robotContainer.getAutonomousCommand();
+    if(autoCommand != null){
+      autoCommand.schedule();
+    }
+  }
 
   @Override
   public void autonomousPeriodic() {}
 
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    if(autoCommand!=null){
+      autoCommand.cancel();
+    }
+  }
 
   @Override
   public void teleopPeriodic() {}
