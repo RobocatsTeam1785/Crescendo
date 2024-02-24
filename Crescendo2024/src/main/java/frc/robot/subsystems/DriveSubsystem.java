@@ -277,8 +277,6 @@ public class DriveSubsystem extends SubsystemBase {
   }
   @Override
   public void periodic() {
-
-    SmartDashboard.putNumber("Absolute Encoder", code.getAbsolutePosition().getValueAsDouble());
     // This method will be called once per scheduler run
 
     updateOdometry();
