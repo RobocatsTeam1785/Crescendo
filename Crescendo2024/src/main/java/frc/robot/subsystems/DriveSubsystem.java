@@ -30,6 +30,8 @@ import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.wpilibj.I2C;
+
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.Swerve.SwerveModule;
@@ -42,6 +44,8 @@ import edu.wpi.first.math.controller.PIDController;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import edu.wpi.first.wpilibj.DriverStation;
+
+import edu.wpi.first.wpilibj.SerialPort;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 
@@ -90,7 +94,9 @@ public class DriveSubsystem extends SubsystemBase {
 
   private final SwerveDrivePoseEstimator odometry;
 
-  private final AHRS m_gyro = new AHRS(SPI.Port.kMXP);  
+  //private final AHRS m_gyro = new AHRS(SPI.Port.kMXP);  
+  private final AHRS m_gyro = new AHRS(I2C.Port.kOnboard);
+
 
   private final double coef = 1.0/(1-0.05);
 
@@ -274,5 +280,11 @@ public class DriveSubsystem extends SubsystemBase {
     updateOdometry();
 
     publisher.set(getModuleStates());
+
+    SmartDashboard.putNumber("Gyro Angle", m_gyro.getYaw());
+    SmartDashboard.putNumber("Gyro Roll", m_gyro.getRoll());
+    SmartDashboard.putNumber("Gyro Pitch", m_gyro.getPitch());
+    SmartDashboard.putNumber("Gyro Rot2d", m_gyro.getRotation2d().getDegrees());
+
   }
 }

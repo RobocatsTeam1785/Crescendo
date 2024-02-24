@@ -45,7 +45,7 @@ public class IntakeSubsystem extends SubsystemBase {
     topEncoder.setVelocityConversionFactor(IntakeConstants.ENCODER_CONVERSION_FACTOR/60);
     bottomEncoder.setVelocityConversionFactor(IntakeConstants.ENCODER_CONVERSION_FACTOR/60);
 
-    photoSensor = new DigitalInput(IntakeConstants.PHOTO_ELECTRIC_SENSOR_ID);
+    //photoSensor = new DigitalInput(IntakeConstants.PHOTO_ELECTRIC_SENSOR_ID);
 
     topPIDController = new PIDController(
       IntakeConstants.TOP_KP,
@@ -71,6 +71,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void handleIntake(double velocity){
+    velocity = velocity * IntakeConstants.MAX_SPEED_TOP;
     SmartDashboard.putNumber("Intake Velocity Setpoint", velocity);
     double topPID = topPIDController.calculate(topEncoder.getVelocity(), velocity);
     double topFF = topFeedforward.calculate(velocity);

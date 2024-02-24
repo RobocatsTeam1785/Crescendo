@@ -3,40 +3,40 @@ package frc.lib.Constants;
 import edu.wpi.first.math.geometry.Translation2d;
 
 public class DriveConstants {
-    public static final int FRONT_LEFT_DRIVE_ID = 5;
-        public static final int FRONT_LEFT_TURN_ID = 6;
-        public static final int FRONT_LEFT_CANCODER_ID = 4;
+    public static final int FRONT_LEFT_DRIVE_ID = 1;
+        public static final int FRONT_LEFT_TURN_ID = 2;
+        public static final int FRONT_LEFT_CANCODER_ID = 3;
 
-        public static final int FRONT_RIGHT_DRIVE_ID = 2;
-        public static final int FRONT_RIGHT_TURN_ID = 1;
+        public static final int FRONT_RIGHT_DRIVE_ID = 3;
+        public static final int FRONT_RIGHT_TURN_ID = 4;
         public static final int FRONT_RIGHT_CANCODER_ID = 1;
         
-        public static final int BACK_LEFT_DRIVE_ID = 8;
-        public static final int BACK_LEFT_TURN_ID = 7;
-        public static final int BACK_LEFT_CANCODER_ID = 3;
+        public static final int BACK_LEFT_DRIVE_ID = 5;
+        public static final int BACK_LEFT_TURN_ID = 6;
+        public static final int BACK_LEFT_CANCODER_ID = 2;
 
-        public static final int BACK_RIGHT_DRIVE_ID = 4;
-        public static final int BACK_RIGHT_TURN_ID = 3;
-        public static final int BACK_RIGHT_CANCODER_ID = 2;
+        public static final int BACK_RIGHT_DRIVE_ID = 8;
+        public static final int BACK_RIGHT_TURN_ID = 7;
+        public static final int BACK_RIGHT_CANCODER_ID = 4;
 
         public static final Translation2d FRONT_LEFT_POS = new Translation2d(0.25,0.25);
         public static final Translation2d FRONT_RIGHT_POS = new Translation2d(0.25,-0.25);
         public static final Translation2d BACK_LEFT_POS = new Translation2d(-0.25,0.25);
         public static final Translation2d BACK_RIGHT_POS = new Translation2d(-0.25,-0.25);
 
-        public static final double TRANSLATIONAL_KP = 0.11525;
+        public static final double TRANSLATIONAL_KP = 2.187;
         public static final double TRANSLATIONAL_KI = 0;
-        public static final double TRANSLATIONAL_KD = 0;
-        public static final double TRANSLATIONAL_KS = 0.11885;
+        public static final double TRANSLATIONAL_KD = 0.038424;
+        public static final double TRANSLATIONAL_KS = 0.29804;
         public static final double TRANSLATIONAL_KV = 2.4592;
         public static final double TRANSLATIONAL_KA = 0.10492;
 
-        public static final double ROTATIONAL_KP = 4.0578;
+        public static final double ROTATIONAL_KP = 4.7414;
         public static final double ROTATIONAL_KI = 0;
-        public static final double ROTATIONAL_KD = 0.1499;
-        public static final double ROTATIONAL_KS = 0.17645;
-        public static final double ROTATIONAL_KV = 0.42596;
-        public static final double ROTATIONAL_KA = 0.0063124;
+        public static final double ROTATIONAL_KD = 0.49324 * 0;
+        public static final double ROTATIONAL_KS = 0.23798;
+        public static final double ROTATIONAL_KV = 2.7296;
+        public static final double ROTATIONAL_KA = 0.3429;
 
         public static final double HEADING_KP = 0.1;
         public static final double HEADING_KI = 0;
