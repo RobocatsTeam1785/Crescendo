@@ -53,7 +53,7 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
   public double getAprilTagRot() {
-    if (getTarget()) {
+    if (hasTarget()) {
       return frontCameraPipeline.getBestTarget().getYaw();
     }
     return -1;
@@ -61,14 +61,14 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
   public double getAprilTagPitch() {
-    if (getTarget()) {
+    if (hasTarget()) {
       return frontCameraPipeline.getBestTarget().getPitch();
     }
     return -1;
 
   }
 
-  public boolean getTarget() {
+  public boolean hasTarget() {
     return frontCameraPipeline.hasTargets();
   }
 
