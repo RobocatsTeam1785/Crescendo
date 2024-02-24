@@ -277,6 +277,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
   @Override
   public void periodic() {
+
+    SmartDashboard.putNumber("Absolute Encoder", code.getAbsolutePosition().getValueAsDouble());
+    // This method will be called once per scheduler run
+
     updateOdometry();
 
     publisher.set(getModuleStates());
@@ -285,6 +289,5 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Gyro Roll", m_gyro.getRoll());
     SmartDashboard.putNumber("Gyro Pitch", m_gyro.getPitch());
     SmartDashboard.putNumber("Gyro Rot2d", m_gyro.getRotation2d().getDegrees());
-
   }
 }

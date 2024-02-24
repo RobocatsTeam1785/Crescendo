@@ -18,6 +18,7 @@ public class RobotContainer {
     private ClimberSubsystem climberSubsystem;
 
     private IntakeSubsystem intakeSubsystem;
+    private VisionSubsystem visionSubsystem;
     private IntakeSubsystem2 intakeSubsystem2;
 
     private ShooterSubsystem shooterSubsystem;
@@ -31,6 +32,7 @@ public class RobotContainer {
 
     public RobotContainer(){
         driveSubsystem = new DriveSubsystem();
+        visionSubsystem = new VisionSubsystem();
 
         intakeSubsystem = new IntakeSubsystem();
 
@@ -38,13 +40,16 @@ public class RobotContainer {
 
         //shooterRotSubsystem = new ShooterRotSubsystem();
 
+
         /*climberSubsystem = new ClimberSubsystem();
 
         intakeSubsystem = new IntakeSubsystem();
 
         shooterSubsystem = new ShooterSubsystem();
         shooterRotSubsystem = new ShooterRotSubsystem();
-        shooterFeederSubsystem = new ShooterFeederSubsystem();*/
+
+        shooterFeederSubsystem = new ShooterFeederSubsystem();
+
 
         driverController = new XboxController(0);
         operatorController = new XboxController(1);
