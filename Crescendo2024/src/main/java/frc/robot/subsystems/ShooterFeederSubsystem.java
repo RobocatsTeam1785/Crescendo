@@ -22,32 +22,31 @@ public class ShooterFeederSubsystem extends SubsystemBase {
   private SimpleMotorFeedforward feedforward;
 
   private DigitalInput photoSensor;
+
   /** Creates a new ShooterFeederSubsystem. */
   public ShooterFeederSubsystem() {
     motor = new CANSparkMax(ShooterFeederConstants.MOTOR_ID, MotorType.kBrushless);
     motor.setInverted(false);
     motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    
+
     encoder = motor.getEncoder();
     encoder.setPositionConversionFactor(ShooterFeederConstants.ENCODER_CONVERSION_FACTOR);
-    encoder.setVelocityConversionFactor(ShooterFeederConstants.ENCODER_CONVERSION_FACTOR/60);
+    encoder.setVelocityConversionFactor(ShooterFeederConstants.ENCODER_CONVERSION_FACTOR / 60);
 
     pidController = new PIDController(
-      ShooterFeederConstants.KP,
-      ShooterFeederConstants.KI,
-      ShooterFeederConstants.KD
-    );
+        ShooterFeederConstants.KP,
+        ShooterFeederConstants.KI,
+        ShooterFeederConstants.KD);
 
     feedforward = new SimpleMotorFeedforward(
-      ShooterFeederConstants.KS,
-      ShooterFeederConstants.KV,
-      ShooterFeederConstants.KA
-    );
+        ShooterFeederConstants.KS,
+        ShooterFeederConstants.KV,
+        ShooterFeederConstants.KA);
 
     photoSensor = new DigitalInput(ShooterFeederConstants.PHOTO_ELECTRIC_SENSOR_ID);
   }
 
-  public void setVelocity(double velocity){
+  public void setVelocity(double velocity) {
     SmartDashboard.putNumber("Shooter feeder target velocity", velocity);
     double pid = pidController.calculate(encoder.getVelocity(), velocity);
     double ff = feedforward.calculate(velocity);
@@ -55,11 +54,11 @@ public class ShooterFeederSubsystem extends SubsystemBase {
     motor.setVoltage(pid + ff);
   }
 
-  public double getVelocity(){
+  public double getVelocity() {
     return encoder.getVelocity();
   }
 
-  public boolean getPhotoSensor(){
+  public boolean getPhotoSensor() {
     return photoSensor.get();
   }
 

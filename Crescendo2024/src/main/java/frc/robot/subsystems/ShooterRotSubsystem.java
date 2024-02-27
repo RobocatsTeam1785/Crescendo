@@ -14,13 +14,13 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
   private CANSparkMax motor;
 
   private DutyCycleEncoder hexEncoder;
 
   private ArmFeedforward armFeedforward;
+
   /** Creates a new ShooterRotSubsystem. */
   public ShooterRotSubsystem() {
     super(
@@ -31,11 +31,8 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
             ShooterRotConstants.KD_VALUE,
             // The motion profile constraints
             new TrapezoidProfile.Constraints(
-              ShooterRotConstants.MAX_ROTATIONAL_SPEED,
-              ShooterRotConstants.MAX_ACCELERATION
-            )
-        )
-    );
+                ShooterRotConstants.MAX_ROTATIONAL_SPEED,
+                ShooterRotConstants.MAX_ACCELERATION)));
     getController().enableContinuousInput(-Math.PI, Math.PI);
 
     motor = new CANSparkMax(ShooterRotConstants.MOTOR_ID, MotorType.kBrushless);
@@ -45,11 +42,10 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
     hexEncoder = new DutyCycleEncoder(ShooterRotConstants.SHAFT_ENCODER_ID);
 
     armFeedforward = new ArmFeedforward(
-      ShooterRotConstants.KS_VALUE,
-      ShooterRotConstants.KG_VALUE,
-      ShooterRotConstants.KV_VALUE,
-      ShooterRotConstants.KA_VALUE
-    );
+        ShooterRotConstants.KS_VALUE,
+        ShooterRotConstants.KG_VALUE,
+        ShooterRotConstants.KV_VALUE,
+        ShooterRotConstants.KA_VALUE);
 
   }
 
@@ -62,7 +58,7 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
     double e = motor.getAppliedOutput();
   }
 
-  public double getAngle(){//0-1
+  public double getAngle() {// 0-1
     double angle = hexEncoder.getAbsolutePosition();
     angle = angle - 0.5;
     angle = angle * 2 * Math.PI;

@@ -14,6 +14,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import frc.lib.Constants.IntakeConstants;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class IntakeSubsystem extends SubsystemBase {
   private CANSparkMax topMotor;
   private CANSparkMax bottomMotor;
@@ -42,35 +43,31 @@ public class IntakeSubsystem extends SubsystemBase {
     bottomEncoder = bottomMotor.getEncoder();
     topEncoder.setPositionConversionFactor(IntakeConstants.ENCODER_CONVERSION_FACTOR);
     bottomEncoder.setPositionConversionFactor(IntakeConstants.ENCODER_CONVERSION_FACTOR);
-    topEncoder.setVelocityConversionFactor(IntakeConstants.ENCODER_CONVERSION_FACTOR/60);
-    bottomEncoder.setVelocityConversionFactor(IntakeConstants.ENCODER_CONVERSION_FACTOR/60);
+    topEncoder.setVelocityConversionFactor(IntakeConstants.ENCODER_CONVERSION_FACTOR / 60);
+    bottomEncoder.setVelocityConversionFactor(IntakeConstants.ENCODER_CONVERSION_FACTOR / 60);
 
-    //photoSensor = new DigitalInput(IntakeConstants.PHOTO_ELECTRIC_SENSOR_ID);
+    // photoSensor = new DigitalInput(IntakeConstants.PHOTO_ELECTRIC_SENSOR_ID);
 
     topPIDController = new PIDController(
-      IntakeConstants.TOP_KP,
-      IntakeConstants.TOP_KI,
-      IntakeConstants.TOP_KD
-    );
+        IntakeConstants.TOP_KP,
+        IntakeConstants.TOP_KI,
+        IntakeConstants.TOP_KD);
     bottomPIDController = new PIDController(
-      IntakeConstants.BOTTOM_KP,
-      IntakeConstants.BOTTOM_KI,
-      IntakeConstants.BOTTOM_KD
-    );
+        IntakeConstants.BOTTOM_KP,
+        IntakeConstants.BOTTOM_KI,
+        IntakeConstants.BOTTOM_KD);
 
     topFeedforward = new SimpleMotorFeedforward(
-      IntakeConstants.TOP_KS,
-      IntakeConstants.TOP_KV,
-      IntakeConstants.TOP_KA
-    );
+        IntakeConstants.TOP_KS,
+        IntakeConstants.TOP_KV,
+        IntakeConstants.TOP_KA);
     bottomFeedforward = new SimpleMotorFeedforward(
-      IntakeConstants.BOTTOM_KS,
-      IntakeConstants.BOTTOM_KV,
-      IntakeConstants.BOTTOM_KA
-    );
+        IntakeConstants.BOTTOM_KS,
+        IntakeConstants.BOTTOM_KV,
+        IntakeConstants.BOTTOM_KA);
   }
 
-  public void handleIntake(double velocity){
+  public void handleIntake(double velocity) {
     velocity = velocity * IntakeConstants.MAX_SPEED_TOP;
     SmartDashboard.putNumber("Intake Velocity Setpoint", velocity);
     double topPID = topPIDController.calculate(topEncoder.getVelocity(), velocity);
@@ -79,21 +76,22 @@ public class IntakeSubsystem extends SubsystemBase {
     double bottomPID = bottomPIDController.calculate(bottomEncoder.getVelocity(), velocity);
     double bottomFF = bottomFeedforward.calculate(velocity);
 
-    topMotor.setVoltage(topPID+topFF);
-    bottomMotor.setVoltage(bottomPID+bottomFF);
+    topMotor.setVoltage(topPID + topFF);
+    bottomMotor.setVoltage(bottomPID + bottomFF);
   }
 
-  public double getVelocityTop(){
+  public double getVelocityTop() {
     return topEncoder.getVelocity();
   }
 
-  public double getVelocityBottom(){
+  public double getVelocityBottom() {
     return bottomEncoder.getVelocity();
   }
 
-  public boolean getPhotoSensor(){
+  public boolean getPhotoSensor() {
     return photoSensor.get();
   }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

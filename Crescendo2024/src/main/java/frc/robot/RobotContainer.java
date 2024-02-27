@@ -28,9 +28,9 @@ public class RobotContainer {
     private XboxController driverController;
     private XboxController operatorController;
 
-    private double period = 0;  
+    private double period = 0;
 
-    public RobotContainer(){
+    public RobotContainer() {
         driveSubsystem = new DriveSubsystem();
         visionSubsystem = new VisionSubsystem();
 
@@ -38,8 +38,7 @@ public class RobotContainer {
 
         shooterFeederSubsystem = new ShooterFeederSubsystem();
 
-        //shooterRotSubsystem = new ShooterRotSubsystem();
-
+        // shooterRotSubsystem = new ShooterRotSubsystem();
 
         climberSubsystem = new ClimberSubsystem();
 
@@ -50,29 +49,27 @@ public class RobotContainer {
 
         shooterFeederSubsystem = new ShooterFeederSubsystem();
 
-
         driverController = new XboxController(0);
         operatorController = new XboxController(1);
 
         configureButtonBindings();
         driveSubsystem.setDefaultCommand(new InstantCommand(() -> driveSubsystem.drive(
-            driverController.getLeftX(),
-            driverController.getLeftY(),
-            -driverController.getRightX(),
-            driverController.getRightY(),
-            driverController.getLeftTriggerAxis(),
-            driverController.getRightTriggerAxis(),
-            driverController.getPOV(),
-            true,
-            period
-        ), driveSubsystem));   
+                driverController.getLeftX(),
+                driverController.getLeftY(),
+                -driverController.getRightX(),
+                driverController.getRightY(),
+                driverController.getLeftTriggerAxis(),
+                driverController.getRightTriggerAxis(),
+                driverController.getPOV(),
+                true,
+                period), driveSubsystem));
         intakeSubsystem.setDefaultCommand(new InstantCommand(() -> intakeSubsystem.handleIntake(
-            MathUtil.applyDeadband(operatorController.getLeftY(), 0.1)
-        ), intakeSubsystem));     
-        //shooterFeederSubsystem.setDefaultCommand(new InstantCommand(() -> shooterFeederSubsystem.setVelocity()));
+                MathUtil.applyDeadband(operatorController.getLeftY(), 0.1)), intakeSubsystem));
+        // shooterFeederSubsystem.setDefaultCommand(new InstantCommand(() ->
+        // shooterFeederSubsystem.setVelocity()));
     }
 
-    public void configureButtonBindings(){
+    public void configureButtonBindings() {
         new JoystickButton(driverController, Button.kX.value).onTrue(new InstantCommand(() -> resetGyro()));
         new JoystickButton(driverController, Button.kY.value).onTrue(new InstantCommand(() -> setStraight()));
         new JoystickButton(driverController, Button.kA.value).onTrue(new InstantCommand(() -> set45()));
@@ -80,32 +77,32 @@ public class RobotContainer {
         new JoystickButton(driverController, Button.kRightBumper.value).onTrue(new InstantCommand(() -> set4523()));
     }
 
-    public void setPeriod(double p){
+    public void setPeriod(double p) {
         period = p;
     }
 
-    public void setStraight(){
+    public void setStraight() {
         shooterRotSubsystem.setGoal(0);
     }
 
-    public void set45(){
-        shooterRotSubsystem.setGoal(Math.PI/4);
-    }
-    
-    public void set452(){
-        shooterRotSubsystem.setGoal(Math.PI/8);
+    public void set45() {
+        shooterRotSubsystem.setGoal(Math.PI / 4);
     }
 
-    public void set4523(){
-        shooterRotSubsystem.setGoal(3*Math.PI/8);
+    public void set452() {
+        shooterRotSubsystem.setGoal(Math.PI / 8);
     }
 
-    public void resetGyro(){
+    public void set4523() {
+        shooterRotSubsystem.setGoal(3 * Math.PI / 8);
+    }
+
+    public void resetGyro() {
         driveSubsystem.getGyro().reset();
 
-      }
+    }
 
-    public Command getAutonomousCommand(){
+    public Command getAutonomousCommand() {
         return new PathPlannerAuto(DriveConstants.AUTO_NAME);
     }
 }

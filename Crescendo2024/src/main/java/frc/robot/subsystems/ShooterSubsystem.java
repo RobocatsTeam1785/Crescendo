@@ -18,12 +18,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private RelativeEncoder topEncoder;
   private RelativeEncoder bottomEncoder;
-  
+
   private PIDController topPIDController;
   private PIDController bottomPIDController;
 
   private SimpleMotorFeedforward topFeedforward;
   private SimpleMotorFeedforward bottomFeedforward;
+
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
     topShooterMotor = new CANSparkMax(ShooterConstants.TOP_MOTOR_ID, MotorType.kBrushless);
@@ -41,31 +42,27 @@ public class ShooterSubsystem extends SubsystemBase {
     bottomEncoder.setVelocityConversionFactor(ShooterConstants.ENCODER_CONVERSION_FACTOR);
 
     topPIDController = new PIDController(
-      ShooterConstants.TOP_KP,
-      ShooterConstants.TOP_KI,
-      ShooterConstants.TOP_KD
-    );
+        ShooterConstants.TOP_KP,
+        ShooterConstants.TOP_KI,
+        ShooterConstants.TOP_KD);
 
     bottomPIDController = new PIDController(
-      ShooterConstants.BOTTOM_KP,
-      ShooterConstants.BOTTOM_KI,
-      ShooterConstants.BOTTOM_KD
-    );
+        ShooterConstants.BOTTOM_KP,
+        ShooterConstants.BOTTOM_KI,
+        ShooterConstants.BOTTOM_KD);
 
     topFeedforward = new SimpleMotorFeedforward(
-      ShooterConstants.TOP_KS,
-      ShooterConstants.TOP_KV,
-      ShooterConstants.TOP_KA
-    );
+        ShooterConstants.TOP_KS,
+        ShooterConstants.TOP_KV,
+        ShooterConstants.TOP_KA);
 
     bottomFeedforward = new SimpleMotorFeedforward(
-      ShooterConstants.BOTTOM_KS,
-      ShooterConstants.BOTTOM_KV,
-      ShooterConstants.BOTTOM_KA
-    );    
+        ShooterConstants.BOTTOM_KS,
+        ShooterConstants.BOTTOM_KV,
+        ShooterConstants.BOTTOM_KA);
   }
 
-  public void setVelocity(double velocity){
+  public void setVelocity(double velocity) {
     double topPID = topPIDController.calculate(topEncoder.getVelocity(), velocity);
     double topFF = topFeedforward.calculate(velocity);
 

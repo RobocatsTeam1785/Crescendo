@@ -22,7 +22,7 @@ public class ClimberSubsystem extends SubsystemBase {
 
   private RelativeEncoder leftEncoder;
   private RelativeEncoder rightEncoder;
-  
+
   /** Creates a new ClimberSubsystem. */
   public ClimberSubsystem() {
     leftMotor = new CANSparkMax(ClimberConstants.MOTOR_ID_LEFT, MotorType.kBrushless);
@@ -43,11 +43,11 @@ public class ClimberSubsystem extends SubsystemBase {
     rightEncoder.setVelocityConversionFactor(ClimberConstants.ENCODER_CONVERSION_FACTOR / 60);
   }
 
-  public void handleClimbers(double leftPow, double rightPow){
-    if(leftLimitSwitch.isPressed() && leftPow<0){
+  public void handleClimbers(double leftPow, double rightPow) {
+    if (leftLimitSwitch.isPressed() && leftPow < 0) {
       leftPow = 0;
     }
-    if(rightLimitSwitch.isPressed() && rightPow<0){
+    if (rightLimitSwitch.isPressed() && rightPow < 0) {
       rightPow = 0;
     }
     leftMotor.setVoltage(leftPow * ClimberConstants.MAX_VOLTAGE);

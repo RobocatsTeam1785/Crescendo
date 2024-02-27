@@ -14,8 +14,7 @@ public class ShooterFeederConstants {
     public static final double MAX_RPM = 0;
     public static final double DEFAULT_RPM = 0;
 
-    public static final double ENCODER_CONVERSION_FACTOR = 1/4.0;
+    public static final double ENCODER_CONVERSION_FACTOR = 1 / 4.0;
 
     public static final int PHOTO_ELECTRIC_SENSOR_ID = 4;
 }
-

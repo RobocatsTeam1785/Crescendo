@@ -24,7 +24,7 @@ public class IntakeConstants {
     public static final double MAX_ACCEL_BOTTOM = 0;
     public static final double DEFAULT_RPM = 0;
 
-    public static final double ENCODER_CONVERSION_FACTOR = 1/4.0;
+    public static final double ENCODER_CONVERSION_FACTOR = 1 / 4.0;
 
-    //public static final int PHOTO_ELECTRIC_SENSOR_ID = 0;
+    // public static final int PHOTO_ELECTRIC_SENSOR_ID = 0;
 }

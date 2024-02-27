@@ -29,134 +29,127 @@ public class SwerveModule {
     private PIDController drivePIDController;
     private SimpleMotorFeedforward turnFeedforward;
     private SimpleMotorFeedforward driveFeedforward;
-    
+
     public SwerveModule(
-        int DRIVEMOTORID,
-        int TURNMOTORID,
-        int CANCODERID,
-        Translation2d pos
-    ){
+            int DRIVEMOTORID,
+            int TURNMOTORID,
+            int CANCODERID,
+            Translation2d pos) {
         driveMotor = new CANSparkMax(DRIVEMOTORID, MotorType.kBrushless);
         turnMotor = new CANSparkMax(TURNMOTORID, MotorType.kBrushless);
 
         driveMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         turnMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         turnMotor.setInverted(true);
-        
+
         driveMotor.setInverted(true);
 
         CANCoder = new CANcoder(CANCODERID);
 
-        double p = 360-360*CANCoder.getAbsolutePosition().getValueAsDouble();
-        p=p%360;
-        if(p>180){
-            p=p-360;
+        double p = 360 - 360 * CANCoder.getAbsolutePosition().getValueAsDouble();
+        p = p % 360;
+        if (p > 180) {
+            p = p - 360;
+        } else if (p < -180) {
+            p = p + 360;
         }
-        else if(p<-180){
-            p=p+360;
-        }
-        p=-p;
+        p = -p;
 
         driveEncoder = driveMotor.getEncoder();
         driveEncoder.setPositionConversionFactor(DriveConstants.DRIVE_CONVERSION_FACTOR);
-        driveEncoder.setVelocityConversionFactor(DriveConstants.DRIVE_CONVERSION_FACTOR/60);
-
+        driveEncoder.setVelocityConversionFactor(DriveConstants.DRIVE_CONVERSION_FACTOR / 60);
 
         turnEncoder = turnMotor.getEncoder();
-        turnEncoder.setPosition(p*Math.PI/180);
+        turnEncoder.setPosition(p * Math.PI / 180);
         turnEncoder.setPositionConversionFactor(DriveConstants.TURN_CONVERSION_FACTOR);
-        turnEncoder.setVelocityConversionFactor(DriveConstants.TURN_CONVERSION_FACTOR/60);
+        turnEncoder.setVelocityConversionFactor(DriveConstants.TURN_CONVERSION_FACTOR / 60);
 
         drivePIDController = new PIDController(
-            DriveConstants.TRANSLATIONAL_KP,
-            DriveConstants.TRANSLATIONAL_KI,
-            DriveConstants.TRANSLATIONAL_KD
-        );
+                DriveConstants.TRANSLATIONAL_KP,
+                DriveConstants.TRANSLATIONAL_KI,
+                DriveConstants.TRANSLATIONAL_KD);
 
         turnPIDController = new ProfiledPIDController(
-            DriveConstants.ROTATIONAL_KP,
-            DriveConstants.ROTATIONAL_KI,
-            DriveConstants.ROTATIONAL_KD,
-            new TrapezoidProfile.Constraints(
-                9999,
-                9999
-            )
-        );
+                DriveConstants.ROTATIONAL_KP,
+                DriveConstants.ROTATIONAL_KI,
+                DriveConstants.ROTATIONAL_KD,
+                new TrapezoidProfile.Constraints(
+                        9999,
+                        9999));
         turnPIDController.enableContinuousInput(-Math.PI, Math.PI);
 
         driveFeedforward = new SimpleMotorFeedforward(
-            DriveConstants.TRANSLATIONAL_KS,
-            DriveConstants.TRANSLATIONAL_KV,
-            DriveConstants.TRANSLATIONAL_KA
-        );
+                DriveConstants.TRANSLATIONAL_KS,
+                DriveConstants.TRANSLATIONAL_KV,
+                DriveConstants.TRANSLATIONAL_KA);
 
         turnFeedforward = new SimpleMotorFeedforward(
-            DriveConstants.ROTATIONAL_KS,
-            DriveConstants.ROTATIONAL_KV,
-            DriveConstants.ROTATIONAL_KA
-        );
+                DriveConstants.ROTATIONAL_KS,
+                DriveConstants.ROTATIONAL_KV,
+                DriveConstants.ROTATIONAL_KA);
 
         position = pos;
     }
 
     public SwerveModuleState getState() {
         return new SwerveModuleState(
-            driveEncoder.getVelocity(), new Rotation2d(turnEncoder.getPosition()));
-      }
-    
+                driveEncoder.getVelocity(), new Rotation2d(turnEncoder.getPosition()));
+    }
+
     public SwerveModulePosition getPosition() {
-    return new SwerveModulePosition(
-        driveEncoder.getPosition(), new Rotation2d(turnEncoder.getPosition()));
+        return new SwerveModulePosition(
+                driveEncoder.getPosition(), new Rotation2d(turnEncoder.getPosition()));
     }
 
+    public void setDesiredState(SwerveModuleState state) {
+        // state = new SwerveModuleState(state.speedMetersPerSecond,
+        // Rotation2d.fromRadians(-state.angle.getRadians()));
+        var encoderRotation = new Rotation2d(turnEncoder.getPosition());
 
-    public void setDesiredState(SwerveModuleState state){
-    //state = new SwerveModuleState(state.speedMetersPerSecond, Rotation2d.fromRadians(-state.angle.getRadians()));
-    var encoderRotation = new Rotation2d(turnEncoder.getPosition());
-    
-    state = SwerveModuleState.optimize(state, encoderRotation);
+        state = SwerveModuleState.optimize(state, encoderRotation);
 
-    state.speedMetersPerSecond *= state.angle.minus(encoderRotation).getCos();
+        state.speedMetersPerSecond *= state.angle.minus(encoderRotation).getCos();
 
-    final double driveOutput =
-        drivePIDController.calculate(driveEncoder.getVelocity(), state.speedMetersPerSecond);
+        final double driveOutput = drivePIDController.calculate(driveEncoder.getVelocity(), state.speedMetersPerSecond);
 
-    final double driveFeed = driveFeedforward.calculate(state.speedMetersPerSecond);
+        final double driveFeed = driveFeedforward.calculate(state.speedMetersPerSecond);
 
-    /*double pos = 360-360*CANCoder.getAbsolutePosition().getValueAsDouble();
-    pos=pos%360;
-    if(pos>180){
-        pos=pos-360;
-    }
-    else if(pos<-180){
-        pos=pos+360;
-    }*/
-    
+        /*
+         * double pos = 360-360*CANCoder.getAbsolutePosition().getValueAsDouble();
+         * pos=pos%360;
+         * if(pos>180){
+         * pos=pos-360;
+         * }
+         * else if(pos<-180){
+         * pos=pos+360;
+         * }
+         */
 
+        final double turnOutput = turnPIDController.calculate(turnEncoder.getPosition(), state.angle.getRadians());
 
-    final double turnOutput =
-        turnPIDController.calculate(turnEncoder.getPosition(), state.angle.getRadians());
+        final double turnFeed = turnFeedforward.calculate(turnPIDController.getSetpoint().velocity);
+        driveMotor.setVoltage(driveOutput + driveFeed);
 
-    final double turnFeed =
-        turnFeedforward.calculate(turnPIDController.getSetpoint().velocity);
-    driveMotor.setVoltage(driveOutput + driveFeed);
-    
-    turnMotor.setVoltage(turnOutput + turnFeed);
+        turnMotor.setVoltage(turnOutput + turnFeed);
     }
 
-    public CANSparkMax getDriveMotor(){
+    public CANSparkMax getDriveMotor() {
         return driveMotor;
-      }
-    public CANSparkMax getTurnMotor(){
-    return turnMotor;
     }
-    public RelativeEncoder getDriveEncoder(){
-    return driveEncoder;
+
+    public CANSparkMax getTurnMotor() {
+        return turnMotor;
     }
-    public RelativeEncoder getTurnEncoder(){
-    return turnEncoder;
+
+    public RelativeEncoder getDriveEncoder() {
+        return driveEncoder;
     }
-    public CANcoder getCANCoder(){
+
+    public RelativeEncoder getTurnEncoder() {
+        return turnEncoder;
+    }
+
+    public CANcoder getCANCoder() {
         return CANCoder;
     }
 }

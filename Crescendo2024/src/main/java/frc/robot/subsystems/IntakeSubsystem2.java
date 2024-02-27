@@ -10,20 +10,19 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 public class IntakeSubsystem2 extends SubsystemBase {
   private CANSparkMax intakeTop = new CANSparkMax(9, MotorType.kBrushless);
   private CANSparkMax intakeBottom = new CANSparkMax(10, MotorType.kBrushless);
 
-    /** Creates a new IntakeSubsystem2. */
+  /** Creates a new IntakeSubsystem2. */
   public IntakeSubsystem2() {
     intakeTop.setInverted(true);
     intakeBottom.setInverted(true);
   }
 
-  public void handleIntake(double topPow, double bottomPow){
-    topPow = MathUtil.applyDeadband(topPow,0.1);
-    bottomPow = MathUtil.applyDeadband(bottomPow,0.1);
+  public void handleIntake(double topPow, double bottomPow) {
+    topPow = MathUtil.applyDeadband(topPow, 0.1);
+    bottomPow = MathUtil.applyDeadband(bottomPow, 0.1);
     intakeTop.set(topPow);
     intakeBottom.set(bottomPow);
 
