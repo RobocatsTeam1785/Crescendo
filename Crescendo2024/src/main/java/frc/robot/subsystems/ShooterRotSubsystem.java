@@ -50,7 +50,7 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
       ShooterRotConstants.KV_VALUE,
       ShooterRotConstants.KA_VALUE
     );
-
+    setGoal(-Math.PI/2);
   }
 
   @Override
@@ -59,19 +59,31 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
     double feedforward = armFeedforward.calculate(setpoint.position, setpoint.velocity);
     motor.setVoltage(output + feedforward);
     SmartDashboard.putNumber("Shooter rot voltage", output + feedforward);
-    double e = motor.getAppliedOutput();
+    SmartDashboard.putNumber("REV BORE ENCODEOREOROERO", hexEncoder.getAbsolutePosition());
+    SmartDashboard.putNumber("ShooterAngle", getMeasurement()*180/Math.PI);
+    SmartDashboard.putNumber("true", getTrueAngle());
+    SmartDashboard.putNumber("PID Output", output);
+    SmartDashboard.putNumber("Feedforward output", feedforward);
+
   }
 
   public double getAngle(){//0-1
     double angle = hexEncoder.getAbsolutePosition();
+    angle -= 0.052;
     angle = angle - 0.5;
     angle = angle * 2 * Math.PI;
+    angle += Math.PI;
     return angle;
   }
+
+  public double getTrueAngle(){
+    return hexEncoder.getAbsolutePosition();
+  }
+
 
   @Override
   public double getMeasurement() {
     // Return the process variable measurement here
-    return getAngle();
+    return getAngle()-Math.PI/2;
   }
 }

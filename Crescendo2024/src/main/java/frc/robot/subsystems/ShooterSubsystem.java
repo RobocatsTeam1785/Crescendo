@@ -7,6 +7,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import frc.lib.Constants.ShooterConstants;
@@ -28,7 +30,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
     topShooterMotor = new CANSparkMax(ShooterConstants.TOP_MOTOR_ID, MotorType.kBrushless);
     bottomShooterMotor = new CANSparkMax(ShooterConstants.BOTTOM_MOTOR_ID, MotorType.kBrushless);
-    topShooterMotor.setInverted(false);
+    topShooterMotor.setInverted(true);
     bottomShooterMotor.setInverted(true);
     topShooterMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
     bottomShooterMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
@@ -37,8 +39,8 @@ public class ShooterSubsystem extends SubsystemBase {
     bottomEncoder = bottomShooterMotor.getEncoder();
     topEncoder.setPositionConversionFactor(ShooterConstants.ENCODER_CONVERSION_FACTOR);
     bottomEncoder.setPositionConversionFactor(ShooterConstants.ENCODER_CONVERSION_FACTOR);
-    topEncoder.setVelocityConversionFactor(ShooterConstants.ENCODER_CONVERSION_FACTOR);
-    bottomEncoder.setVelocityConversionFactor(ShooterConstants.ENCODER_CONVERSION_FACTOR);
+    topEncoder.setVelocityConversionFactor(ShooterConstants.ENCODER_CONVERSION_FACTOR/60);
+    bottomEncoder.setVelocityConversionFactor(ShooterConstants.ENCODER_CONVERSION_FACTOR/60);
 
     topPIDController = new PIDController(
       ShooterConstants.TOP_KP,
@@ -71,9 +73,19 @@ public class ShooterSubsystem extends SubsystemBase {
 
     double bottomPID = bottomPIDController.calculate(bottomEncoder.getVelocity(), velocity);
     double bottomFF = topFeedforward.calculate(velocity);
-
     topShooterMotor.setVoltage(topPID + topFF);
     bottomShooterMotor.setVoltage(bottomPID + bottomFF);
+    SmartDashboard.putNumber("Top Shooter RPM", topEncoder.getVelocity());
+    SmartDashboard.putNumber("Bottom Shooter Velocity", bottomEncoder.getVelocity());
+  }
+
+
+  public double getTopVelocity(){
+    return topEncoder.getVelocity();
+  }
+
+  public double getBottomVelocity(){
+    return bottomEncoder.getVelocity();
   }
 
   @Override

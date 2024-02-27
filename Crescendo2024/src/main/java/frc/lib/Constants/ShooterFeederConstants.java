@@ -11,8 +11,8 @@ public class ShooterFeederConstants {
     public static final double KV = 0.26228;
     public static final double KA = 0.022151;
 
-    public static final double MAX_RPM = 0;
-    public static final double DEFAULT_RPM = 0;
+    public static final double MAX_RPM = 45;
+    public static final double DEFAULT_RPM = 20;
 
     public static final double ENCODER_CONVERSION_FACTOR = 1/4.0;
 

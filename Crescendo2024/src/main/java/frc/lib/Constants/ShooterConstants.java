@@ -11,16 +11,18 @@ public class ShooterConstants {
     public static final double TOP_KV = 0.13197;
     public static final double TOP_KA = 0.014356;
 
-    public static final double BOTTOM_KP = 0.00040241;
+    public static final double BOTTOM_KP = 0.0082625;
     public static final double BOTTOM_KI = 0;
     public static final double BOTTOM_KD = 0;
-    public static final double BOTTOM_KS = 0.20112;
-    public static final double BOTTOM_KV = 0.12574;
-    public static final double BOTTOM_KA = 0.016519;
+    public static final double BOTTOM_KS = 0.08264;
+    public static final double BOTTOM_KV = 0.12648;
+    public static final double BOTTOM_KA = 0.018314;
 
-    public static final double MAX_RPM_TOP = 0;
-    public static final double MAX_RPM_BOTTOM = 0;
-    public static final double DEFAULT_RPM = 0;
+    public static final double MAX_RPM_TOP = 4500/60;
+    public static final double MAX_RPM_BOTTOM = 4500/60;
+    public static final double DEFAULT_RPM = 3500/60;
 
     public static final double ENCODER_CONVERSION_FACTOR = 1;
+
+    public static final double MARGIN_OF_ERROR = 5;
 }

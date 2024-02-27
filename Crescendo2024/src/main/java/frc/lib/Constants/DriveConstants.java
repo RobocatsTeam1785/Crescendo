@@ -24,12 +24,12 @@ public class DriveConstants {
         public static final Translation2d BACK_LEFT_POS = new Translation2d(-0.25,0.25);
         public static final Translation2d BACK_RIGHT_POS = new Translation2d(-0.25,-0.25);
 
-        public static final double TRANSLATIONAL_KP = 2.187;
+        public static final double TRANSLATIONAL_KP = 0.044952;
         public static final double TRANSLATIONAL_KI = 0;
-        public static final double TRANSLATIONAL_KD = 0.038424;
-        public static final double TRANSLATIONAL_KS = 0.29804;
-        public static final double TRANSLATIONAL_KV = 2.4592;
-        public static final double TRANSLATIONAL_KA = 0.10492;
+        public static final double TRANSLATIONAL_KD = 0;
+        public static final double TRANSLATIONAL_KS = 0.18314;
+        public static final double TRANSLATIONAL_KV = 2.685;
+        public static final double TRANSLATIONAL_KA = 0.50322;
 
         public static final double ROTATIONAL_KP = 4.7414;
         public static final double ROTATIONAL_KI = 0;
