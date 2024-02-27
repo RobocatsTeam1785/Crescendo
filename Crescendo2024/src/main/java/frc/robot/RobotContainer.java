@@ -41,7 +41,7 @@ public class RobotContainer {
         //shooterRotSubsystem = new ShooterRotSubsystem();
 
 
-        /*climberSubsystem = new ClimberSubsystem();
+        climberSubsystem = new ClimberSubsystem();
 
         intakeSubsystem = new IntakeSubsystem();
 

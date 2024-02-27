@@ -1,7 +1,7 @@
 package frc.lib.Constants;
 
 public class ShooterRotConstants {
-    public static final int MOTOR_ID = 0;
+    public static final int MOTOR_ID = 13;
 
     public static final int SHAFT_ENCODER_ID = 0;
     public static final double SHAFT_CONVERSION_FACTOR = 1;

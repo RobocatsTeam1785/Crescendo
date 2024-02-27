@@ -6,6 +6,7 @@ package frc.lib.Constants;
 
 /** Add your docs here. */
 public class VisionConstants {
-    public static final int FRONT_CAM_HEIGHT = 0;
-    public static final int BOTTOM_CAM_HEIGHT = 0;
+    public static final double FRONT_CAM_HEIGHT = 10;
+    public static final double FRONT_CAM_OFFSET = 6.25;
+    public static final double FRONT_CAM_ANGLE = Math.PI/3.0;
 }
