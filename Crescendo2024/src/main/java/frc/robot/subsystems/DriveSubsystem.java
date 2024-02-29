@@ -83,7 +83,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   private final SlewRateLimiter m_xspeedLimiter = new SlewRateLimiter(2.5);
   private final SlewRateLimiter m_yspeedLimiter = new SlewRateLimiter(2.5);
-  private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(2);
+  private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(2.5);
   
 
   private final PIDController turnPID = new PIDController(

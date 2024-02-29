@@ -30,6 +30,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
     topShooterMotor = new CANSparkMax(ShooterConstants.TOP_MOTOR_ID, MotorType.kBrushless);
     bottomShooterMotor = new CANSparkMax(ShooterConstants.BOTTOM_MOTOR_ID, MotorType.kBrushless);
+    topShooterMotor.setSmartCurrentLimit(40);
+    bottomShooterMotor.setSmartCurrentLimit(40);
     topShooterMotor.setInverted(true);
     bottomShooterMotor.setInverted(true);
     topShooterMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
@@ -72,11 +74,13 @@ public class ShooterSubsystem extends SubsystemBase {
     double topFF = topFeedforward.calculate(velocity);
 
     double bottomPID = bottomPIDController.calculate(bottomEncoder.getVelocity(), velocity);
-    double bottomFF = topFeedforward.calculate(velocity);
+    double bottomFF = bottomFeedforward.calculate(velocity);
+
+
     topShooterMotor.setVoltage(topPID + topFF);
     bottomShooterMotor.setVoltage(bottomPID + bottomFF);
-    SmartDashboard.putNumber("Top Shooter RPM", topEncoder.getVelocity());
-    SmartDashboard.putNumber("Bottom Shooter Velocity", bottomEncoder.getVelocity());
+    SmartDashboard.putNumber("Top Shooter RPM", topEncoder.getVelocity()*60);
+    SmartDashboard.putNumber("Bottom Shooter Velocity", bottomEncoder.getVelocity()*60);
   }
 
 

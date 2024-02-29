@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import org.photonvision.*;
+import frc.lib.Constants.VisionConstants;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
@@ -18,13 +19,19 @@ import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.net.PortForwarder;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class VisionSubsystem extends SubsystemBase {
 
   private PhotonCamera frontCamera = new PhotonCamera("Arducam_OV9281_USB_Camera (1)");
+  private double camHeight = Units.inchesToMeters(VisionConstants.FRONT_CAM_HEIGHT);
+  private double camOffset = Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET);
+  private double camAngle = Units.degreesToRadians(60);
+  private double tag8Height = VisionConstants.CENTER_SPEAKER_TAG_HEIGHT;
   private CvSink frontCam;
   private CvSource cvSource;
   private MjpegServer server1;
@@ -51,12 +58,28 @@ public class VisionSubsystem extends SubsystemBase {
     return frontCameraPipeline.getBestTarget();
   }
 
+  public PhotonTrackedTarget getSpeakerTag() {
+    if (hasTarget()) {
+      if (frontCameraPipeline.getBestTarget().getFiducialId() == 8) {
+        return frontCameraPipeline.getBestTarget();
+      }
+    }
+    return null;
+  }
+
   public double getAprilTagRot() {
     if (hasTarget()) {
       return frontCameraPipeline.getBestTarget().getYaw();
     }
     return -1;
 
+  }
+  public double getAprilTagDistance(){
+    if (hasTarget()){
+      double distance = PhotonUtils.calculateDistanceToTargetMeters(camHeight, tag8Height, camAngle, Units.degreesToRadians(getAprilTagPitch()));
+      return distance;
+    }
+    return -1;
   }
 
   public double getAprilTagPitch() {

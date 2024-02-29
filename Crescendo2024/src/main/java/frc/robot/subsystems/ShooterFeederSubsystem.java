@@ -27,6 +27,8 @@ public class ShooterFeederSubsystem extends SubsystemBase {
     motor = new CANSparkMax(ShooterFeederConstants.MOTOR_ID, MotorType.kBrushless);
     motor.setInverted(false);
     motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
+    motor.setSmartCurrentLimit(40);
     
     encoder = motor.getEncoder();
     encoder.setPositionConversionFactor(ShooterFeederConstants.ENCODER_CONVERSION_FACTOR);

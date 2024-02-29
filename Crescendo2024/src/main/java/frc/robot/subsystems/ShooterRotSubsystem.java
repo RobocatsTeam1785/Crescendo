@@ -50,7 +50,7 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
       ShooterRotConstants.KV_VALUE,
       ShooterRotConstants.KA_VALUE
     );
-    setGoal(-Math.PI/2);
+    setGoal((20-90)*Math.PI/180);
   }
 
   @Override

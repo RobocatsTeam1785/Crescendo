@@ -29,6 +29,8 @@ public class RobotContainer {
 
     private VisionSubsystem visionSubsystem;
 
+    private AmpSubsystem ampSubsystem;
+
 
     private XboxController driverController;
     private XboxController operatorController;
@@ -36,6 +38,9 @@ public class RobotContainer {
     private IntakeCommand intakeCommand;
     private ShootCommand shootCommand;
     private ReverseIntake reverseIntake;
+    private ShootTestCommand shootTestCommand;
+    private ExtendAmpSubsystem extendAmpSubsystem;
+    private RetractAmpSubsystem retractAmpSubsystem;
 
     private double period = 0;  
     private double RPM = 0;
@@ -55,9 +60,16 @@ public class RobotContainer {
 
         shooterSubsystem = new ShooterSubsystem();
 
+        ampSubsystem = new AmpSubsystem();
+
         intakeCommand = new IntakeCommand(intakeSubsystem, shooterFeederSubsystem, shooterRotSubsystem);
         shootCommand = new ShootCommand(shooterSubsystem, shooterFeederSubsystem);
         reverseIntake = new ReverseIntake(intakeSubsystem, shooterFeederSubsystem, shooterRotSubsystem);
+        shootTestCommand = new ShootTestCommand(shooterSubsystem);
+        extendAmpSubsystem = new ExtendAmpSubsystem(ampSubsystem);
+        retractAmpSubsystem = new RetractAmpSubsystem(ampSubsystem);
+
+
         /*
         intakeSubsystem = new IntakeSubsystem();
 
@@ -87,7 +99,7 @@ public class RobotContainer {
         shooterFeederSubsystem.setDefaultCommand(new InstantCommand(() -> shooterFeederSubsystem.setVelocity(
             MathUtil.applyDeadband(operatorController.getRightTriggerAxis(), 0.1)
         ), shooterFeederSubsystem));    
-        shooterRotSubsystem.setGoal(-Math.PI/2);
+        shooterRotSubsystem.setGoal((20-90)*Math.PI/180);
         shooterRotSubsystem.enable();
         climberSubsystem.setDefaultCommand(new InstantCommand(() -> climberSubsystem.handleClimbers(
             operatorController.getLeftY(),
@@ -95,6 +107,8 @@ public class RobotContainer {
         ), climberSubsystem)); 
         shooterSubsystem.setDefaultCommand(new InstantCommand(() -> shooterSubsystem.setVelocity(RPM
         ), shooterSubsystem));
+        ampSubsystem.setDefaultCommand(new InstantCommand(() -> ampSubsystem.setVoltage(0
+        ),ampSubsystem));
         //shooterFeederSubsystem.setDefaultCommand(new InstantCommand(() -> shooterFeederSubsystem.setVelocity()));
     }
 
@@ -104,9 +118,9 @@ public class RobotContainer {
 
     public void configureButtonBindings(){
         new JoystickButton(driverController, Button.kX.value).onTrue(new InstantCommand(() -> resetGyro()));
-        new JoystickButton(driverController, Button.kY.value).onTrue(new InstantCommand(() -> setStraight()));
-        new JoystickButton(driverController, Button.kA.value).onTrue(new InstantCommand(() -> toggleReverse()));
-        new JoystickButton(driverController, Button.kB.value).onTrue(new InstantCommand(() -> set452()));
+        new JoystickButton(driverController, Button.kY.value).onTrue(new InstantCommand(() -> set452()));
+        new JoystickButton(driverController, Button.kA.value).onTrue(new InstantCommand(() -> extendAmp()));
+        new JoystickButton(driverController, Button.kB.value).onTrue(new InstantCommand(() -> retractAmpSubsystem()));
         new JoystickButton(driverController, Button.kRightBumper.value).onTrue(new InstantCommand(() -> toggleShoot()));    
         new JoystickButton(driverController, Button.kLeftBumper.value).onTrue(new InstantCommand(() -> toggleIntake()));
     }
@@ -117,7 +131,7 @@ public class RobotContainer {
     }
 
     public void setStraight(){
-        shooterRotSubsystem.setGoal(-Math.PI/2);
+        shooterRotSubsystem.setGoal((20-90)*Math.PI/180);
     }
 
     public void set45(){
@@ -125,11 +139,30 @@ public class RobotContainer {
     }
     
     public void set452(){
-        shooterRotSubsystem.setGoal((30-90)*Math.PI/180);
+        shooterRotSubsystem.setGoal((45-90)*Math.PI/180);
     }
 
     public void set4523(){
         shooterRotSubsystem.setGoal((45-90)*Math.PI/180);
+    }
+
+    public void extendAmp(){
+        if(extendAmpSubsystem.isScheduled()){
+            extendAmpSubsystem.cancel();
+        }
+        else{
+            retractAmpSubsystem.cancel();
+            extendAmpSubsystem.schedule();
+        }
+    }
+    public void retractAmpSubsystem(){
+        if(retractAmpSubsystem.isScheduled()){
+            retractAmpSubsystem.cancel();
+        }
+        else{
+            extendAmpSubsystem.cancel();
+            retractAmpSubsystem.schedule();
+        }
     }
 
     public void toggleIntake(){
@@ -138,6 +171,15 @@ public class RobotContainer {
         }
         else{
             intakeCommand.schedule();
+        }
+    }
+
+    public void toggleShootTest(){
+        if(shootTestCommand.isScheduled()){
+            shootTestCommand.cancel();
+        }
+        else{
+            shootTestCommand.schedule();
         }
     }
 

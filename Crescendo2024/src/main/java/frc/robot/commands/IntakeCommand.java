@@ -47,7 +47,7 @@ public class IntakeCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterRotSubsystem.setGoal(-Math.PI/2);
+    shooterRotSubsystem.setGoal((20-90)*Math.PI/180);
   }
 
   // Returns true when the command should end.
