@@ -29,7 +29,7 @@ public class RetractAmpSubsystem extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ampSubsystem.setVoltage(3);
+    ampSubsystem.setVoltage(2);
     if(timer.hasElapsed(1)){
       this.cancel();
     }

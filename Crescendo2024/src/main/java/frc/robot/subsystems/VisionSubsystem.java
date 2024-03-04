@@ -30,23 +30,13 @@ public class VisionSubsystem extends SubsystemBase {
   private PhotonCamera frontCamera = new PhotonCamera("Arducam_OV9281_USB_Camera (1)");
   private double camHeight = Units.inchesToMeters(VisionConstants.FRONT_CAM_HEIGHT);
   private double camOffset = Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET);
-  private double camAngle = Units.degreesToRadians(60);
+  private double camAngle = Units.degreesToRadians(30);
   private double tag8Height = VisionConstants.CENTER_SPEAKER_TAG_HEIGHT;
-  private CvSink frontCam;
-  private CvSource cvSource;
-  private MjpegServer server1;
   private PhotonPipelineResult frontCameraPipeline;
-  private Transform3d robotToCam;
-  private PhotonPoseEstimator photonPoseEstimator;
-  private AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
-
   /** Creates a new VisionSubsystem. */
   public VisionSubsystem() {
     PortForwarder.add(5800, "10.17.85.11", 5800);
     frontCamera.setPipelineIndex(0);
-    robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0, 0, 0));
-    photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE,
-        frontCamera, robotToCam);
     frontCameraPipeline = frontCamera.getLatestResult();
   }
 
@@ -60,8 +50,10 @@ public class VisionSubsystem extends SubsystemBase {
 
   public PhotonTrackedTarget getSpeakerTag() {
     if (hasTarget()) {
-      if (frontCameraPipeline.getBestTarget().getFiducialId() == 8) {
-        return frontCameraPipeline.getBestTarget();
+      for(PhotonTrackedTarget p : frontCameraPipeline.targets){
+        if(p.getFiducialId()==8){
+          return p;
+        }
       }
     }
     return null;
@@ -75,11 +67,26 @@ public class VisionSubsystem extends SubsystemBase {
 
   }
   public double getAprilTagDistance(){
+    double distance;
     if (hasTarget()){
-      double distance = PhotonUtils.calculateDistanceToTargetMeters(camHeight, tag8Height, camAngle, Units.degreesToRadians(getAprilTagPitch()));
+      if(getSpeakerTag()!=null){//0.7
+      distance = PhotonUtils.calculateDistanceToTargetMeters(camHeight, tag8Height, camAngle, Units.degreesToRadians(getSpeakerTag().getPitch()));
+    }
+      else{
+        distance=-1;
+      }
       return distance;
     }
     return -1;
+  }
+
+  public double getYaw(){
+    if(getSpeakerTag()!=null){//0.7
+      return getSpeakerTag().getYaw();
+    }
+    else{
+      return 0;
+    }
   }
 
   public double getAprilTagPitch() {
@@ -97,9 +104,9 @@ public class VisionSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     frontCameraPipeline = frontCamera.getLatestResult();
-    photonPoseEstimator.update();
     double latencySeconds = frontCameraPipeline.getLatencyMillis() / 1000.0;
     SmartDashboard.putNumber("latencySeconds", latencySeconds);
+    SmartDashboard.putNumber("Distance", getAprilTagDistance());
 
     // This method will be called once per scheduler run
   }

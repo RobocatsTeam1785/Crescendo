@@ -40,9 +40,9 @@ public class DriveConstants {
 
         public static final double HEADING_KP = 0.1;
         public static final double HEADING_KI = 0;
-        public static final double HEADING_KD = 0.0025*5;
+        public static final double HEADING_KD = 0.01;
 
-        public static final double TRANSLATIONAL_MAX_SPEED = 5;
+        public static final double TRANSLATIONAL_MAX_SPEED = 6;
         public static final double ROTATIONAL_MAX_SPEED = 3.4*(TRANSLATIONAL_MAX_SPEED/5)*Math.PI/2;
 
         public static final double WHEEL_RADIUS = 0.0508;

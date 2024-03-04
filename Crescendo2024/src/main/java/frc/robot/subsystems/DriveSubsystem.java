@@ -182,19 +182,22 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
-  public void drive(double leftX, double leftY, double rightX, double rightY, double leftTrigger, double rightTrigger, int FOV, boolean fieldRelative, double periodSeconds){
+  public void drive(double leftX, double leftY, double rightX, double rightY, double leftTrigger, double rightTrigger, int FOV, double cameraYaw, boolean fieldRelative, double periodSeconds){
     double xSpeed =
-    -m_xspeedLimiter.calculate(MathUtil.applyDeadband(leftY, 0.075))
+    -m_xspeedLimiter.calculate(MathUtil.applyDeadband(leftY, 0.1))
         * speedMod * DriveConstants.TRANSLATIONAL_MAX_SPEED;
     double ySpeed =
-    -m_yspeedLimiter.calculate(MathUtil.applyDeadband(leftX, 0.075))
+    -m_yspeedLimiter.calculate(MathUtil.applyDeadband(leftX, 0.1))
         * speedMod *DriveConstants.TRANSLATIONAL_MAX_SPEED;
     double rot =
-    m_rotLimiter.calculate(MathUtil.applyDeadband(rightX, 0.075))
+    m_rotLimiter.calculate(MathUtil.applyDeadband(rightX, 0.1))
         * speedMod *DriveConstants.ROTATIONAL_MAX_SPEED;
 
-    if(rightTrigger>0.9){
+    if(leftTrigger>0.9){
       rot=-turnPID.calculate(m_gyro.getYaw(), 0);
+    }
+    if(rightTrigger>0.9){
+      rot=turnPID.calculate(cameraYaw, 0);
     }
       
     var swerveModuleStates =
@@ -284,6 +287,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Gyro Roll", m_gyro.getRoll());
     SmartDashboard.putNumber("Gyro Pitch", m_gyro.getPitch());
     SmartDashboard.putNumber("Gyro Rot2d", m_gyro.getRotation2d().getDegrees());
+
+    SmartDashboard.putNumber("TOP LEFT SPEED", m_frontLeft.getDriveEncoder().getVelocity());
 
   }
 }

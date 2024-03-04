@@ -5,42 +5,34 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.AmpSubsystem;
-import edu.wpi.first.wpilibj.Timer;
-public class ExtendAmpSubsystem extends Command {
-  private AmpSubsystem ampSubsystem;
-  private Timer timer = new Timer();
-  /** Creates a new ExtendAmpSubsystem. */
-  public ExtendAmpSubsystem(AmpSubsystem amp) {
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ShooterFeederSubsystem;
+
+public class EjectNoteBackwards extends Command {
+  private ShooterSubsystem shooterSubsystem;
+  private ShooterFeederSubsystem shooterFeederSubsystem;
+  /** Creates a new EjectNoteBackwards. */
+  public EjectNoteBackwards(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(amp);
-    ampSubsystem = amp;
+    addRequirements(shooter,shooterFeeder);
+    shooterSubsystem = shooter;
+    shooterFeederSubsystem = shooterFeeder;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    timer.stop();
-    timer.reset();
-    timer.start();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ampSubsystem.setVoltage(-2);
-    if(timer.hasElapsed(1)){
-      this.cancel();
-    }
+    shooterFeederSubsystem.setVelocity(-0.5);
+    shooterSubsystem.setVelocity(-(1500/60));
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    ampSubsystem.setVoltage(0);
-    timer.stop();
-    timer.reset();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

@@ -50,15 +50,20 @@ public class ShooterFeederSubsystem extends SubsystemBase {
   }
 
   public void setVelocity(double velocity){
-    velocity = velocity * ShooterFeederConstants.MAX_RPM;
+    //velocity = velocity * ShooterFeederConstants.MAX_RPM;
     /*if(photoSensor.get()){
       velocity = 0;
     }*/
     SmartDashboard.putNumber("Shooter feeder target velocity", velocity);
     double pid = pidController.calculate(encoder.getVelocity(), velocity);
     double ff = feedforward.calculate(velocity);
-
-    motor.setVoltage(pid + ff);
+    /*if(Math.abs(velocity)<1){
+      motor.setVoltage(0);
+    }
+    else{
+      motor.setVoltage(pid + ff);
+    }*/
+    motor.set(velocity);
   }
 
   public double getVelocity(){

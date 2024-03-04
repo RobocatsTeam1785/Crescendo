@@ -9,13 +9,13 @@ import frc.lib.Constants.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
 
-public class ShootCommand extends Command {
+public class AmpShootCommand extends Command {
   private ShooterSubsystem shooterSubsystem;
   private ShooterFeederSubsystem shooterFeederSubsystem;
   private Timer timer;
   private boolean feeding;
   /** Creates a new ShootCommand. */
-  public ShootCommand(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder) {
+  public AmpShootCommand(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter, shooterFeeder);
     shooterSubsystem = shooter;
@@ -37,9 +37,9 @@ public class ShootCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.setVelocity(ShooterConstants.DEFAULT_RPM);
-    if(Math.abs(Math.abs(shooterSubsystem.getTopVelocity())-ShooterConstants.DEFAULT_RPM)<ShooterConstants.MARGIN_OF_ERROR &&
-        Math.abs(Math.abs(shooterSubsystem.getBottomVelocity())-ShooterConstants.DEFAULT_RPM)<ShooterConstants.MARGIN_OF_ERROR &&
+    shooterSubsystem.setVelocity(ShooterConstants.AMP_RPM);
+    if(Math.abs(Math.abs(shooterSubsystem.getTopVelocity())-ShooterConstants.AMP_RPM)<ShooterConstants.MARGIN_OF_ERROR &&
+        Math.abs(Math.abs(shooterSubsystem.getBottomVelocity())-ShooterConstants.AMP_RPM)<ShooterConstants.MARGIN_OF_ERROR &&
         !feeding){
       feeding=true;
       timer.start();

@@ -11,8 +11,10 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import frc.lib.Constants.ShooterRotConstants;
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 
 
 public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
@@ -21,6 +23,8 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
   private DutyCycleEncoder hexEncoder;
 
   private ArmFeedforward armFeedforward;
+  private InterpolatingDoubleTreeMap interpolatingDoubleTreeMap = new InterpolatingDoubleTreeMap();
+
   /** Creates a new ShooterRotSubsystem. */
   public ShooterRotSubsystem() {
     super(
@@ -51,6 +55,19 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
       ShooterRotConstants.KA_VALUE
     );
     setGoal((20-90)*Math.PI/180);
+    interpolatingDoubleTreeMap.put(1.0,(55-90)*Math.PI/180);
+
+    interpolatingDoubleTreeMap.put(2.0,(43.0-90)*Math.PI/180);
+    interpolatingDoubleTreeMap.put(3.0,(35.0-90)*Math.PI/180);
+    interpolatingDoubleTreeMap.put(4.0,(31.75-90)*Math.PI/180);
+    interpolatingDoubleTreeMap.put(5.0,(29.75-90)*Math.PI/180);
+    interpolatingDoubleTreeMap.put(6.0,(29.0-90)*Math.PI/180);
+
+
+  }
+
+  public double getEstimatedAngle(double distance){
+    return interpolatingDoubleTreeMap.get(distance);
   }
 
   @Override
@@ -69,7 +86,7 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
 
   public double getAngle(){//0-1
     double angle = hexEncoder.getAbsolutePosition();
-    angle -= 0.052;
+    angle -= ShooterRotConstants.ROT_OFFSET;
     angle = angle - 0.5;
     angle = angle * 2 * Math.PI;
     angle += Math.PI;
