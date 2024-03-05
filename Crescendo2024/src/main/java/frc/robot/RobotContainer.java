@@ -19,6 +19,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.MathUtil;
 import frc.lib.Utils.*;
 import edu.wpi.first.math.util.Units;
+import com.pathplanner.lib.auto.NamedCommands;
 
 public class RobotContainer {
     private DriveSubsystem driveSubsystem;
@@ -141,24 +142,33 @@ public class RobotContainer {
             true,
             period
         ), driveSubsystem));   
+
         intakeSubsystem.setDefaultCommand(new InstantCommand(() -> intakeSubsystem.handleIntake(
             MathUtil.applyDeadband(-operatorController.getLeftTriggerAxis(), 0.1)
         ), intakeSubsystem));     
+
         shooterFeederSubsystem.setDefaultCommand(new InstantCommand(() -> shooterFeederSubsystem.setVelocity(
             MathUtil.applyDeadband(operatorController.getRightTriggerAxis(), 0.1)
         ), shooterFeederSubsystem));    
-        shooterRotSubsystem.setGoal(ShooterRotConstants.INTAKE_ANGLE);
-        shooterRotSubsystem.enable();
+
         climberSubsystem.setDefaultCommand(new InstantCommand(() -> climberSubsystem.handleClimbers(
             operatorController.getLeftY(),
             operatorController.getRightY()
         ), climberSubsystem));
+
         shooterSubsystem.setDefaultCommand(new InstantCommand(() -> shooterSubsystem.setVelocity(0
         ), shooterSubsystem));
+
         ampSubsystem.setDefaultCommand(new InstantCommand(() -> ampSubsystem.setVoltage(0
         ),ampSubsystem));
+
         shooterFeederSubsystem.setDefaultCommand(new InstantCommand(() -> shooterFeederSubsystem.setVelocity(0), shooterFeederSubsystem));
+
+        shooterRotSubsystem.enable();
         shooterRotSubsystem.setDefaultCommand(new InstantCommand(() -> setVarDistanceAngle(), shooterRotSubsystem));
+
+        NamedCommands.registerCommand("ShootCommand", shootCommand);
+        NamedCommands.registerCommand("IntakeCommand", intakeCommand);
     }
 
     public void e(){
