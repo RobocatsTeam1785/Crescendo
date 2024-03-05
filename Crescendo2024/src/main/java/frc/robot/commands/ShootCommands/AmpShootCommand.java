@@ -2,25 +2,28 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.ShootCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.Constants.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 
 public class AmpShootCommand extends Command {
   private ShooterSubsystem shooterSubsystem;
   private ShooterFeederSubsystem shooterFeederSubsystem;
   private Timer timer;
   private boolean feeding;
+  private XboxController controller;
   /** Creates a new ShootCommand. */
-  public AmpShootCommand(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder) {
+  public AmpShootCommand(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder, XboxController c) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter, shooterFeeder);
     shooterSubsystem = shooter;
     shooterFeederSubsystem = shooterFeeder;
     timer = new Timer();
+    controller = c;
   }
 
   // Called when the command is initially scheduled.
@@ -43,6 +46,9 @@ public class AmpShootCommand extends Command {
         !feeding){
       feeding=true;
       timer.start();
+    }
+    if(controller.getRightTriggerAxis()>0.9){
+      feeding = true;
     }
     if(feeding){
       if(timer.hasElapsed(0.5)){

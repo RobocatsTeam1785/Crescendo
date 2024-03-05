@@ -23,4 +23,8 @@ public class ShooterRotConstants {
     public static final double INTAKE_ANGLE = (29-90)*Math.PI/180;
 
     public static final double ROT_OFFSET = 0.03511;
+
+    public static final double CLOSE_STAGE_ANGLE = (55-90)*Math.PI/180;
+
+    public static final double PROTECTED_ZONE_ANGLE = (0-90)*Math.PI/180;
 }

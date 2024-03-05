@@ -4,8 +4,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.*;
 import frc.lib.Constants.*;
 import frc.robot.commands.*;
-
-
+import frc.robot.commands.ShootCommands.AmpShootCommand;
+import frc.robot.commands.ShootCommands.ShootCloseStage;
+import frc.robot.commands.ShootCommands.ShootCommand;
+import frc.robot.commands.ShootCommands.ShootProtectedZone;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -24,34 +26,65 @@ public class RobotContainer {
     private ClimberSubsystem climberSubsystem;
 
     private IntakeSubsystem intakeSubsystem;
-    private IntakeSubsystem2 intakeSubsystem2;
 
     private ShooterSubsystem shooterSubsystem;
+
     private ShooterRotSubsystem shooterRotSubsystem;
+
     private ShooterFeederSubsystem shooterFeederSubsystem;
 
     private VisionSubsystem visionSubsystem;
 
     private AmpSubsystem ampSubsystem;
 
+    private LEDSubsystem ledSubsystem;
+
+
 
     private XboxController driverController;
     private XboxController operatorController;
 
+
+
+
     private IntakeCommand intakeCommand;
-    private ShootCommand shootCommand;
+
     private ReverseIntake reverseIntake;
-    private ShootTestCommand shootTestCommand;
+
     private ExtendAmpSubsystem extendAmpSubsystem;
+
     private RetractAmpSubsystem retractAmpSubsystem;
+
+    private HandleAmpCommand handleAmpCommand;
+
+    private BackNote backNoteCommand;
+    
+    private EjectNoteBackwards ejectNoteBackwards;
+
+    private EjectNoteForward ejectNoteForwards;
+
+    
+    
+    private ShootCommand shootCommand;
+
     private AmpShootCommand ampShootCommand;
-    //private LEDSubsystem ledSubsystem;
+
+    private ShootCloseStage shootCloseStage;
+    
+    private ShootProtectedZone shootProtectedZone;
+
+
+
+
+    
 
     private double period = 0;  
-    private double RPM = 0;
-    private double distance = 1.0;
 
     public RobotContainer(){
+
+        driverController = new XboxController(0);
+        operatorController = new XboxController(1);
+
         driveSubsystem = new DriveSubsystem();
 
         intakeSubsystem = new IntakeSubsystem();
@@ -68,28 +101,30 @@ public class RobotContainer {
 
         ampSubsystem = new AmpSubsystem();
 
-        //ledSubsystem = new LEDSubsystem();
+        ledSubsystem = new LEDSubsystem();
 
-        //ledSubsystem.green();
 
-        intakeCommand = new IntakeCommand(intakeSubsystem, shooterFeederSubsystem, shooterRotSubsystem);
-        shootCommand = new ShootCommand(shooterSubsystem, shooterFeederSubsystem);
+
+
+
+        intakeCommand = new IntakeCommand(intakeSubsystem, shooterFeederSubsystem, shooterRotSubsystem, ledSubsystem);
+        
+        handleAmpCommand = new HandleAmpCommand(shooterRotSubsystem, extendAmpSubsystem, retractAmpSubsystem, ledSubsystem);
+
         reverseIntake = new ReverseIntake(intakeSubsystem, shooterFeederSubsystem, shooterRotSubsystem);
-        shootTestCommand = new ShootTestCommand(shooterSubsystem);
+
         extendAmpSubsystem = new ExtendAmpSubsystem(ampSubsystem);
+
         retractAmpSubsystem = new RetractAmpSubsystem(ampSubsystem);
-        ampShootCommand = new AmpShootCommand(shooterSubsystem, shooterFeederSubsystem);
 
+        shootCommand = new ShootCommand(shooterSubsystem, shooterFeederSubsystem, driverController);
 
-        /*
-        intakeSubsystem = new IntakeSubsystem();
+        ampShootCommand = new AmpShootCommand(shooterSubsystem, shooterFeederSubsystem, driverController);
 
-        shooterSubsystem = new ShooterSubsystem();
-        shooterRotSubsystem = new ShooterRotSubsystem();
-        shooterFeederSubsystem = new ShooterFeederSubsystem();*/
+        shootCloseStage = new ShootCloseStage(shooterSubsystem, shooterFeederSubsystem, shooterRotSubsystem, driverController);
 
-        driverController = new XboxController(0);
-        operatorController = new XboxController(1);
+        shootProtectedZone = new ShootProtectedZone(shooterSubsystem, shooterFeederSubsystem, shooterRotSubsystem, driverController);
+
 
 
         configureButtonBindings();
@@ -112,17 +147,18 @@ public class RobotContainer {
         shooterFeederSubsystem.setDefaultCommand(new InstantCommand(() -> shooterFeederSubsystem.setVelocity(
             MathUtil.applyDeadband(operatorController.getRightTriggerAxis(), 0.1)
         ), shooterFeederSubsystem));    
-        shooterRotSubsystem.setGoal((20-90)*Math.PI/180);
+        shooterRotSubsystem.setGoal(ShooterRotConstants.INTAKE_ANGLE);
         shooterRotSubsystem.enable();
         climberSubsystem.setDefaultCommand(new InstantCommand(() -> climberSubsystem.handleClimbers(
             operatorController.getLeftY(),
             operatorController.getRightY()
         ), climberSubsystem));
-        shooterSubsystem.setDefaultCommand(new InstantCommand(() -> shooterSubsystem.setVelocity(RPM
+        shooterSubsystem.setDefaultCommand(new InstantCommand(() -> shooterSubsystem.setVelocity(0
         ), shooterSubsystem));
         ampSubsystem.setDefaultCommand(new InstantCommand(() -> ampSubsystem.setVoltage(0
         ),ampSubsystem));
-        //shooterFeederSubsystem.setDefaultCommand(new InstantCommand(() -> shooterFeederSubsystem.setVelocity()));
+        shooterFeederSubsystem.setDefaultCommand(new InstantCommand(() -> shooterFeederSubsystem.setVelocity(0), shooterFeederSubsystem));
+        shooterRotSubsystem.setDefaultCommand(new InstantCommand(() -> setVarDistanceAngle(), shooterRotSubsystem));
     }
 
     public void e(){
@@ -130,135 +166,68 @@ public class RobotContainer {
     }
 
     public void configureButtonBindings(){
-        new JoystickButton(operatorController, Button.kX.value).onTrue(new InstantCommand(() -> resetGyro()));
-
-        new JoystickButton(driverController, Button.kX.value).onTrue(new InstantCommand(() -> toggleShootAmp()));
-        new JoystickButton(driverController, Button.kY.value).onTrue(new InstantCommand(() -> set452()));
-        new JoystickButton(driverController, Button.kA.value).onTrue(new InstantCommand(() -> extendAmp()));
-        new JoystickButton(driverController, Button.kB.value).onTrue(new InstantCommand(() -> retractAmpSubsystem()));
-        new JoystickButton(driverController, Button.kRightBumper.value).onTrue(new InstantCommand(() -> toggleShoot()));    
+        /*
+         * Buttons:
+         * 
+         * Translational Drive: Driver left joystick
+         * Rotational Drive: Driver right joystick
+         * Face stage: Driver left trigger
+         * Force shot: Driver right trigger
+         * Shoot: Driver right bumper
+         * Intake: Driver left bumper
+         * Zero Gyro: Driver X
+         * X Wheels: Driver B
+         * 
+         * 
+         * Climb left: Operator left joystick
+         * Climb right: Operator right joystick
+         * Toggle amp: Operator X
+         * Eject forward: Operator Y
+         * Eject backwards: Operator A
+         * Reverse Intake: Operator B
+         * Shoot close stage: Operator right bumper
+         * Shoot protected zone: Operator right bumper
+         * 
+         * 
+         */
         new JoystickButton(driverController, Button.kLeftBumper.value).onTrue(new InstantCommand(() -> toggleIntake()));
+        new JoystickButton(driverController, Button.kRightBumper.value).onTrue(new InstantCommand(() -> toggleShoot()));
+        new JoystickButton(driverController, Button.kX.value).onTrue(new InstantCommand(() -> resetGyro()));
+        new JoystickButton(driverController, Button.kB.value).whileTrue(null);
+
+        new JoystickButton(operatorController, Button.kX.value).onTrue(new InstantCommand(() -> toggleAmp()));
+        new JoystickButton(operatorController, Button.kY.value).whileTrue(ejectNoteForwards);
+        new JoystickButton(operatorController, Button.kA.value).whileTrue(ejectNoteBackwards);
+        new JoystickButton(operatorController, Button.kB.value).whileTrue(reverseIntake);
+        new JoystickButton(operatorController, Button.kRightBumper.value).onTrue(new InstantCommand(() -> toggleShootCloseSpeaker()));
+        new JoystickButton(operatorController, Button.kLeftBumper.value).onTrue(new InstantCommand(() -> toggleShootProtectedZone()));
     }
 
-
-    public void setPeriod(double p){
-        period = p;
-    }
-
-    public void setStraight(){
-        shooterRotSubsystem.setGoal(shooterRotSubsystem.getEstimatedAngle(4.5));
-    }
-
-    public void setAmpAngle(){
-        shooterRotSubsystem.setGoal((50-90)*Math.PI/180);
-    }
-
-    public void toggleShootAmp(){
-        if(ampShootCommand.isScheduled()){
-            ampShootCommand.cancel();
-        }
-        else{
-            ampShootCommand.schedule();
-        }
-    }
-
-
-
-    public void set45(){
-        shooterRotSubsystem.setGoal(28*Math.PI/180);
-    }
-    
-    public void set452(){
-        shooterRotSubsystem.setGoal((31.5-90)*Math.PI/180);
-    }
+    public void toggleIntake(){if(intakeCommand.isScheduled()){intakeCommand.cancel();}else{intakeCommand.schedule();}}
+    public void toggleShoot(){if(shootCommand.isScheduled()){shootCommand.cancel();}else{shootCommand.schedule();}}
+    public void toggleAmp(){if(handleAmpCommand.isScheduled()){handleAmpCommand.cancel();}else{handleAmpCommand.schedule();}}
+    public void toggleShootCloseSpeaker(){if(shootCloseStage.isScheduled()){shootCloseStage.cancel();}else{shootCloseStage.schedule();}}
+    public void toggleShootProtectedZone(){if(shootProtectedZone.isScheduled()){shootProtectedZone.cancel();}else{shootProtectedZone.schedule();}}
 
     public void setVarDistanceAngle(){
         if(visionSubsystem.getAprilTagDistance()!=-1){
         shooterRotSubsystem.setGoal(MathUtil.clamp(shooterRotSubsystem.getEstimatedAngle(visionSubsystem.getAprilTagDistance()),(0-90)*Math.PI/180, (60-90)*Math.PI/180));}
     }
 
-    public void increaseDistance(){
-        distance+=0.5;
-        SmartDashboard.putNumber("LI Distance", distance);
-    }
-
-    public void decreaseDistance(){
-        distance-=0.5;
-        SmartDashboard.putNumber("LI Distance", distance);
-    }
-
-    public void set4523(){
-        shooterRotSubsystem.setGoal((45-90)*Math.PI/180);
-    }
-
-    public void extendAmp(){
-        shooterRotSubsystem.setGoal((50-90)*Math.PI/180);
-
-        if(extendAmpSubsystem.isScheduled()){
-            extendAmpSubsystem.cancel();
-        }
-        else{
-            retractAmpSubsystem.cancel();
-            extendAmpSubsystem.schedule();
-        }
-    }
-    public void retractAmpSubsystem(){
-        if(retractAmpSubsystem.isScheduled()){
-            retractAmpSubsystem.cancel();
-        }
-        else{
-            extendAmpSubsystem.cancel();
-            retractAmpSubsystem.schedule();
-        }
-    }
-
-    public void toggleIntake(){
-        if(intakeCommand.isScheduled()){
-            intakeCommand.cancel();
-        }
-        else{
-            intakeCommand.schedule();
-        }
-    }
-
-    public void toggleShootTest(){
-        if(shootTestCommand.isScheduled()){
-            shootTestCommand.cancel();
-        }
-        else{
-            shootTestCommand.schedule();
-        }
-    }
-
-    public void toggleReverse(){
-        if(reverseIntake.isScheduled()){
-            reverseIntake.cancel();
-        }
-        else{
-            reverseIntake.schedule();
-        }
-    }
-
-    public void toggleShoot(){
-        if(shootCommand.isScheduled()){
-            shootCommand.cancel();
-        }
-        else{
-            shootCommand.schedule();
-        }
-    }
-
     public void resetGyro(){
         driveSubsystem.getGyro().reset();
+    }
 
-      }
-    public void toggleRPM(){
-        if(RPM<1){
-            RPM=3000/60;
-        }
-        else{
-            RPM=0;
-        }
+    public void setPeriod(double p){
+        period = p;
+    }
+
+    public void setGyroOffset(double offset){
+        driveSubsystem.getGyro().setAngleAdjustment(offset);
+    }
+
+    public void zeroSwerveModules(){
+        driveSubsystem.zeroModules();
     }
 
     public Command getAutonomousCommand(){

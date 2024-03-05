@@ -2,25 +2,30 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.ShootCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.lib.Constants.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 
-public class ShootCommand extends Command {
+public class ShootProtectedZone extends Command {
   private ShooterSubsystem shooterSubsystem;
   private ShooterFeederSubsystem shooterFeederSubsystem;
+  private ShooterRotSubsystem shooterRotSubsystem;
   private Timer timer;
   private boolean feeding;
+  private XboxController controller;
   /** Creates a new ShootCommand. */
-  public ShootCommand(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder) {
+  public ShootProtectedZone(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder, ShooterRotSubsystem shooterRot, XboxController c) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(shooter, shooterFeeder);
+    addRequirements(shooter, shooterFeeder, shooterRot);
     shooterSubsystem = shooter;
     shooterFeederSubsystem = shooterFeeder;
+    shooterRotSubsystem = shooterRot;
     timer = new Timer();
+    controller = c;
   }
 
   // Called when the command is initially scheduled.
@@ -31,6 +36,9 @@ public class ShootCommand extends Command {
       feeding=false;
       timer.stop();
       timer.reset();
+    }
+    else{
+      shooterRotSubsystem.setGoal(ShooterRotConstants.PROTECTED_ZONE_ANGLE);
     }
   }
 
@@ -43,6 +51,9 @@ public class ShootCommand extends Command {
         !feeding){
       feeding=true;
       timer.start();
+    }
+    if(controller.getRightTriggerAxis() > 0.9){
+      feeding = true;
     }
     if(feeding){
       if(timer.hasElapsed(0.5)){

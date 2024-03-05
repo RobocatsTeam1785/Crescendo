@@ -6,24 +6,13 @@ package frc.robot.subsystems;
 
 import org.photonvision.*;
 import frc.lib.Constants.VisionConstants;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
-
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.CvSink;
-import edu.wpi.first.cscore.CvSource;
-import edu.wpi.first.cscore.MjpegServer;
-import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.net.PortForwarder;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.Utils.Util1785;
 
 public class VisionSubsystem extends SubsystemBase {
 
@@ -51,7 +40,7 @@ public class VisionSubsystem extends SubsystemBase {
   public PhotonTrackedTarget getSpeakerTag() {
     if (hasTarget()) {
       for(PhotonTrackedTarget p : frontCameraPipeline.targets){
-        if(p.getFiducialId()==8){
+        if(p.getFiducialId()==VisionConstants.RED_SPEAKER_ID || p.getFiducialId()==VisionConstants.BLUE_SPEAKER_ID){
           return p;
         }
       }
@@ -59,13 +48,6 @@ public class VisionSubsystem extends SubsystemBase {
     return null;
   }
 
-  public double getAprilTagRot() {
-    if (hasTarget()) {
-      return frontCameraPipeline.getBestTarget().getYaw();
-    }
-    return -1;
-
-  }
   public double getAprilTagDistance(){
     double distance;
     if (hasTarget()){
@@ -89,14 +71,6 @@ public class VisionSubsystem extends SubsystemBase {
     }
   }
 
-  public double getAprilTagPitch() {
-    if (hasTarget()) {
-      return frontCameraPipeline.getBestTarget().getPitch();
-    }
-    return -1;
-
-  }
-
   public boolean hasTarget() {
     return frontCameraPipeline.hasTargets();
   }
@@ -107,7 +81,7 @@ public class VisionSubsystem extends SubsystemBase {
     double latencySeconds = frontCameraPipeline.getLatencyMillis() / 1000.0;
     SmartDashboard.putNumber("latencySeconds", latencySeconds);
     SmartDashboard.putNumber("Distance", getAprilTagDistance());
-
-    // This method will be called once per scheduler run
-  }
+    SmartDashboard.putNumber("Robot distance", Util1785.getDistanceRobotRelative(getYaw(), getAprilTagDistance(),camOffset));
+    SmartDashboard.putNumber("Robot angle", Util1785.getRobotRelativeAngle(getYaw(), getAprilTagDistance(),camOffset));
+    }
 }

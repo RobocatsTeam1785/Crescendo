@@ -112,6 +112,19 @@ public class SwerveModule {
         driveEncoder.getPosition(), new Rotation2d(turnEncoder.getPosition()));
     }
 
+    public void zeroModule(){
+        double p = 360-360*CANCoder.getAbsolutePosition().getValueAsDouble();
+        p=p%360;
+        if(p>180){
+            p=p-360;
+        }
+        else if(p<-180){
+            p=p+360;
+        }
+        p=-p;
+        turnEncoder.setPosition(p*Math.PI/180);
+    }
+
 
     public void setDesiredState(SwerveModuleState state){
     //state = new SwerveModuleState(state.speedMetersPerSecond, Rotation2d.fromRadians(-state.angle.getRadians()));

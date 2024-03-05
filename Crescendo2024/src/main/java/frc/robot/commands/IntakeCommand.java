@@ -12,13 +12,15 @@ public class IntakeCommand extends Command {
   private IntakeSubsystem intakeSubsystem;
   private ShooterFeederSubsystem shooterFeederSubsystem;
   private ShooterRotSubsystem shooterRotSubsystem;
+  private BlinkLEDGreen blinkLEDGreen;
   /** Creates a new IntakeCommand. */
-  public IntakeCommand(IntakeSubsystem intake, ShooterFeederSubsystem shooterFeeder, ShooterRotSubsystem shooterRot) {
+  public IntakeCommand(IntakeSubsystem intake, ShooterFeederSubsystem shooterFeeder, ShooterRotSubsystem shooterRot, LEDSubsystem led) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake, shooterFeeder, shooterRot);
     intakeSubsystem = intake;
     shooterFeederSubsystem = shooterFeeder;
     shooterRotSubsystem = shooterRot;
+    blinkLEDGreen = new BlinkLEDGreen(led);
   }
 
   // Called when the command is initially scheduled.
@@ -28,7 +30,7 @@ public class IntakeCommand extends Command {
       this.cancel();
     }
     else{
-      shooterRotSubsystem.setGoal((30-90)*Math.PI/180);
+      shooterRotSubsystem.setGoal(ShooterRotConstants.INTAKE_ANGLE);
     }
   }
 
@@ -36,6 +38,7 @@ public class IntakeCommand extends Command {
   @Override
   public void execute() {
     if(shooterFeederSubsystem.getPhotoSensor()){
+      blinkLEDGreen.schedule();
       this.cancel();
     }
     else{
@@ -47,7 +50,6 @@ public class IntakeCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterRotSubsystem.setGoal((20-90)*Math.PI/180);
   }
 
   // Returns true when the command should end.

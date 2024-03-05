@@ -26,6 +26,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private SimpleMotorFeedforward topFeedforward;
   private SimpleMotorFeedforward bottomFeedforward;
+
+  public static boolean isAmping;
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
     topShooterMotor = new CANSparkMax(ShooterConstants.TOP_MOTOR_ID, MotorType.kBrushless);
@@ -67,6 +69,8 @@ public class ShooterSubsystem extends SubsystemBase {
       ShooterConstants.BOTTOM_KV,
       ShooterConstants.BOTTOM_KA
     );    
+
+    isAmping = false;
   }
 
   public void setVelocity(double velocity){

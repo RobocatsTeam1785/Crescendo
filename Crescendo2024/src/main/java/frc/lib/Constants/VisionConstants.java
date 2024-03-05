@@ -10,5 +10,8 @@ public class VisionConstants {
     public static final double FRONT_CAM_OFFSET = 6.25; //Inches
     public static final double FRONT_CAM_ANGLE = Math.PI / 3.0;
     public static final double CENTER_SPEAKER_TAG_HEIGHT = 1.4478;//Meters
+
+    public static final int RED_SPEAKER_ID = 4;
+    public static final int BLUE_SPEAKER_ID = 7;
 }
 //

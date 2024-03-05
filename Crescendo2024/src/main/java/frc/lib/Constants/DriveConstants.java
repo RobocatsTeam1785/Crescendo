@@ -1,6 +1,8 @@
 package frc.lib.Constants;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 public class DriveConstants {
     public static final int FRONT_LEFT_DRIVE_ID = 1;
@@ -51,4 +53,8 @@ public class DriveConstants {
         public static final double TURN_CONVERSION_FACTOR = 2 * Math.PI / (150.0/7.0);
 
         public static final String AUTO_NAME = "";
+
+        public static final Dictionary<String, Double> AUTO_GYRO_POSITIONS = new Hashtable<String, Double>() {{
+            put("Test Auto",0.0);
+        }};
 }

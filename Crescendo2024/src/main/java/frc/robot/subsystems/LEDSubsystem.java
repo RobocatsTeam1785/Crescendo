@@ -123,6 +123,8 @@ public class LEDSubsystem extends SubsystemBase {
       m_ledBuffer.setRGB(i, 255, 165, 0)
 ;
    }
+
+  
    
    m_led.setData(m_ledBuffer);
   }
@@ -133,6 +135,14 @@ public class LEDSubsystem extends SubsystemBase {
    }
    
    m_led.setData(m_ledBuffer);
+  }
+
+  public void holdBlue(){
+
+  }
+
+  public void turnOff(){
+    
   }
 
   public void green() {

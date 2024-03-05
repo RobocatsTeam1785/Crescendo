@@ -148,6 +148,13 @@ public class DriveSubsystem extends SubsystemBase {
   public Pose2d getPose(){
     return odometry.getEstimatedPosition();
   }
+
+  public void zeroModules(){
+    m_frontLeft.zeroModule();
+    m_frontRight.zeroModule();
+    m_backLeft.zeroModule();
+    m_backRight.zeroModule();
+  }
   
   //Rotation2d.fromDegrees(-m_gyro.getAngle())
 
