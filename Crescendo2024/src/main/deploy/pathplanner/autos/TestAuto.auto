@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2083167023476904,
-      "y": 5.561341122682245
+      "x": 2,
+      "y": 7.0
     },
     "rotation": 180.0
   },
@@ -14,7 +14,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Mid Note Grab"
+            "pathName": "TestPath"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TestPath2"
           }
         }
       ]

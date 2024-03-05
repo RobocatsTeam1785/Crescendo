@@ -9,14 +9,17 @@ import frc.lib.Constants.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ShootCommand extends Command {
   private ShooterSubsystem shooterSubsystem;
   private ShooterFeederSubsystem shooterFeederSubsystem;
   private Timer timer;
+  private Timer timer2;
   private boolean feeding;
   private XboxController controller;
   private double RPM;
+  private boolean done;
   /** Creates a new ShootCommand. */
   public ShootCommand(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder, XboxController c) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,8 +27,10 @@ public class ShootCommand extends Command {
     shooterSubsystem = shooter;
     shooterFeederSubsystem = shooterFeeder;
     timer = new Timer();
+    timer2 = new Timer();
     controller = c;
     RPM = 0;
+    done = false;
   }
 
   // Called when the command is initially scheduled.
@@ -36,8 +41,13 @@ public class ShootCommand extends Command {
       feeding=false;
       timer.stop();
       timer.reset();
+      done=true;
     }
     else{
+      timer2.stop();
+      timer2.reset();
+      timer2.start();
+      done=false;
       if(ShooterSubsystem.isAmping){
         RPM = ShooterConstants.AMP_RPM;
       }
@@ -57,12 +67,19 @@ public class ShootCommand extends Command {
       feeding=true;
       timer.start();
     }
+    if(timer2.hasElapsed(1.5)){
+      feeding=true;
+      timer2.stop();
+      timer2.reset();
+      timer.start();
+    }
     if(controller.getRightTriggerAxis()>0.9){
       feeding=true;
     }
     if(feeding){
       if(timer.hasElapsed(0.5)){
         this.cancel();
+        done = true;
       }
       else{
         shooterFeederSubsystem.setVelocity(0.5);
@@ -72,6 +89,8 @@ public class ShootCommand extends Command {
     else{
       shooterFeederSubsystem.setVelocity(0);
     }
+
+    SmartDashboard.putNumber("Timer time", timer.get());
   }
 
   // Called once the command ends or is interrupted.
@@ -80,11 +99,13 @@ public class ShootCommand extends Command {
     timer.stop();
     timer.reset();
     feeding=false;
+    shooterSubsystem.setVelocity(0);
+    shooterFeederSubsystem.setVelocity(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return done;
   }
 }

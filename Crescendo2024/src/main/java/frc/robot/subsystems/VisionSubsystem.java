@@ -24,6 +24,7 @@ public class VisionSubsystem extends SubsystemBase {
   private PhotonPipelineResult frontCameraPipeline;
   /** Creates a new VisionSubsystem. */
   public VisionSubsystem() {
+    PhotonCamera.setVersionCheckEnabled(false);
     PortForwarder.add(5800, "10.17.85.11", 5800);
     frontCamera.setPipelineIndex(0);
     frontCameraPipeline = frontCamera.getLatestResult();

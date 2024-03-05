@@ -6,7 +6,7 @@ public class ShooterRotConstants {
     public static final int SHAFT_ENCODER_ID = 0;
     public static final double SHAFT_CONVERSION_FACTOR = 1;
 
-    public static final double KP_VALUE = 12;
+    public static final double KP_VALUE = 7;
     public static final double KI_VALUE = 0;
     public static final double KD_VALUE = 0.3;
     public static final double KS_VALUE = 0.2;
@@ -27,4 +27,7 @@ public class ShooterRotConstants {
     public static final double CLOSE_STAGE_ANGLE = (55-90)*Math.PI/180;
 
     public static final double PROTECTED_ZONE_ANGLE = (0-90)*Math.PI/180;
+
+    public static final double AMP_ANGLE = (50-90)*Math.PI/180;
+
 }

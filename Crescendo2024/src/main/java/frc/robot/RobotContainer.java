@@ -74,6 +74,8 @@ public class RobotContainer {
     
     private ShootProtectedZone shootProtectedZone;
 
+    private BlinkLEDGreen blinkGreen;
+
 
 
 
@@ -110,13 +112,14 @@ public class RobotContainer {
 
         intakeCommand = new IntakeCommand(intakeSubsystem, shooterFeederSubsystem, shooterRotSubsystem, ledSubsystem);
         
-        handleAmpCommand = new HandleAmpCommand(shooterRotSubsystem, extendAmpSubsystem, retractAmpSubsystem, ledSubsystem);
 
         reverseIntake = new ReverseIntake(intakeSubsystem, shooterFeederSubsystem, shooterRotSubsystem);
 
         extendAmpSubsystem = new ExtendAmpSubsystem(ampSubsystem);
 
         retractAmpSubsystem = new RetractAmpSubsystem(ampSubsystem);
+
+        handleAmpCommand = new HandleAmpCommand(shooterRotSubsystem, extendAmpSubsystem, retractAmpSubsystem, ledSubsystem);
 
         shootCommand = new ShootCommand(shooterSubsystem, shooterFeederSubsystem, driverController);
 
@@ -125,6 +128,12 @@ public class RobotContainer {
         shootCloseStage = new ShootCloseStage(shooterSubsystem, shooterFeederSubsystem, shooterRotSubsystem, driverController);
 
         shootProtectedZone = new ShootProtectedZone(shooterSubsystem, shooterFeederSubsystem, shooterRotSubsystem, driverController);
+
+        ejectNoteBackwards = new EjectNoteBackwards(shooterSubsystem, shooterFeederSubsystem);
+        
+        ejectNoteForwards = new EjectNoteForward(shooterSubsystem, shooterFeederSubsystem);
+
+        blinkGreen = new BlinkLEDGreen(ledSubsystem);
 
 
 
@@ -169,6 +178,8 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("ShootCommand", shootCommand);
         NamedCommands.registerCommand("IntakeCommand", intakeCommand);
+        NamedCommands.registerCommand("BlinkGreen", blinkGreen);
+
     }
 
     public void e(){
@@ -203,7 +214,7 @@ public class RobotContainer {
         new JoystickButton(driverController, Button.kLeftBumper.value).onTrue(new InstantCommand(() -> toggleIntake()));
         new JoystickButton(driverController, Button.kRightBumper.value).onTrue(new InstantCommand(() -> toggleShoot()));
         new JoystickButton(driverController, Button.kX.value).onTrue(new InstantCommand(() -> resetGyro()));
-        new JoystickButton(driverController, Button.kB.value).whileTrue(null);
+        //new JoystickButton(driverController, Button.kB.value).whileTrue(null);
 
         new JoystickButton(operatorController, Button.kX.value).onTrue(new InstantCommand(() -> toggleAmp()));
         new JoystickButton(operatorController, Button.kY.value).whileTrue(ejectNoteForwards);

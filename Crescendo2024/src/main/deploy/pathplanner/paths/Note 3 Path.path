@@ -63,7 +63,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 2.0,
-      "rotationDegrees": 0,
+      "rotationDegrees": 180.0,
       "rotateFast": false
     }
   ],
@@ -71,11 +71,35 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 1.0499999999999998,
+      "waypointRelativePos": 0.35,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
-          "commands": []
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeCommand"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 3.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 1.0
+              }
+            }
+          ]
         }
       }
     }
@@ -88,13 +112,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -27.643361115880545,
+    "rotation": 153.36,
     "rotateFast": true
   },
   "reversed": false,
   "folder": "Four Note Test",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

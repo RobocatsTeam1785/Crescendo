@@ -31,7 +31,7 @@ public class HandleAmpCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooterRotSubsystem.setGoal(ShooterRotConstants.INTAKE_ANGLE);
+    shooterRotSubsystem.setGoal(ShooterRotConstants.AMP_ANGLE);
     extendAmp.schedule();
     ledSubsystem.blue();
     ShooterSubsystem.isAmping = true;

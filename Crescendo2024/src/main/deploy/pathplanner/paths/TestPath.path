@@ -3,68 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2,
-        "y": 5.5479153815450495
+        "x": 2.0,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3611088936463587,
-        "y": 5.5479153815450495
+        "x": 3.0,
+        "y": 7.0
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.3,
-        "y": 7.4
+        "x": 6.0,
+        "y": 7.0
       },
       "prevControl": {
-        "x": 3.326851446298392,
-        "y": 7.420138659673708
+        "x": 5.0,
+        "y": 7.0
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.7,
-      "rotationDegrees": -137.2,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
-      "waypointRelativePos": 0.5,
+      "name": "Blink",
+      "waypointRelativePos": 0.15,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
                 "name": "IntakeCommand"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 1.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "wait",
-              "data": {
-                "waitTime": 1.0
               }
             }
           ]
@@ -80,11 +57,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -148.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Four Note Test",
+  "folder": null,
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

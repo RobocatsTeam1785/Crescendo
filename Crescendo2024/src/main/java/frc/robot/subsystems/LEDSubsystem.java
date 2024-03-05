@@ -58,11 +58,9 @@ public class LEDSubsystem extends SubsystemBase {
   private int numLoops = 0;
   
   public LEDSubsystem() {
-    Alliance alliance;
-    alliance = (Alliance)DriverStation.getAlliance().get();
     // PWM port 9
     // Must be a PWM header, not MXP or DIO
-    m_led = new AddressableLED(6); // create constant (if not 9?)
+    m_led = new AddressableLED(4); // create constant (if not 9?)
 
     // Reuse buffer
     // Default to a length of 60, start empty output
@@ -73,13 +71,6 @@ public class LEDSubsystem extends SubsystemBase {
     // Set the data
     m_led.setData(m_ledBuffer);
     m_led.start();
-    if (alliance == Alliance.Blue){
-      blue();
-    } else if (alliance == Alliance.Red){
-      red();
-    } else {
-      rainbow();
-    }
 
 
 
@@ -92,42 +83,9 @@ public class LEDSubsystem extends SubsystemBase {
 
   }
 
-  public void rainbow() {
-    // For every pixel
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      // Calculate the hue - hue is easier for rainbows because the color
-      // shape is a circle so only one value needs to precess
-      final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
-      // Set the value
-      m_ledBuffer.setHSV(i, hue, 255, 128);
-    }
-    // Increase by to make the rainbow "move"
-    m_rainbowFirstPixelHue += 3;
-    // Check bounds
-    m_rainbowFirstPixelHue %= 180;
 
-    m_led.setData(m_ledBuffer);
-  }
 
-  public void red() {
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      // Sets the specified LED to the RGB values for red
-      m_ledBuffer.setRGB(i, 255, 0, 0);
-   }
-   
-   m_led.setData(m_ledBuffer);
-  }
-  public void orange() {
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      // Sets the specified LED to the RGB values for orange
-      m_ledBuffer.setRGB(i, 255, 165, 0)
-;
-   }
 
-  
-   
-   m_led.setData(m_ledBuffer);
-  }
   public void blue() {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
       // Sets the specified LED to the RGB values for red
@@ -138,11 +96,21 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
   public void holdBlue(){
-
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Sets the specified LED to the RGB values for red
+      m_ledBuffer.setRGB(i, 0, 0, 255);
+   }
+   
+   m_led.setData(m_ledBuffer);
   }
 
   public void turnOff(){
-    
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Sets the specified LED to the RGB values for red
+      m_ledBuffer.setRGB(i, 0, 0, 0);
+   }
+   
+   m_led.setData(m_ledBuffer);
   }
 
   public void green() {
@@ -154,33 +122,11 @@ public class LEDSubsystem extends SubsystemBase {
    m_led.setData(m_ledBuffer);
   }
 
-  public void purple() {
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      // Sets the specified LED to the RGB values for purple
-      m_ledBuffer.setRGB(i, 148, 0, 211);
-   }
-   
-   m_led.setData(m_ledBuffer);
-  }
 
 
 
 
-  public void bluePulse(){
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      // Sets the specified LED to the RGB values for blue
-      m_ledBuffer.setRGB(i, 0, 0, bluePulseBrightness);
-   }
 
-   //increase brightness
-   bluePulseBrightness += 5;
-
-   //Check bounds
-   bluePulseBrightness %= 255;
-
-   m_led.setData(m_ledBuffer);
-
-  }
 
   public void blueStreak(){
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
