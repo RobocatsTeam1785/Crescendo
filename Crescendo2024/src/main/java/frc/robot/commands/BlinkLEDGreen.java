@@ -14,7 +14,7 @@ public class BlinkLEDGreen extends Command {
   private Timer timer;
   private LEDSubsystem ledSubsystem;
 
-  private final double BLINK_TIME = 1/6.0;
+  private final double BLINK_TIME = 1/8.0;
   private final double BLINKS = 3;
   /** Creates a new BlinkLEDGreen. */
   public BlinkLEDGreen(LEDSubsystem led) {

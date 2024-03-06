@@ -14,6 +14,7 @@ public class AmpShootCommand extends Command {
   private ShooterSubsystem shooterSubsystem;
   private ShooterFeederSubsystem shooterFeederSubsystem;
   private Timer timer;
+  private Timer timer2;
   private boolean feeding;
   private XboxController controller;
   /** Creates a new ShootCommand. */
@@ -23,6 +24,7 @@ public class AmpShootCommand extends Command {
     shooterSubsystem = shooter;
     shooterFeederSubsystem = shooterFeeder;
     timer = new Timer();
+    timer2 = new Timer();
     controller = c;
   }
 
@@ -34,6 +36,11 @@ public class AmpShootCommand extends Command {
       feeding=false;
       timer.stop();
       timer.reset();
+    }
+    else{
+      timer2.stop();
+      timer2.reset();
+      timer2.start();
     }
   }
 
@@ -47,8 +54,11 @@ public class AmpShootCommand extends Command {
       feeding=true;
       timer.start();
     }
-    if(controller.getRightTriggerAxis()>0.9){
-      feeding = true;
+    if(timer2.hasElapsed(1.0)){
+      feeding=true;
+      timer2.stop();
+      timer2.reset();
+      timer.start();
     }
     if(feeding){
       if(timer.hasElapsed(0.5)){
@@ -69,6 +79,8 @@ public class AmpShootCommand extends Command {
   public void end(boolean interrupted) {
     timer.stop();
     timer.reset();
+    timer2.stop();
+    timer2.reset();
     feeding=false;
   }
 

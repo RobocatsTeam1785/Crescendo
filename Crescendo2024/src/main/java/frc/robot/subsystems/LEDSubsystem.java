@@ -86,23 +86,6 @@ public class LEDSubsystem extends SubsystemBase {
 
 
 
-  public void blue() {
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      // Sets the specified LED to the RGB values for red
-      m_ledBuffer.setRGB(i, 0, 0, 255);
-   }
-   
-   m_led.setData(m_ledBuffer);
-  }
-
-  public void holdBlue(){
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      // Sets the specified LED to the RGB values for red
-      m_ledBuffer.setRGB(i, 0, 0, 255);
-   }
-   
-   m_led.setData(m_ledBuffer);
-  }
 
   public void turnOff(){
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
@@ -123,35 +106,12 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
 
-
-
-
-
-
-  public void blueStreak(){
+  public void blue() {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      // Sets the specified LED to the RGB values for blue
+      // Sets the specified LED to the RGB values for red
       m_ledBuffer.setRGB(i, 0, 0, 255);
    }
-
-   //turns one led off
-   m_ledBuffer.setRGB(blueStreakLED, 0, 0, 0);
-
-   //increase brightness
-   if (numLoops%3 == 0){
-      blueStreakLED += 1;
-
-
-      //Check bounds
-      blueStreakLED %= m_ledBuffer.getLength();
-    }
-
-   m_led.setData(m_ledBuffer);
-
-
-   numLoops += 1;
-   //Timer.delay(0.2);
    
-
+   m_led.setData(m_ledBuffer);
   }
 }

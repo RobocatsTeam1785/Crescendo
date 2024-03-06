@@ -15,17 +15,17 @@ public class ShootCloseStage extends Command {
   private ShooterFeederSubsystem shooterFeederSubsystem;
   private ShooterRotSubsystem shooterRotSubsystem;
   private Timer timer;
+  private Timer timer2;
   private boolean feeding;
-  private XboxController controller;
-  /** Creates a new ShootCommand. */
-  public ShootCloseStage(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder, ShooterRotSubsystem shooterRot, XboxController c) {
+    /** Creates a new ShootCommand. */
+  public ShootCloseStage(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder, ShooterRotSubsystem shooterRot) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter, shooterFeeder, shooterRot);
     shooterSubsystem = shooter;
     shooterFeederSubsystem = shooterFeeder;
     shooterRotSubsystem = shooterRot;
     timer = new Timer();
-    controller = c;
+    timer2 = new Timer();
   }
 
   // Called when the command is initially scheduled.
@@ -38,6 +38,9 @@ public class ShootCloseStage extends Command {
       timer.reset();
     }
     else{
+      timer2.stop();
+      timer2.reset();
+      timer2.start();
       shooterRotSubsystem.setGoal(ShooterRotConstants.CLOSE_STAGE_ANGLE);
     }
   }
@@ -52,8 +55,11 @@ public class ShootCloseStage extends Command {
       feeding=true;
       timer.start();
     }
-    if(controller.getRightTriggerAxis()>0.9){
-      feeding = true;
+    if(timer2.hasElapsed(1.0)){
+      feeding=true;
+      timer2.stop();
+      timer2.reset();
+      timer.start();
     }
     if(feeding){
       if(timer.hasElapsed(0.5)){
@@ -74,6 +80,8 @@ public class ShootCloseStage extends Command {
   public void end(boolean interrupted) {
     timer.stop();
     timer.reset();
+    timer2.stop();
+    timer2.reset();
     feeding=false;
   }
 

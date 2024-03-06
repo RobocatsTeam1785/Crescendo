@@ -76,6 +76,8 @@ public class RobotContainer {
 
     private BlinkLEDGreen blinkGreen;
 
+    private AutoAngleCommand autoAngleCommand;
+
 
 
 
@@ -121,19 +123,22 @@ public class RobotContainer {
 
         handleAmpCommand = new HandleAmpCommand(shooterRotSubsystem, extendAmpSubsystem, retractAmpSubsystem, ledSubsystem);
 
-        shootCommand = new ShootCommand(shooterSubsystem, shooterFeederSubsystem, driverController);
+        shootCommand = new ShootCommand(shooterSubsystem, shooterFeederSubsystem);
 
-        ampShootCommand = new AmpShootCommand(shooterSubsystem, shooterFeederSubsystem, driverController);
+        ampShootCommand = new AmpShootCommand(shooterSubsystem, shooterFeederSubsystem);
 
-        shootCloseStage = new ShootCloseStage(shooterSubsystem, shooterFeederSubsystem, shooterRotSubsystem, driverController);
+        shootCloseStage = new ShootCloseStage(shooterSubsystem, shooterFeederSubsystem, shooterRotSubsystem);
 
-        shootProtectedZone = new ShootProtectedZone(shooterSubsystem, shooterFeederSubsystem, shooterRotSubsystem, driverController);
+        shootProtectedZone = new ShootProtectedZone(shooterSubsystem, shooterFeederSubsystem, shooterRotSubsystem);
 
         ejectNoteBackwards = new EjectNoteBackwards(shooterSubsystem, shooterFeederSubsystem);
         
         ejectNoteForwards = new EjectNoteForward(shooterSubsystem, shooterFeederSubsystem);
 
         blinkGreen = new BlinkLEDGreen(ledSubsystem);
+
+        autoAngleCommand = new AutoAngleCommand(shooterRotSubsystem, visionSubsystem, driveSubsystem, intakeCommand);
+
 
 
 
@@ -178,7 +183,7 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("ShootCommand", shootCommand);
         NamedCommands.registerCommand("IntakeCommand", intakeCommand);
-        NamedCommands.registerCommand("BlinkGreen", blinkGreen);
+        NamedCommands.registerCommand("AutoAngleCommand", autoAngleCommand);
 
     }
 

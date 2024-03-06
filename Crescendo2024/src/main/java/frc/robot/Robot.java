@@ -38,8 +38,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     autoCommand = robotContainer.getAutonomousCommand();
-    robotContainer.resetGyro();
-    robotContainer.setGyroOffset(DriveConstants.AUTO_GYRO_POSITIONS.get(DriveConstants.AUTO_NAME));
+    //robotContainer.resetGyro();
+    //robotContainer.setGyroOffset(DriveConstants.AUTO_GYRO_POSITIONS.get(DriveConstants.AUTO_NAME));
     robotContainer.zeroSwerveModules();
     if(autoCommand != null){
       autoCommand.schedule();

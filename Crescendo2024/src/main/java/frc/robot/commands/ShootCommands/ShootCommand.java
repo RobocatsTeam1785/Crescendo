@@ -17,18 +17,16 @@ public class ShootCommand extends Command {
   private Timer timer;
   private Timer timer2;
   private boolean feeding;
-  private XboxController controller;
   private double RPM;
   private boolean done;
   /** Creates a new ShootCommand. */
-  public ShootCommand(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder, XboxController c) {
+  public ShootCommand(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter, shooterFeeder);
     shooterSubsystem = shooter;
     shooterFeederSubsystem = shooterFeeder;
     timer = new Timer();
     timer2 = new Timer();
-    controller = c;
     RPM = 0;
     done = false;
   }
@@ -67,14 +65,11 @@ public class ShootCommand extends Command {
       feeding=true;
       timer.start();
     }
-    if(timer2.hasElapsed(1.5)){
+    if(timer2.hasElapsed(1.0)){
       feeding=true;
       timer2.stop();
       timer2.reset();
       timer.start();
-    }
-    if(controller.getRightTriggerAxis()>0.9){
-      feeding=true;
     }
     if(feeding){
       if(timer.hasElapsed(0.5)){
@@ -98,6 +93,8 @@ public class ShootCommand extends Command {
   public void end(boolean interrupted) {
     timer.stop();
     timer.reset();
+    timer2.stop();
+    timer2.reset();
     feeding=false;
     shooterSubsystem.setVelocity(0);
     shooterFeederSubsystem.setVelocity(0);
