@@ -54,12 +54,12 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
       ShooterRotConstants.KV_VALUE,
       ShooterRotConstants.KA_VALUE
     );
-    setGoal((20-90)*Math.PI/180);
+    setGoal((45-90)*Math.PI/180);
     interpolatingDoubleTreeMap.put(1.0,(55-90)*Math.PI/180);
 
     interpolatingDoubleTreeMap.put(2.0,(43.0-90)*Math.PI/180);
-    interpolatingDoubleTreeMap.put(3.0,(35.0-90)*Math.PI/180);
-    interpolatingDoubleTreeMap.put(4.0,(31.75-90)*Math.PI/180);
+    interpolatingDoubleTreeMap.put(3.0,(36.0-90)*Math.PI/180);
+    interpolatingDoubleTreeMap.put(4.0,(32-90)*Math.PI/180);
     interpolatingDoubleTreeMap.put(5.0,(29.75-90)*Math.PI/180);
     interpolatingDoubleTreeMap.put(6.0,(29.0-90)*Math.PI/180);
 
@@ -81,6 +81,9 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
     SmartDashboard.putNumber("true", getTrueAngle());
     SmartDashboard.putNumber("PID Output", output);
     SmartDashboard.putNumber("Feedforward output", feedforward);
+
+    SmartDashboard.putNumber("Shooter Angle Goal", setpoint.position*180/Math.PI+90);
+    SmartDashboard.putNumber("Shooter Angle Current", getMeasurement()*180/Math.PI+90);
 
   }
 

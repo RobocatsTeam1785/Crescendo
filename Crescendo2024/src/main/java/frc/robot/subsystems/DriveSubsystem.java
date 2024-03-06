@@ -296,6 +296,8 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Gyro Rot2d", m_gyro.getRotation2d().getDegrees());
 
     SmartDashboard.putNumber("TOP LEFT SPEED", m_frontLeft.getDriveEncoder().getVelocity());
+    SmartDashboard.putNumber("X", getPose().getX());
+    SmartDashboard.putNumber("Y", getPose().getY());
 
   }
 }

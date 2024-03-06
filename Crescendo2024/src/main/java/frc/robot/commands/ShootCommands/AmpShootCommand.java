@@ -16,16 +16,14 @@ public class AmpShootCommand extends Command {
   private Timer timer;
   private Timer timer2;
   private boolean feeding;
-  private XboxController controller;
   /** Creates a new ShootCommand. */
-  public AmpShootCommand(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder, XboxController c) {
+  public AmpShootCommand(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter, shooterFeeder);
     shooterSubsystem = shooter;
     shooterFeederSubsystem = shooterFeeder;
     timer = new Timer();
     timer2 = new Timer();
-    controller = c;
   }
 
   // Called when the command is initially scheduled.

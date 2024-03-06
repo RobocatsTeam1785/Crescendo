@@ -36,7 +36,7 @@ public class AutoAngleCommand extends InstantCommand {
   public void initialize() {
     if(!intakeCommand.isScheduled()){
       if(visionSubsystem.getAprilTagDistance()!=-1){
-        shooterRotSubsystem.setGoal(MathUtil.clamp(shooterRotSubsystem.getEstimatedAngle(visionSubsystem.getAprilTagDistance()),(0-90)*Math.PI/180, (60-90)*Math.PI/180));
+        shooterRotSubsystem.setGoal(MathUtil.clamp(shooterRotSubsystem.getEstimatedAngle(visionSubsystem.getAprilTagDistance()),(0-90)*Math.PI/180, (55-90)*Math.PI/180));
       }
       else{
         double X = X_SPEAKER - driveSubsystem.getPose().getX();
@@ -45,16 +45,16 @@ public class AutoAngleCommand extends InstantCommand {
           if(DriverStation.getAlliance().get() == DriverStation.Alliance.Red){
             Y = RED_Y_SPEAKER - Y;
             double distance = Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2));
-            shooterRotSubsystem.setGoal(MathUtil.clamp(shooterRotSubsystem.getEstimatedAngle(distance),(0-90)*Math.PI/180, (60-90)*Math.PI/180));
+            shooterRotSubsystem.setGoal(MathUtil.clamp(shooterRotSubsystem.getEstimatedAngle(distance),(0-90)*Math.PI/180, (55-90)*Math.PI/180));
           }
           else{
             Y = BLUE_Y_SPEAKER + Y;
             double distance = Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2));
-            shooterRotSubsystem.setGoal(MathUtil.clamp(shooterRotSubsystem.getEstimatedAngle(distance),(0-90)*Math.PI/180, (60-90)*Math.PI/180));
+            shooterRotSubsystem.setGoal(MathUtil.clamp(shooterRotSubsystem.getEstimatedAngle(distance),(0-90)*Math.PI/180, (55-90)*Math.PI/180));
           }
         }
         else{
-          shooterRotSubsystem.setGoal((20-90) * Math.PI/180);
+          shooterRotSubsystem.setGoal((55-90) * Math.PI/180);
         }
       }
     }
