@@ -3,41 +3,57 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.8,
-        "y": 6.7
+        "x": 0.75,
+        "y": 4.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.8,
-        "y": 6.7
+        "x": 1.750000000000007,
+        "y": 4.5
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.89,
-        "y": 5.829855945426177
+        "x": 4.6050292100584205,
+        "y": 1.5470445226604737
       },
       "prevControl": {
-        "x": 6.89,
-        "y": 5.829855945426177
+        "x": 3.2942323741792423,
+        "y": 2.5036285786862345
       },
       "nextControl": {
-        "x": 8.89,
-        "y": 5.829855945426177
+        "x": 5.915826045937599,
+        "y": 0.5904604666347102
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.799484741826626,
-        "y": 6.695816248775354
+        "x": 8.008454588336924,
+        "y": 0.7683515367010394
       },
       "prevControl": {
-        "x": 6.346910265249102,
-        "y": 6.262836097100765
+        "x": 7.0084545883369245,
+        "y": 0.7683515367010394
+      },
+      "nextControl": {
+        "x": 9.008454588336924,
+        "y": 0.7683515367010394
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.5,
+        "y": 2.5
+      },
+      "prevControl": {
+        "x": 5.732138321419499,
+        "y": 1.691099096483907
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,21 +62,16 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.75,
+      "waypointRelativePos": 2.55,
       "rotationDegrees": 180.0,
       "rotateFast": true
-    },
-    {
-      "waypointRelativePos": 1.4,
-      "rotationDegrees": 180.0,
-      "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.8,
+      "name": "Intake",
+      "waypointRelativePos": 1.4,
       "command": {
         "type": "sequential",
         "data": {
@@ -84,13 +95,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -160.0,
+    "rotation": 130.0,
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "4 Note Upper",
+  "folder": "Three Note Far",
   "previewStartingState": {
-    "rotation": -160.0,
+    "rotation": 120.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

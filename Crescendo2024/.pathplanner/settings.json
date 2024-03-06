@@ -4,11 +4,16 @@
   "holonomicMode": true,
   "pathFolders": [
     "4 Note Upper",
-    "Four Note Test",
+    "4 Note Upper 2 Close",
+    "Close Paths",
     "Simple 2 Note",
     "Three Note Far"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "Close Autos",
+    "Lower Autos",
+    "Upper Autos"
+  ],
   "defaultMaxVel": 4.3,
   "defaultMaxAccel": 2.5,
   "defaultMaxAngVel": 540.0,

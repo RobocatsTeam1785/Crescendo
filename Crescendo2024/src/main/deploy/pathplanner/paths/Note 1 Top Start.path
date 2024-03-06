@@ -3,13 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2,
-        "y": 5.5479153815450495
+        "x": 0.8,
+        "y": 6.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3611088936463587,
-        "y": 5.5479153815450495
+        "x": 0.9611088936463579,
+        "y": 6.55
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.087702746834065,
+        "y": 6.454152908305817
+      },
+      "prevControl": {
+        "x": 1.8934762553719051,
+        "y": 6.378248302447042
+      },
+      "nextControl": {
+        "x": 2.671722486302116,
+        "y": 6.682390507638159
       },
       "isLocked": false,
       "linkedName": null
@@ -30,16 +46,16 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.7,
+      "waypointRelativePos": 1.4,
       "rotationDegrees": -137.2,
-      "rotateFast": true
+      "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.5,
+      "waypointRelativePos": 1.0,
       "command": {
         "type": "sequential",
         "data": {
@@ -56,7 +72,7 @@
     },
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 1.0,
+      "waypointRelativePos": 2.0,
       "command": {
         "type": "sequential",
         "data": {
@@ -86,7 +102,7 @@
   "reversed": false,
   "folder": "Close Paths",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": -120.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

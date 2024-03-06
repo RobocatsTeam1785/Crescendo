@@ -31,7 +31,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 0.7,
-      "rotationDegrees": 42.80331870793584,
+      "rotationDegrees": -137.2,
       "rotateFast": true
     }
   ],
@@ -53,6 +53,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "Wait",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 0.75
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -63,13 +80,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 32.0,
+    "rotation": -148.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "4 Note Upper",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 180.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

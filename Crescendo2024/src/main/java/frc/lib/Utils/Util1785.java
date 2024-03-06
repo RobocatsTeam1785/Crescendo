@@ -9,11 +9,34 @@ public class Util1785 {
      * @return
      */
     public static double getRobotRelativeAngle(double yaw, double trackedDistance, double camDistance){
-        return 90 - 180 / Math.PI * Math.atan( (trackedDistance * Math.cos( yaw * Math.PI / 180)) / (trackedDistance * Math.sin(yaw * Math.PI/180) - camDistance) );
-    }
+        camDistance = -camDistance;
+        if(yaw>=0 && Math.abs(camDistance) < Math.abs(trackedDistance * Math.sin(yaw * Math.PI / 180))){
 
+            return 90 - 180 / Math.PI * Math.atan( (trackedDistance * Math.cos( yaw * Math.PI / 180)) / (trackedDistance * Math.sin(yaw * Math.PI/180) - camDistance) );
+        }
+        else if(yaw >= 0 && Math.abs(camDistance) > Math.abs(trackedDistance * Math.sin(yaw * Math.PI / 180))){
+
+            return -1.0 * 180 / Math.PI * Math.atan((camDistance - trackedDistance * Math.sin(yaw * Math.PI / 180)) / (trackedDistance * Math.cos(yaw * Math.PI / 180)));
+        }
+        else{
+
+            return -1.0 * 180 / Math.PI * Math.atan((camDistance - trackedDistance * Math.sin(yaw * Math.PI / 180)) / (trackedDistance * Math.cos(yaw * Math.PI / 180)));
+        }
+    }
     public static double getDistanceRobotRelative(double yaw, double trackedDistance, double camDistance){
-        return Math.sqrt(Math.pow(trackedDistance * Math.cos(yaw * Math.PI / 180) , 2) + Math.pow(trackedDistance * Math.sin(yaw * Math.PI / 180) - camDistance , 2));
+        camDistance = -camDistance;
+        if(yaw>=0 && Math.abs(camDistance) < Math.abs(trackedDistance * Math.sin(yaw * Math.PI / 180))){
+
+            return Math.sqrt(Math.pow(trackedDistance * Math.cos(yaw * Math.PI / 180) , 2) + Math.pow(trackedDistance * Math.sin(yaw * Math.PI / 180) - camDistance , 2));
+        }
+        else if(yaw >= 0 && Math.abs(camDistance) > Math.abs(trackedDistance * Math.sin(yaw * Math.PI / 180))){
+            
+            return Math.sqrt(Math.pow(trackedDistance * Math.cos(yaw * Math.PI / 180),2) + Math.pow(Math.abs(camDistance) - Math.abs(trackedDistance * Math.sin(yaw * Math.PI / 180)),2));
+        }
+        else{
+
+            return Math.sqrt(Math.pow(trackedDistance * Math.cos(yaw * Math.PI / 180),2) + Math.pow(Math.abs(camDistance) + Math.abs(trackedDistance * Math.sin(yaw * Math.PI / 180)),2));
+        }
     }
 
 }

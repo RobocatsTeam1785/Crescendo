@@ -27,8 +27,8 @@ public class EjectNoteForward extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterFeederSubsystem.setVelocity(-0.5);
-    shooterSubsystem.setVelocity(-(1500/60));
+    shooterFeederSubsystem.setVelocity(0.5);
+    shooterSubsystem.setVelocity((1500/60));
   }
 
   // Called once the command ends or is interrupted.

@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
+      "x": 0.8,
       "y": 4.5
     },
     "rotation": 120.0
@@ -26,25 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Note One"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoAngleCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootCommand"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Note Two"
+            "pathName": "Note 3 Bottom Start"
           }
         },
         {
@@ -62,6 +44,6 @@
       ]
     }
   },
-  "folder": "Lower Autos",
+  "folder": "Close Autos",
   "choreoAuto": false
 }

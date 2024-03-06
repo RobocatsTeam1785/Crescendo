@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.24,
-        "y": 2.1243513915599266
+        "x": 2.5,
+        "y": 2.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.240000000000008,
-        "y": 2.1243513915599266
+        "x": 3.067781849849414,
+        "y": 2.506985013970028
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.008454588336924,
-        "y": 0.7683515367010394
+        "x": 8.082296164592329,
+        "y": 2.372727602598063
       },
       "prevControl": {
-        "x": 7.0084545883369245,
-        "y": 0.7683515367010394
+        "x": 7.303603178634928,
+        "y": 0.5736782902137229
       },
       "nextControl": {
-        "x": 9.008454588336924,
-        "y": 0.7683515367010394
+        "x": 8.088258654667582,
+        "y": 2.3865030107029583
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.5918211836423675,
+        "y": 1.5537573932290711
+      },
+      "prevControl": {
+        "x": 6.212344700350929,
+        "y": 1.587481497398015
+      },
+      "nextControl": {
+        "x": 4.974237091331326,
+        "y": 1.5201930403860795
       },
       "isLocked": false,
       "linkedName": null
@@ -36,8 +52,8 @@
         "y": 2.5
       },
       "prevControl": {
-        "x": 5.732138321419499,
-        "y": 1.691099096483907
+        "x": 2.6582967451649187,
+        "y": 2.486846402264233
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,16 +62,21 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.55,
-      "rotationDegrees": 0,
+      "waypointRelativePos": 0.85,
+      "rotationDegrees": -142.77,
       "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 1.45,
+      "rotationDegrees": -142.77,
+      "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.7,
+      "waypointRelativePos": 0.75,
       "command": {
         "type": "sequential",
         "data": {
@@ -79,13 +100,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -50.0,
+    "rotation": 130.0,
     "rotateFast": true
   },
   "reversed": false,
   "folder": "Three Note Far",
   "previewStartingState": {
-    "rotation": -70.0168934781001,
+    "rotation": 130.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

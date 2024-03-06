@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
-      "y": 4.5
+      "x": 0.8,
+      "y": 6.55
     },
-    "rotation": 120.0
+    "rotation": -120.0
   },
   "command": {
     "type": "sequential",
@@ -26,7 +26,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Note One"
+            "pathName": "Note 1 Top Start"
           }
         },
         {
@@ -44,7 +44,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Note Two"
+            "pathName": "Note Two Upper Far"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAngleCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootCommand"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Note Three Upper Far"
           }
         },
         {
@@ -62,6 +80,6 @@
       ]
     }
   },
-  "folder": "Lower Autos",
+  "folder": "Upper Autos",
   "choreoAuto": false
 }
