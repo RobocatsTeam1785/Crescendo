@@ -5,7 +5,6 @@ import frc.robot.subsystems.*;
 import frc.lib.Constants.*;
 import frc.robot.commands.*;
 import frc.robot.commands.ShootCommands.AmpShootCommand;
-import frc.robot.commands.ShootCommands.FourtyFiveCommand;
 import frc.robot.commands.ShootCommands.ShootCloseStage;
 import frc.robot.commands.ShootCommands.ShootCommand;
 import frc.robot.commands.ShootCommands.ShootProtectedZone;
@@ -16,7 +15,6 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.pathplanner.lib.commands.PathPlannerAuto;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.MathUtil;
 import frc.lib.Utils.*;
 import edu.wpi.first.math.util.Units;
@@ -58,8 +56,6 @@ public class RobotContainer {
     private RetractAmpSubsystem retractAmpSubsystem;
 
     private HandleAmpCommand handleAmpCommand;
-
-    private BackNote backNoteCommand;
     
     private EjectNoteBackwards ejectNoteBackwards;
 
@@ -79,8 +75,6 @@ public class RobotContainer {
 
     private AutoAngleCommand autoAngleCommand;
 
-    private TwentyCommand twenty;
-    private FourtyFiveCommand fourty;
 
 
 
@@ -143,10 +137,6 @@ public class RobotContainer {
 
         autoAngleCommand = new AutoAngleCommand(shooterRotSubsystem, visionSubsystem, driveSubsystem, intakeCommand);
 
-        twenty = new TwentyCommand(shooterRotSubsystem);
-
-        fourty = new FourtyFiveCommand(shooterRotSubsystem);
-
 
 
 
@@ -159,7 +149,7 @@ public class RobotContainer {
             driverController.getLeftTriggerAxis(),
             driverController.getRightTriggerAxis(),
             driverController.getPOV(),
-            Util1785.getRobotRelativeAngle(visionSubsystem.getYaw(), Util1785.getDistanceRobotRelative(visionSubsystem.getYaw(), visionSubsystem.getAprilTagDistance(), Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)),Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)),
+            visionSubsystem.hasTarget() ? Util1785.getRobotRelativeAngle(visionSubsystem.getYaw(), Util1785.getDistanceRobotRelative(visionSubsystem.getYaw(), visionSubsystem.getAprilTagDistance(), Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)),Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)) : 0,
             //visionSubsystem.getYaw(),
             true,
             period
@@ -209,8 +199,8 @@ public class RobotContainer {
          * Force shot: Driver right trigger
          * Shoot: Driver right bumper
          * Intake: Driver left bumper
-         * Zero Gyro: Driver X
-         * X Wheels: Driver B
+         * Zero gyro: Driver X
+         * Set straight: Driver B
          * 
          * 
          * Climb left: Operator left joystick
@@ -221,17 +211,14 @@ public class RobotContainer {
          * Reverse Intake: Operator B
          * Shoot close stage: Operator right bumper
          * Shoot protected zone: Operator right bumper
+         * Turn off auto tracking: Operator left trigger
          * 
          * 
          */
         new JoystickButton(driverController, Button.kLeftBumper.value).onTrue(new InstantCommand(() -> toggleIntake()));
         new JoystickButton(driverController, Button.kRightBumper.value).onTrue(new InstantCommand(() -> toggleShoot()));
         new JoystickButton(driverController, Button.kX.value).onTrue(new InstantCommand(() -> resetGyro()));
-        new JoystickButton(driverController, Button.kB.value).onTrue(new InstantCommand(() -> toggleTwenty()));
-        new JoystickButton(driverController, Button.kA.value).onTrue(new InstantCommand(() -> toggleFourty()));
-
-
-        //new JoystickButton(driverController, Button.kB.value).whileTrue(null);
+        new JoystickButton(driverController, Button.kB.value).onTrue(new InstantCommand(() -> setStraight()));
 
         new JoystickButton(operatorController, Button.kX.value).onTrue(new InstantCommand(() -> toggleAmp()));
         new JoystickButton(operatorController, Button.kY.value).whileTrue(ejectNoteForwards);
@@ -246,12 +233,16 @@ public class RobotContainer {
     public void toggleAmp(){if(handleAmpCommand.isScheduled()){handleAmpCommand.cancel();}else{handleAmpCommand.schedule();}}
     public void toggleShootCloseSpeaker(){if(shootCloseStage.isScheduled()){shootCloseStage.cancel();}else{shootCloseStage.schedule();}}
     public void toggleShootProtectedZone(){if(shootProtectedZone.isScheduled()){shootProtectedZone.cancel();}else{shootProtectedZone.schedule();}}
-    public void toggleTwenty(){if(twenty.isScheduled()){twenty.cancel();}else{twenty.schedule();}}
-    public void toggleFourty(){if(fourty.isScheduled()){fourty.cancel();}else{fourty.schedule();}}
 
+
+    public void setStraight(){
+        if(!intakeCommand.isScheduled() && !handleAmpCommand.isScheduled()){
+            shooterRotSubsystem.setGoal((0-90)*Math.PI/180);
+        }
+    }
 
     public void setVarDistanceAngle(){
-        if(visionSubsystem.getAprilTagDistance()!=-1){
+        if(visionSubsystem.getAprilTagDistance()!=-1 && operatorController.getLeftTriggerAxis() < 0.9){
         shooterRotSubsystem.setGoal(MathUtil.clamp(shooterRotSubsystem.getEstimatedAngle(Util1785.getDistanceRobotRelative(visionSubsystem.getYaw(), visionSubsystem.getAprilTagDistance(), Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET))),(0-90)*Math.PI/180, (60-90)*Math.PI/180));}
     }
 

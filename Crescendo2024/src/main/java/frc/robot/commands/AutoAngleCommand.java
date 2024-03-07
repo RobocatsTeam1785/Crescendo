@@ -19,9 +19,9 @@ public class AutoAngleCommand extends InstantCommand {
   private VisionSubsystem visionSubsystem;
   private DriveSubsystem driveSubsystem;
   private IntakeCommand intakeCommand;
-  private final double BLUE_Y_SPEAKER = 0.0;
-  private final double X_SPEAKER = 5.5;
-  private final double RED_Y_SPEAKER = 16.5;
+  private final double BLUE_X_SPEAKER = 0.0;
+  private final double Y_SPEAKER = 5.5;
+  private final double RED_X_SPEAKER = 16.5;
   public AutoAngleCommand(ShooterRotSubsystem shooterRot, VisionSubsystem vision, DriveSubsystem drive, IntakeCommand intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     shooterRotSubsystem = shooterRot;
@@ -39,16 +39,16 @@ public class AutoAngleCommand extends InstantCommand {
         shooterRotSubsystem.setGoal(MathUtil.clamp(shooterRotSubsystem.getEstimatedAngle(visionSubsystem.getAprilTagDistance()),(0-90)*Math.PI/180, (55-90)*Math.PI/180));
       }
       else{
-        double X = X_SPEAKER - driveSubsystem.getPose().getX();
-        double Y = driveSubsystem.getPose().getY();
+        double X = driveSubsystem.getPose().getX();
+        double Y = Y_SPEAKER - driveSubsystem.getPose().getY();
         if(DriverStation.getAlliance().isPresent()){
           if(DriverStation.getAlliance().get() == DriverStation.Alliance.Red){
-            Y = RED_Y_SPEAKER - Y;
+            X = RED_X_SPEAKER - X;
             double distance = Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2));
             shooterRotSubsystem.setGoal(MathUtil.clamp(shooterRotSubsystem.getEstimatedAngle(distance),(0-90)*Math.PI/180, (55-90)*Math.PI/180));
           }
           else{
-            Y = BLUE_Y_SPEAKER + Y;
+            X = BLUE_X_SPEAKER + X;
             double distance = Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2));
             shooterRotSubsystem.setGoal(MathUtil.clamp(shooterRotSubsystem.getEstimatedAngle(distance),(0-90)*Math.PI/180, (55-90)*Math.PI/180));
           }
