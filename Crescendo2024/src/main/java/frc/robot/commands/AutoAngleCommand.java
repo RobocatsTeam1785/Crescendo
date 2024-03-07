@@ -44,11 +44,13 @@ public class AutoAngleCommand extends InstantCommand {
         if(DriverStation.getAlliance().isPresent()){
           if(DriverStation.getAlliance().get() == DriverStation.Alliance.Red){
             X = RED_X_SPEAKER - X;
+            X+=0.22;
             double distance = Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2));
             shooterRotSubsystem.setGoal(MathUtil.clamp(shooterRotSubsystem.getEstimatedAngle(distance),(0-90)*Math.PI/180, (55-90)*Math.PI/180));
           }
           else{
             X = BLUE_X_SPEAKER + X;
+            X-=0.22;
             double distance = Math.sqrt(Math.pow(X, 2) + Math.pow(Y, 2));
             shooterRotSubsystem.setGoal(MathUtil.clamp(shooterRotSubsystem.getEstimatedAngle(distance),(0-90)*Math.PI/180, (55-90)*Math.PI/180));
           }
