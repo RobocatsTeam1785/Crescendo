@@ -46,7 +46,7 @@ public class HandleAmpCommand extends Command {
   public void end(boolean interrupted) {
     extendAmp.cancel();
     retractAmp.schedule();
-    ledSubsystem.turnOff();
+    ledSubsystem.red();
     ShooterSubsystem.isAmping = false;
   }
 

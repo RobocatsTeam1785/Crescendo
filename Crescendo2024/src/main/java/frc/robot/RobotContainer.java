@@ -121,7 +121,7 @@ public class RobotContainer {
 
         handleAmpCommand = new HandleAmpCommand(shooterRotSubsystem, extendAmpSubsystem, retractAmpSubsystem, ledSubsystem);
 
-        shootCommand = new ShootCommand(shooterSubsystem, shooterFeederSubsystem);
+        shootCommand = new ShootCommand(shooterSubsystem, shooterFeederSubsystem, ledSubsystem);
 
         ampShootCommand = new AmpShootCommand(shooterSubsystem, shooterFeederSubsystem);
 
@@ -229,7 +229,14 @@ public class RobotContainer {
     }
 
     public void toggleIntake(){if(intakeCommand.isScheduled()){intakeCommand.cancel();}else{intakeCommand.schedule();}}
-    public void toggleShoot(){if(shootCommand.isScheduled()){shootCommand.cancel();}else{shootCommand.schedule();}}
+    public void toggleShoot(){
+        if(shootCommand.isScheduled()){
+            shootCommand.cancel();
+        }
+        else{
+            shootCommand.schedule();
+        }
+    }
     public void toggleAmp(){if(handleAmpCommand.isScheduled()){handleAmpCommand.cancel();}else{handleAmpCommand.schedule();}}
     public void toggleShootCloseSpeaker(){if(shootCloseStage.isScheduled()){shootCloseStage.cancel();}else{shootCloseStage.schedule();}}
     public void toggleShootProtectedZone(){if(shootProtectedZone.isScheduled()){shootProtectedZone.cancel();}else{shootProtectedZone.schedule();}}
@@ -243,7 +250,7 @@ public class RobotContainer {
 
     public void setVarDistanceAngle(){
         if(visionSubsystem.getAprilTagDistance()!=-1 && operatorController.getLeftTriggerAxis() < 0.9){
-        shooterRotSubsystem.setGoal(MathUtil.clamp(shooterRotSubsystem.getEstimatedAngle(Util1785.getDistanceRobotRelative(visionSubsystem.getYaw(), visionSubsystem.getAprilTagDistance(), Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET))),(0-90)*Math.PI/180, (60-90)*Math.PI/180));}
+        shooterRotSubsystem.setGoal(MathUtil.clamp(shooterRotSubsystem.getEstimatedAngle(Util1785.getDistanceRobotRelative(visionSubsystem.getYaw(), visionSubsystem.getAprilTagDistance(), Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET))),(0-90)*Math.PI/180, (55-90)*Math.PI/180));}
     }
 
     public void resetGyro(){

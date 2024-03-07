@@ -14,15 +14,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class ShootCommand extends Command {
   private ShooterSubsystem shooterSubsystem;
   private ShooterFeederSubsystem shooterFeederSubsystem;
+  private LEDSubsystem ledSubsystem;
   private Timer timer;
   private Timer timer2;
   private boolean feeding;
   private double RPM;
   private boolean done;
   /** Creates a new ShootCommand. */
-  public ShootCommand(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder) {
+  public ShootCommand(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder, LEDSubsystem led) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(shooter, shooterFeeder);
+    ledSubsystem = led;
     shooterSubsystem = shooter;
     shooterFeederSubsystem = shooterFeeder;
     timer = new Timer();
@@ -42,9 +44,13 @@ public class ShootCommand extends Command {
       done=true;
     }
     else{
+      if(!ShooterSubsystem.isAmping){
+        ledSubsystem.purple();
+      }
       timer2.stop();
       timer2.reset();
       timer2.start();
+
       done=false;
       if(ShooterSubsystem.isAmping){
         RPM = ShooterConstants.AMP_RPM;
@@ -98,6 +104,9 @@ public class ShootCommand extends Command {
     feeding=false;
     shooterSubsystem.setVelocity(0);
     shooterFeederSubsystem.setVelocity(0);
+    if(!ShooterSubsystem.isAmping){
+      ledSubsystem.red();
+    }
   }
 
   // Returns true when the command should end.

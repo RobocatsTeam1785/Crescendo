@@ -59,7 +59,7 @@ public class BlinkLEDGreen extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    ledSubsystem.turnOff();
+    ledSubsystem.red();
     timer.stop();
     timer.reset();
     counter = 0;

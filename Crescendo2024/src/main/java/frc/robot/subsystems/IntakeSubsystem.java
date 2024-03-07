@@ -14,6 +14,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import frc.lib.Constants.IntakeConstants;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class IntakeSubsystem extends SubsystemBase {
   private CANSparkMax topMotor;
   private CANSparkMax bottomMotor;
@@ -28,6 +29,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   private SimpleMotorFeedforward topFeedforward;
   private SimpleMotorFeedforward bottomFeedforward;
+
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
@@ -85,6 +87,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     topMotor.setVoltage(topPID+topFF);
     bottomMotor.setVoltage(bottomPID+bottomFF);
+    
   }
 
   public double getVelocityTop(){
@@ -103,5 +106,11 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Intake Top Velocity", topEncoder.getVelocity());
     SmartDashboard.putNumber("Intake Bottom Velocity", bottomEncoder.getVelocity());
+    if(Math.abs(getVelocityTop()) > 1){
+      SmartDashboard.putBoolean("Intaking", true);
+    }
+    else{
+      SmartDashboard.putBoolean("Intaking", false);
+    }
   }
 }

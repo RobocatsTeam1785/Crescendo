@@ -81,9 +81,9 @@ public class DriveSubsystem extends SubsystemBase {
     StructArrayPublisher<SwerveModuleState> publisher2 = moduleStats.getStructArrayTopic("SetStates", SwerveModuleState.struct).publish();
 
 
-  private final SlewRateLimiter m_xspeedLimiter = new SlewRateLimiter(3.5);
-  private final SlewRateLimiter m_yspeedLimiter = new SlewRateLimiter(3.5);
-  private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3.5);
+  private final SlewRateLimiter m_xspeedLimiter = new SlewRateLimiter(3.5*2);
+  private final SlewRateLimiter m_yspeedLimiter = new SlewRateLimiter(3.5*2);
+  private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(2*Math.PI);
   
 
   private final PIDController turnPID = new PIDController(
