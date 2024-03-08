@@ -8,36 +8,36 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.289306168679904,
-        "y": 7.407379935071813
+        "x": 4.3,
+        "y": 7.4
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.825900794658732,
-        "y": 5.55
+        "x": 8.223266446532893,
+        "y": 5.749301498602997
       },
       "prevControl": {
-        "x": 0.825900794658732,
-        "y": 5.55
+        "x": 7.223266446532891,
+        "y": 5.749301498602997
       },
       "nextControl": {
-        "x": 2.825900794658732,
-        "y": 5.55
+        "x": 9.25704851409703,
+        "y": 5.749301498602997
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.7793461301208313,
-        "y": 5.55
+        "x": 3.8,
+        "y": 6.7
       },
       "prevControl": {
-        "x": 3.3161580608875507,
-        "y": 5.536574258862804
+        "x": 6.642791828440797,
+        "y": 7.37430966290504
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,16 +46,21 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.05,
+      "waypointRelativePos": 0.5,
       "rotationDegrees": 180.0,
       "rotateFast": true
+    },
+    {
+      "waypointRelativePos": 1.55,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.95,
+      "waypointRelativePos": 0.8,
       "command": {
         "type": "sequential",
         "data": {
@@ -64,23 +69,6 @@
               "type": "named",
               "data": {
                 "name": "IntakeCommand"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 2.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "wait",
-              "data": {
-                "waitTime": 1.0
               }
             }
           ]
@@ -96,11 +84,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
-    "rotateFast": false
+    "rotation": -165.0,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "Close Paths",
+  "folder": "Five Note Test",
   "previewStartingState": {
     "rotation": -148.0,
     "velocity": 0

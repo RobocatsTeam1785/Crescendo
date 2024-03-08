@@ -117,7 +117,17 @@ public class LEDSubsystem extends SubsystemBase {
   public void red() {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
       // Sets the specified LED to the RGB values for red
-      m_ledBuffer.setRGB(i, 255, 0, 0);
+      if(DriverStation.getAlliance().isPresent()){
+        if(DriverStation.getAlliance().get()==DriverStation.Alliance.Blue){
+          m_ledBuffer.setRGB(i, 0, 0, 255);
+        }
+        else{
+          m_ledBuffer.setRGB(i, 255, 0, 0);
+        }
+      }
+      else{
+        m_ledBuffer.setRGB(i, 255, 0, 0);
+      }
    }
    
    m_led.setData(m_ledBuffer);
@@ -127,7 +137,7 @@ public class LEDSubsystem extends SubsystemBase {
   public void blue() {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
       // Sets the specified LED to the RGB values for red
-      m_ledBuffer.setRGB(i, 0, 0, 255);
+      m_ledBuffer.setRGB(i, 255, 255, 0);
    }
    
    m_led.setData(m_ledBuffer);

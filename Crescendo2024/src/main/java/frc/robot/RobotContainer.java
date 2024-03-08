@@ -5,6 +5,7 @@ import frc.robot.subsystems.*;
 import frc.lib.Constants.*;
 import frc.robot.commands.*;
 import frc.robot.commands.ShootCommands.AmpShootCommand;
+import frc.robot.commands.ShootCommands.CloseShootCommand;
 import frc.robot.commands.ShootCommands.ShootCloseStage;
 import frc.robot.commands.ShootCommands.ShootCommand;
 import frc.robot.commands.ShootCommands.ShootProtectedZone;
@@ -75,6 +76,7 @@ public class RobotContainer {
 
     private AutoAngleCommand autoAngleCommand;
 
+    private CloseShootCommand closeShootCommand;
 
 
 
@@ -137,6 +139,8 @@ public class RobotContainer {
 
         autoAngleCommand = new AutoAngleCommand(shooterRotSubsystem, visionSubsystem, driveSubsystem, intakeCommand);
 
+        closeShootCommand = new CloseShootCommand(shooterSubsystem, shooterFeederSubsystem, ledSubsystem);
+
 
 
 
@@ -182,6 +186,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("ShootCommand", shootCommand);
         NamedCommands.registerCommand("IntakeCommand", intakeCommand);
         NamedCommands.registerCommand("AutoAngleCommand", autoAngleCommand);
+        NamedCommands.registerCommand("CloseShootCommand", closeShootCommand);
 
     }
 

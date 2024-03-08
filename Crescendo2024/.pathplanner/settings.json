@@ -6,8 +6,9 @@
     "4 Note Upper",
     "4 Note Upper 2 Close",
     "Close Paths",
+    "Five Note Test",
     "Simple 2 Note",
-    "Three Note Far"
+    "Lower "
   ],
   "autoFolders": [
     "Close Autos",
@@ -15,7 +16,7 @@
     "Upper Autos"
   ],
   "defaultMaxVel": 4.3,
-  "defaultMaxAccel": 2.5,
+  "defaultMaxAccel": 3.5,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 250.0,
   "maxModuleSpeed": 4.3

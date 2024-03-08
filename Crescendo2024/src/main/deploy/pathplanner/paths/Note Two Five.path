@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.3,
-        "y": 7.4
+        "x": 1.95,
+        "y": 4.57
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.289306168679904,
-        "y": 7.407379935071813
+        "x": 1.3559998548568524,
+        "y": 5.990964839072535
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.825900794658732,
-        "y": 5.55
+        "x": 3.5376827896512935,
+        "y": 5.521063899270655
       },
       "prevControl": {
-        "x": 0.825900794658732,
-        "y": 5.55
-      },
-      "nextControl": {
-        "x": 2.825900794658732,
-        "y": 5.55
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.7793461301208313,
-        "y": 5.55
-      },
-      "prevControl": {
-        "x": 3.3161580608875507,
-        "y": 5.536574258862804
+        "x": 3.6853659421604554,
+        "y": 5.4942124169962625
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,7 +30,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.05,
+      "waypointRelativePos": 0.55,
       "rotationDegrees": 180.0,
       "rotateFast": true
     }
@@ -55,7 +39,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.95,
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "sequential",
         "data": {
@@ -72,7 +56,7 @@
     },
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 2.0,
+      "waypointRelativePos": 1.0,
       "command": {
         "type": "sequential",
         "data": {
@@ -100,9 +84,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Close Paths",
+  "folder": "Five Note Test",
   "previewStartingState": {
-    "rotation": -148.0,
+    "rotation": 153.36,
     "velocity": 0
   },
   "useDefaultConstraints": true
