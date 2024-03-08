@@ -8,6 +8,7 @@ import frc.robot.commands.ShootCommands.AmpShootCommand;
 import frc.robot.commands.ShootCommands.CloseShootCommand;
 import frc.robot.commands.ShootCommands.ShootCloseStage;
 import frc.robot.commands.ShootCommands.ShootCommand;
+import frc.robot.commands.ShootCommands.ShootTestTuner;
 import frc.robot.commands.ShootCommands.ShootProtectedZone;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -78,6 +79,10 @@ public class RobotContainer {
 
     private CloseShootCommand closeShootCommand;
 
+    private ShootTestCommand shootTestCommand;
+
+    private ShootTestTuner shootTestTuner;
+
 
 
 
@@ -140,6 +145,10 @@ public class RobotContainer {
         autoAngleCommand = new AutoAngleCommand(shooterRotSubsystem, visionSubsystem, driveSubsystem, intakeCommand);
 
         closeShootCommand = new CloseShootCommand(shooterSubsystem, shooterFeederSubsystem, ledSubsystem);
+
+        shootTestCommand = new ShootTestCommand(shooterSubsystem);
+
+        shootTestTuner = new ShootTestTuner(shooterSubsystem);
 
 
 
@@ -224,6 +233,8 @@ public class RobotContainer {
         new JoystickButton(driverController, Button.kRightBumper.value).onTrue(new InstantCommand(() -> toggleShoot()));
         new JoystickButton(driverController, Button.kX.value).onTrue(new InstantCommand(() -> resetGyro()));
         new JoystickButton(driverController, Button.kB.value).onTrue(new InstantCommand(() -> setStraight()));
+        new JoystickButton(driverController, Button.kA.value).onTrue(new InstantCommand(() -> driveSubsystem.setManualOffset()));
+        new JoystickButton(driverController, Button.kY.value).onTrue(new InstantCommand(() -> driveSubsystem.resetManualOffset()));
 
         new JoystickButton(operatorController, Button.kX.value).onTrue(new InstantCommand(() -> toggleAmp()));
         new JoystickButton(operatorController, Button.kY.value).whileTrue(ejectNoteForwards);
@@ -267,7 +278,7 @@ public class RobotContainer {
     }
 
     public void setGyroOffset(double offset){
-        driveSubsystem.getGyro().setAngleAdjustment(offset);
+        driveSubsystem.getGyro().setAngleAdjustment(0);
     }
 
     public void zeroSwerveModules(){
