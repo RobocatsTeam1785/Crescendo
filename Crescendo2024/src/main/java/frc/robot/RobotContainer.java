@@ -78,6 +78,8 @@ public class RobotContainer {
 
     private CloseShootCommand closeShootCommand;
 
+    private AutoAlignCommand autoAlignCommand;
+
 
 
 
@@ -141,6 +143,8 @@ public class RobotContainer {
 
         closeShootCommand = new CloseShootCommand(shooterSubsystem, shooterFeederSubsystem, ledSubsystem);
 
+        autoAlignCommand = new AutoAlignCommand(driveSubsystem, visionSubsystem);
+
 
 
 
@@ -153,7 +157,7 @@ public class RobotContainer {
             driverController.getLeftTriggerAxis(),
             driverController.getRightTriggerAxis(),
             driverController.getPOV(),
-            visionSubsystem.hasTarget() ? Util1785.getRobotRelativeAngle(visionSubsystem.getYaw(), Util1785.getDistanceRobotRelative(visionSubsystem.getYaw(), visionSubsystem.getAprilTagDistance(), Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)),Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)) : 0,
+            visionSubsystem.hasSpeakerTarget() ? Util1785.getRobotRelativeAngle(visionSubsystem.getYaw(), Util1785.getDistanceRobotRelative(visionSubsystem.getYaw(), visionSubsystem.getAprilTagDistance(), Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)),Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)) : 0,
             //visionSubsystem.getYaw(),
             true,
             period
@@ -187,6 +191,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("IntakeCommand", intakeCommand);
         NamedCommands.registerCommand("AutoAngleCommand", autoAngleCommand);
         NamedCommands.registerCommand("CloseShootCommand", closeShootCommand);
+        NamedCommands.registerCommand("AutoAlignCommand", autoAlignCommand);
 
     }
 

@@ -13,6 +13,7 @@ public class IntakeCommand extends Command {
   private ShooterFeederSubsystem shooterFeederSubsystem;
   private ShooterRotSubsystem shooterRotSubsystem;
   private BlinkLEDGreen blinkLEDGreen;
+  private LEDSubsystem ledSubsystem;
   private boolean done;
   /** Creates a new IntakeCommand. */
   public IntakeCommand(IntakeSubsystem intake, ShooterFeederSubsystem shooterFeeder, ShooterRotSubsystem shooterRot, LEDSubsystem led) {
@@ -23,6 +24,7 @@ public class IntakeCommand extends Command {
     shooterRotSubsystem = shooterRot;
     blinkLEDGreen = new BlinkLEDGreen(led);
     done=false;
+    ledSubsystem = led;
   }
 
   // Called when the command is initially scheduled.
@@ -35,6 +37,7 @@ public class IntakeCommand extends Command {
     else{
       shooterRotSubsystem.setGoal(ShooterRotConstants.INTAKE_ANGLE);
       done=false;
+      ledSubsystem.white();
     }
   }
 
@@ -57,6 +60,9 @@ public class IntakeCommand extends Command {
   public void end(boolean interrupted) {
     intakeSubsystem.handleIntake(0);
     shooterFeederSubsystem.setVelocity(0);
+    if(!blinkLEDGreen.isScheduled()){
+      ledSubsystem.red();
+    }
   }
 
   // Returns true when the command should end.

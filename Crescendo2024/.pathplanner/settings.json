@@ -13,11 +13,12 @@
   "autoFolders": [
     "Close Autos",
     "Lower Autos",
+    "Auto Align Test Autos",
     "Upper Autos"
   ],
   "defaultMaxVel": 4.3,
-  "defaultMaxAccel": 3.5,
-  "defaultMaxAngVel": 540.0,
-  "defaultMaxAngAccel": 250.0,
+  "defaultMaxAccel": 3.0,
+  "defaultMaxAngVel": 360.0,
+  "defaultMaxAngAccel": 200.0,
   "maxModuleSpeed": 4.3
 }

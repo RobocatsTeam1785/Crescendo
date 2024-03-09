@@ -72,6 +72,20 @@ public class VisionSubsystem extends SubsystemBase {
     }
   }
 
+  public boolean hasSpeakerTarget(){
+    if(hasTarget()){
+      for(PhotonTrackedTarget p : frontCameraPipeline.targets){
+        if(p.getFiducialId()==VisionConstants.RED_SPEAKER_ID || p.getFiducialId()==VisionConstants.BLUE_SPEAKER_ID){
+          return true;
+        }
+      }
+      return false;
+    }
+    else{
+      return false;
+    }
+  }
+
   public boolean hasTarget() {
     return frontCameraPipeline.hasTargets();
   }
