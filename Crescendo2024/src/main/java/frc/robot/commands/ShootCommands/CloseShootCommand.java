@@ -48,7 +48,7 @@ public class CloseShootCommand extends Command {
       timer2.start();
 
       done=false;
-      RPM = 2500/60;
+      RPM = 3000/60;
     }
   }
 

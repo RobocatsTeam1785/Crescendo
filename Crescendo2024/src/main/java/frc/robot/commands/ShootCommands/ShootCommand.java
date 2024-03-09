@@ -78,12 +78,12 @@ public class ShootCommand extends Command {
       timer.start();
     }
     if(feeding){
-      if(timer.hasElapsed(0.5)){
+      if(timer.hasElapsed(0.75)){
         this.cancel();
         done = true;
       }
       else{
-        shooterFeederSubsystem.setVelocity(0.5);
+        shooterFeederSubsystem.setVelocity(0.6);
       }
     }
 

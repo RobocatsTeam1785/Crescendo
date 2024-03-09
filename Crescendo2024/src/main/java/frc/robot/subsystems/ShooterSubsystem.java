@@ -87,6 +87,11 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Bottom Shooter Velocity", bottomEncoder.getVelocity()*60);
   }
 
+  public void setVoltage(double voltage){
+    topShooterMotor.setVoltage(voltage);
+    bottomShooterMotor.setVoltage(voltage);
+  }
+
 
   public double getTopVelocity(){
     return topEncoder.getVelocity();

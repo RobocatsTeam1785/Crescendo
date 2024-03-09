@@ -50,8 +50,8 @@ public class IntakeCommand extends Command {
       this.cancel();
     }
     else{
-      intakeSubsystem.handleIntake(-0.75);
-      shooterFeederSubsystem.setVelocity(0.25);
+      intakeSubsystem.handleIntake(-0.85);
+      shooterFeederSubsystem.setVelocity(0.3);
     }
   }
 

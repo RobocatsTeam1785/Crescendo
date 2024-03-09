@@ -201,10 +201,15 @@ public class DriveSubsystem extends SubsystemBase {
         * speedMod *DriveConstants.ROTATIONAL_MAX_SPEED;
 
     if(leftTrigger>0.9){
-      rot=-turnPID.calculate(m_gyro.getYaw(), 0);
+      xSpeed*=0.5;
+      ySpeed*=0.5;
     }
     if(rightTrigger>0.9){
       rot=turnPID.calculate(cameraYaw, 0);
+    }
+    if(FOV!=-1){
+      double f = normalizeAngle( (double) FOV);
+      rot=turnPID.calculate(m_gyro.getYaw(), f);
     }
       
     var swerveModuleStates =
@@ -221,6 +226,27 @@ public class DriveSubsystem extends SubsystemBase {
     
     setSwerveStates(swerveModuleStates);
 
+  }
+
+  public void setManualOffset(){
+    /*
+
+      reset at 50
+
+
+     * offset of 30
+     * 
+     * 
+     * 
+     * zeroing at -20
+     * 
+     * 
+     */
+    m_gyro.setAngleAdjustment(-m_gyro.getYaw());
+  }
+
+  public void resetManualOffset(){
+    m_gyro.setAngleAdjustment(0);
   }
 
   public void increaseSpeedMod(){
@@ -298,6 +324,5 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("TOP LEFT SPEED", m_frontLeft.getDriveEncoder().getVelocity());
     SmartDashboard.putNumber("X", getPose().getX());
     SmartDashboard.putNumber("Y", getPose().getY());
-
   }
 }
