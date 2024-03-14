@@ -60,8 +60,8 @@ public class IntakeCommand extends Command {
   public void end(boolean interrupted) {
     intakeSubsystem.handleIntake(0);
     shooterFeederSubsystem.setVelocity(0);
-    if(!blinkLEDGreen.isScheduled() && !done){
-      ledSubsystem.red();
+    if(!blinkLEDGreen.isScheduled()){
+      ledSubsystem.changeColorToAlliance();
     }
   }
 

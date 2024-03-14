@@ -42,6 +42,7 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.ArrayList;
 import frc.lib.Constants.*;
 public class LEDSubsystem extends SubsystemBase {
   /**
@@ -50,12 +51,6 @@ public class LEDSubsystem extends SubsystemBase {
 
   private AddressableLED m_led;
   private AddressableLEDBuffer m_ledBuffer;
-  // Store what the last hue of the first pixel is
-  private int m_rainbowFirstPixelHue;
-
-  private int bluePulseBrightness = 0;
-  private int blueStreakLED = 0;
-  private int numLoops = 0;
   
   public LEDSubsystem() {
     // PWM port 9
@@ -85,6 +80,19 @@ public class LEDSubsystem extends SubsystemBase {
 
 
 
+  public void displayCustomColors(ArrayList<Integer[]> leds){
+    int i = 0;
+    for(Integer[] l : leds){
+      if(i>= m_ledBuffer.getLength()){
+        break;
+      }
+      else{
+        m_ledBuffer.setRGB(i, l[0], l[1], l[2]);
+      }
+      i++;
+    }
+    m_led.setData(m_ledBuffer);
+  }
 
 
   public void turnOff(){
@@ -124,8 +132,8 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
 
-  public void red() {
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+  public void changeColorToAlliance() {
+    /*for (var i = 0; i < m_ledBuffer.getLength(); i++) {
       // Sets the specified LED to the RGB values for red
       if(DriverStation.getAlliance().isPresent()){
         if(DriverStation.getAlliance().get()==DriverStation.Alliance.Blue){
@@ -138,13 +146,40 @@ public class LEDSubsystem extends SubsystemBase {
       else{
         m_ledBuffer.setRGB(i, 255, 0, 0);
       }
+   }*/
+
+    if(DriverStation.getAlliance().isPresent()){
+      if(DriverStation.getAlliance().get()==DriverStation.Alliance.Blue){
+          blue();
+        }
+        else{
+          red();
+        }
+      }
+      else{
+        red();
+      }
+  }
+
+  public void red(){
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Sets the specified LED to the RGB values for red
+      m_ledBuffer.setRGB(i, 255, 0, 0);
    }
    
    m_led.setData(m_ledBuffer);
   }
 
+  public void blue(){
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Sets the specified LED to the RGB values for red
+      m_ledBuffer.setRGB(i, 0, 0, 255);
+   }
+   
+   m_led.setData(m_ledBuffer);
+  }
 
-  public void blue() {
+  public void yellow() {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
       // Sets the specified LED to the RGB values for red
       m_ledBuffer.setRGB(i, 255, 255, 0);
