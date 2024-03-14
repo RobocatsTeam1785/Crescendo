@@ -189,6 +189,19 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
 
+  public void driveOnlyHeading(double angle){
+    double angleToBe = 0;
+    double xSpeed = 0;
+    double ySpeed = 0;
+    double rot = turnPID.calculate(angle, angleToBe);
+
+    var swerveModuleStates = m_kinematics.toSwerveModuleStates(
+      new ChassisSpeeds(xSpeed, ySpeed, rot)
+    );
+
+    setSwerveStates(swerveModuleStates);
+  }
+
   public void drive(double leftX, double leftY, double rightX, double rightY, double leftTrigger, double rightTrigger, int FOV, double cameraYaw, boolean fieldRelative, double periodSeconds){
     double xSpeed =
     -m_xspeedLimiter.calculate(MathUtil.applyDeadband(leftY, 0.1))
@@ -285,9 +298,11 @@ public class DriveSubsystem extends SubsystemBase {
       }
     }
   }
+
   public PIDController getHeadingController(){
     return turnPID;
   }
+
   public SwerveModulePosition[] getModulePositions(){
     return new SwerveModulePosition[] {
           m_frontLeft.getPosition(),
@@ -304,12 +319,32 @@ public class DriveSubsystem extends SubsystemBase {
           m_backRight.getState()
         };
   }
+
   public void updateOdometry(){
      odometry.update(
       Rotation2d.fromDegrees(-m_gyro.getAngle()), 
       getModulePositions()
       );
   }
+
+  public SwerveModule getFrontLeftSwerveModule(){
+    return m_frontLeft;
+  }
+
+  public SwerveModule getFrontRightSwerveModule(){
+    return m_frontRight;
+  }
+
+  public SwerveModule getBackLeftSwerveModule(){
+    return m_backLeft;
+  }
+
+  public SwerveModule getBackRightSwerveModule(){
+    return m_backRight;
+  }
+
+
+
   @Override
   public void periodic() {
     updateOdometry();
@@ -321,8 +356,7 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Gyro Pitch", m_gyro.getPitch());
     SmartDashboard.putNumber("Gyro Rot2d", m_gyro.getRotation2d().getDegrees());
 
-    SmartDashboard.putNumber("TOP LEFT SPEED", m_frontLeft.getDriveEncoder().getVelocity());
-    SmartDashboard.putNumber("X", getPose().getX());
-    SmartDashboard.putNumber("Y", getPose().getY());
+    SmartDashboard.putNumber("Current Pose X", getPose().getX());
+    SmartDashboard.putNumber("Current Pose Y", getPose().getY());
   }
 }

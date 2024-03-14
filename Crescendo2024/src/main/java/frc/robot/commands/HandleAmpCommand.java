@@ -33,7 +33,7 @@ public class HandleAmpCommand extends Command {
   public void initialize() {
     shooterRotSubsystem.setGoal(ShooterRotConstants.AMP_ANGLE);
     extendAmp.schedule();
-    ledSubsystem.blue();
+    ledSubsystem.yellow();
     ShooterSubsystem.isAmping = true;
   }
 
@@ -46,7 +46,7 @@ public class HandleAmpCommand extends Command {
   public void end(boolean interrupted) {
     extendAmp.cancel();
     retractAmp.schedule();
-    ledSubsystem.red();
+    ledSubsystem.changeColorToAlliance();
     ShooterSubsystem.isAmping = false;
   }
 
