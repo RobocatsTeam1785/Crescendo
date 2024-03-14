@@ -148,6 +148,7 @@ public class RobotContainer {
         closeShootCommand = new CloseShootCommand(shooterSubsystem, shooterFeederSubsystem, ledSubsystem);
 
         autoAlignCommand = new AutoAlignCommand(driveSubsystem, visionSubsystem);
+
         shootTestCommand = new ShootTestCommand(shooterSubsystem);
 
         shootTestTuner = new ShootTestTuner(shooterSubsystem);
@@ -237,7 +238,7 @@ public class RobotContainer {
         new JoystickButton(driverController, Button.kX.value).onTrue(new InstantCommand(() -> resetGyro()));
         new JoystickButton(driverController, Button.kB.value).onTrue(new InstantCommand(() -> setStraight()));
         new JoystickButton(driverController, Button.kA.value).onTrue(new InstantCommand(() -> driveSubsystem.setManualOffset()));
-        new JoystickButton(driverController, Button.kY.value).onTrue(new InstantCommand(() -> driveSubsystem.resetManualOffset()));
+        new JoystickButton(driverController, Button.kY.value).onTrue(new InstantCommand(() -> toggleAlign()));
 
         new JoystickButton(operatorController, Button.kX.value).onTrue(new InstantCommand(() -> toggleAmp()));
         new JoystickButton(operatorController, Button.kY.value).whileTrue(ejectNoteForwards);
@@ -256,6 +257,8 @@ public class RobotContainer {
             shootCommand.schedule();
         }
     }
+    public void toggleAlign(){if(autoAlignCommand.isScheduled()){autoAlignCommand.cancel();}else{autoAlignCommand.schedule();}}
+
     public void toggleAmp(){if(handleAmpCommand.isScheduled()){handleAmpCommand.cancel();}else{handleAmpCommand.schedule();}}
     public void toggleShootCloseSpeaker(){if(shootCloseStage.isScheduled()){shootCloseStage.cancel();}else{shootCloseStage.schedule();}}
     public void toggleShootProtectedZone(){if(shootProtectedZone.isScheduled()){shootProtectedZone.cancel();}else{shootProtectedZone.schedule();}}
@@ -278,6 +281,7 @@ public class RobotContainer {
 
     public void setPeriod(double p){
         period = p;
+        autoAlignCommand.setPeriod(period);
     }
 
     public void setGyroOffset(double offset){

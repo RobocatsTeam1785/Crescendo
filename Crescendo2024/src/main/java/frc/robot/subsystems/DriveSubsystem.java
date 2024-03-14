@@ -41,6 +41,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.controller.PIDController;
 
+
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -93,7 +95,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   private final SwerveDrivePoseEstimator odometry;
 
-  //private final AHRS m_gyro = new AHRS(SPI.Port.kMXP);  
+  //private final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);  
   private final AHRS m_gyro = new AHRS(I2C.Port.kOnboard);
 
 

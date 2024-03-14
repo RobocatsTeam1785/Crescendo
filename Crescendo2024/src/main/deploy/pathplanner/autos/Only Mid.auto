@@ -22,24 +22,6 @@
           "data": {
             "name": "CloseShootCommand"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Note 2 Mid Start"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoAngleCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootCommand"
-          }
         }
       ]
     }

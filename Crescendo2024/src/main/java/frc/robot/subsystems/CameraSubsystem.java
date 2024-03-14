@@ -11,9 +11,7 @@ import edu.wpi.first.cscore.*;
 
 public class CameraSubsystem extends SubsystemBase {
   public static UsbCamera camera1;
-  public static UsbCamera camera2;
   public static CvSink cvSink;
-  public static CvSink cvSink2;
   public static CvSource cvSource;
   public static MjpegServer server1;
 
@@ -26,9 +24,7 @@ public class CameraSubsystem extends SubsystemBase {
 
   public static void cameraServerInit() {
     camera1 = CameraServer.startAutomaticCapture();
-    camera2 = CameraServer.startAutomaticCapture();
     cvSink = CameraServer.getVideo();
-    cvSink2 = CameraServer.getVideo();
     cvSource = CameraServer.putVideo("Camera1", 640, 480);
     server1 = CameraServer.addServer("Server1");
   }

@@ -52,7 +52,7 @@ public class DriveConstants {
         public static final double DRIVE_CONVERSION_FACTOR = 2 * Math.PI * WHEEL_RADIUS / (6.75);
         public static final double TURN_CONVERSION_FACTOR = 2 * Math.PI / (150.0/7.0);
 
-        public static final String AUTO_NAME = "Four Note Upper 2 Close";
+        public static final String AUTO_NAME = "Only Mid";
 
         public static final Dictionary<String, Double> AUTO_GYRO_POSITIONS = new Hashtable<String, Double>() {{
             put("Four Note Auto Close",180.0);
