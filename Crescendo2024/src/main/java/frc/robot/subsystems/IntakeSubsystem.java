@@ -51,7 +51,7 @@ public class IntakeSubsystem extends SubsystemBase {
     topEncoder.setVelocityConversionFactor(IntakeConstants.ENCODER_CONVERSION_FACTOR/60);
     bottomEncoder.setVelocityConversionFactor(IntakeConstants.ENCODER_CONVERSION_FACTOR/60);
 
-    //photoSensor = new DigitalInput(IntakeConstants.PHOTO_ELECTRIC_SENSOR_ID);
+    photoSensor = new DigitalInput(5);
 
     topPIDController = new PIDController(
       IntakeConstants.TOP_KP,

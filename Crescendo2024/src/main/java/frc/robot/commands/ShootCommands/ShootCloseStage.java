@@ -17,6 +17,7 @@ public class ShootCloseStage extends Command {
   private Timer timer;
   private Timer timer2;
   private boolean feeding;
+  private boolean done;
     /** Creates a new ShootCommand. */
   public ShootCloseStage(ShooterSubsystem shooter, ShooterFeederSubsystem shooterFeeder, ShooterRotSubsystem shooterRot) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -26,18 +27,21 @@ public class ShootCloseStage extends Command {
     shooterRotSubsystem = shooterRot;
     timer = new Timer();
     timer2 = new Timer();
+    done = false;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     if(!shooterFeederSubsystem.getPhotoSensor()){
+      done=true;
       this.cancel();
       feeding=false;
       timer.stop();
       timer.reset();
     }
     else{
+      done=false;
       timer2.stop();
       timer2.reset();
       timer2.start();
@@ -63,6 +67,7 @@ public class ShootCloseStage extends Command {
     }
     if(feeding){
       if(timer.hasElapsed(0.5)){
+        done=true;
         this.cancel();
       }
       else{
@@ -82,12 +87,14 @@ public class ShootCloseStage extends Command {
     timer.reset();
     timer2.stop();
     timer2.reset();
+    shooterFeederSubsystem.setVelocity(0);
+    shooterSubsystem.setVelocity(0);
     feeding=false;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return done;
   }
 }

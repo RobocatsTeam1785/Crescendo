@@ -3,41 +3,73 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.3,
-        "y": 5.55
+        "x": 2.0,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.3,
-        "y": 5.55
+        "x": 2.12,
+        "y": 7.0
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.276969411081678,
-        "y": 7.454370623026961
+        "x": 3.0,
+        "y": 7.0
       },
       "prevControl": {
-        "x": 5.276316266918248,
-        "y": 7.474509234732755
+        "x": 2.9,
+        "y": 7.0
       },
       "nextControl": {
-        "x": 8.286462629883038,
-        "y": 7.454306910149099
+        "x": 3.1,
+        "y": 7.0
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.705504553866251,
-        "y": 5.55
+        "x": 3.0,
+        "y": 6.0
       },
       "prevControl": {
-        "x": 4.768847891355039,
-        "y": 6.521306281717172
+        "x": 3.0,
+        "y": 5.9
+      },
+      "nextControl": {
+        "x": 3.0,
+        "y": 6.1
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0,
+        "y": 6.0
+      },
+      "prevControl": {
+        "x": 1.8999999999999997,
+        "y": 6.0
+      },
+      "nextControl": {
+        "x": 2.1,
+        "y": 6.0
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0,
+        "y": 7.0
+      },
+      "prevControl": {
+        "x": 2.0,
+        "y": 6.9
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,25 +78,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.75,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeCommand"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.5,
     "maxAcceleration": 3.5,
@@ -73,13 +87,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "4 Note Upper 2 Close",
+  "folder": "Test",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

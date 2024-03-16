@@ -94,6 +94,18 @@ public class AutoAlignCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     System.out.println("WHY?");
+    driveSubsystem.drive(
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            -1,
+            visionSubsystem.hasSpeakerTarget() ? Util1785.getRobotRelativeAngle(visionSubsystem.getYaw(), Util1785.getDistanceRobotRelative(visionSubsystem.getYaw(), visionSubsystem.getAprilTagDistance(), Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)),Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)) : 0,
+            true,
+            period
+        );
   }
 
   // Returns true when the command should end.

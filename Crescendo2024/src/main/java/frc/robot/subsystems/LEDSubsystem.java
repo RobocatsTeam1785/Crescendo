@@ -179,6 +179,15 @@ public class LEDSubsystem extends SubsystemBase {
    m_led.setData(m_ledBuffer);
   }
 
+  public void lightBlue(){
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Sets the specified LED to the RGB values for red
+      m_ledBuffer.setRGB(i, 100, 100, 255);
+   }
+   
+   m_led.setData(m_ledBuffer);
+  }
+
   public void yellow() {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
       // Sets the specified LED to the RGB values for red

@@ -13,6 +13,7 @@ public class IntakeCommand extends Command {
   private ShooterFeederSubsystem shooterFeederSubsystem;
   private ShooterRotSubsystem shooterRotSubsystem;
   private BlinkLEDGreen blinkLEDGreen;
+  private BlinkBlueCommand blinkBlueCommand;
   private LEDSubsystem ledSubsystem;
   private boolean done;
   /** Creates a new IntakeCommand. */
@@ -23,6 +24,7 @@ public class IntakeCommand extends Command {
     shooterFeederSubsystem = shooterFeeder;
     shooterRotSubsystem = shooterRot;
     blinkLEDGreen = new BlinkLEDGreen(led);
+    blinkBlueCommand = new BlinkBlueCommand(led);
     done=false;
     ledSubsystem = led;
   }
@@ -53,6 +55,10 @@ public class IntakeCommand extends Command {
       intakeSubsystem.handleIntake(-0.85);
       shooterFeederSubsystem.setVelocity(0.3);
     }
+    
+    if(intakeSubsystem.getPhotoSensor()){
+      ledSubsystem.green();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -60,7 +66,7 @@ public class IntakeCommand extends Command {
   public void end(boolean interrupted) {
     intakeSubsystem.handleIntake(0);
     shooterFeederSubsystem.setVelocity(0);
-    if(!blinkLEDGreen.isScheduled()){
+    if(!blinkLEDGreen.isScheduled() && !done){
       ledSubsystem.changeColorToAlliance();
     }
   }

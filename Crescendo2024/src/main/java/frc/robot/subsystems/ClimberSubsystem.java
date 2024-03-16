@@ -49,13 +49,13 @@ public class ClimberSubsystem extends SubsystemBase {
     rightPow = MathUtil.applyDeadband(rightPow,0.1);
 
     if(leftLimitSwitch.isPressed() && leftPow<0){
-      leftPow = 0;
+      //leftPow = 0;
     }
     else{
       leftPow = -leftPow;
     }
     if(rightLimitSwitch.isPressed() && rightPow<0){
-      rightPow = 0;
+      //rightPow = 0;
     }
     leftMotor.setVoltage(leftPow * ClimberConstants.MAX_VOLTAGE);
     rightMotor.setVoltage(rightPow * ClimberConstants.MAX_VOLTAGE);

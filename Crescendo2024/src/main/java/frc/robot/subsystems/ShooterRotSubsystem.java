@@ -55,13 +55,12 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
       ShooterRotConstants.KA_VALUE
     );
     setGoal((45-90)*Math.PI/180);
-    interpolatingDoubleTreeMap.put(1.0,(55-90)*Math.PI/180);
-
-    interpolatingDoubleTreeMap.put(2.0,(43.0-90)*Math.PI/180);
-    interpolatingDoubleTreeMap.put(3.0,(36.0-90)*Math.PI/180);
-    interpolatingDoubleTreeMap.put(4.0,(32-90)*Math.PI/180);
-    interpolatingDoubleTreeMap.put(5.0,(29.75-90)*Math.PI/180);
-    interpolatingDoubleTreeMap.put(6.0,(29.0-90)*Math.PI/180);
+    interpolatingDoubleTreeMap.put(1.0,(55-2-90)*Math.PI/180);
+    interpolatingDoubleTreeMap.put(2.0,(43.0-2-90)*Math.PI/180);
+    interpolatingDoubleTreeMap.put(3.0,(36.0-4.5-90)*Math.PI/180);
+    interpolatingDoubleTreeMap.put(4.0,(32-5.5-90)*Math.PI/180);
+    interpolatingDoubleTreeMap.put(5.0,(29.75-6-90)*Math.PI/180);
+    interpolatingDoubleTreeMap.put(6.0,(29.0-2-90)*Math.PI/180);
 
 
   }

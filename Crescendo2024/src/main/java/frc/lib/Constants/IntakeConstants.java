@@ -4,12 +4,12 @@ public class IntakeConstants {
     public static final int TOP_MOTOR_ID = 9;
     public static final int BOTTOM_MOTOR_ID = 10;
 
-    public static final double TOP_KP = 0.0031849;
+    public static final double TOP_KP = 0.031271*0;
     public static final double TOP_KI = 0;
     public static final double TOP_KD = 0;
-    public static final double TOP_KS = 0.63484;
-    public static final double TOP_KV = 0.27028;
-    public static final double TOP_KA = 0.02614;
+    public static final double TOP_KS = 0.2365;
+    public static final double TOP_KV = 0.50136*3;
+    public static final double TOP_KA = 0.047712*0;
 
     public static final double BOTTOM_KP = 0.0051744;
     public static final double BOTTOM_KI = 0;

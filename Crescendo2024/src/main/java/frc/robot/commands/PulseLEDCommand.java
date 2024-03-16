@@ -11,17 +11,17 @@ import java.util.ArrayList;
 public class PulseLEDCommand extends Command {
   private final int LOOPS_PER_SECOND = 50; //1000ms / 20ms
 
-  private final int PULSE_LENGTH = 1;
+  private final int PULSE_LENGTH = 25;
 
-  private final int VOID_LENGTH = 1;
+  private final int VOID_LENGTH = 0;
 
   private final int TOTAL_LED_LENGTH = 150;
 
   private final int R1 = 0;
 
-  private final int R2 = 0;
+  private final int R2 = 255;
   
-  private final int G1 = 255;
+  private final int G1 = 0;
 
   private final int G2 = 0;
 
@@ -82,23 +82,26 @@ public class PulseLEDCommand extends Command {
         currentLength = 0;
         isColored = true;
       }
+      else{
+        currentLength++;
+      }
     }
 
 
 
     if(isColored){
       if(isFirst){
-        leds.add(new Integer[]{R1, B1, G1});
-        leds.remove(leds.size());
+        leds.add(0,new Integer[]{R1, G1, B1});
+        leds.remove(leds.size()-1);
       }
       else{
-        leds.add(new Integer[]{R2, B2, G2});
-        leds.remove(leds.size());
+        leds.add(0,new Integer[]{R2, G2, B2});
+        leds.remove(leds.size()-1);
       }
     }
     else{
-      leds.add(new Integer[]{0,0,0});
-      leds.remove(leds.size());
+      leds.add(0,new Integer[]{0,0,0});
+      leds.remove(leds.size()-1);
     }
     ledSubsystem.displayCustomColors(leds);
   }

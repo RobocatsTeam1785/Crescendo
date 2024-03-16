@@ -84,6 +84,10 @@ public class RobotContainer {
 
     private ShootTestTuner shootTestTuner;
 
+    private PulseLEDCommand pulseLEDCommand;
+
+    private RevShooterCommand revShooterCommand;
+
 
 
 
@@ -153,6 +157,10 @@ public class RobotContainer {
 
         shootTestTuner = new ShootTestTuner(shooterSubsystem);
 
+        pulseLEDCommand = new PulseLEDCommand(ledSubsystem);
+
+        revShooterCommand = new RevShooterCommand(shooterSubsystem);
+
 
 
 
@@ -200,6 +208,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("AutoAngleCommand", autoAngleCommand);
         NamedCommands.registerCommand("CloseShootCommand", closeShootCommand);
         NamedCommands.registerCommand("AutoAlignCommand", autoAlignCommand);
+        NamedCommands.registerCommand("ShootCloseStage", shootCloseStage);
 
     }
 
@@ -237,13 +246,14 @@ public class RobotContainer {
         new JoystickButton(driverController, Button.kRightBumper.value).onTrue(new InstantCommand(() -> toggleShoot()));
         new JoystickButton(driverController, Button.kX.value).onTrue(new InstantCommand(() -> resetGyro()));
         new JoystickButton(driverController, Button.kB.value).onTrue(new InstantCommand(() -> setStraight()));
-        new JoystickButton(driverController, Button.kA.value).onTrue(new InstantCommand(() -> driveSubsystem.setManualOffset()));
+        new JoystickButton(driverController, Button.kA.value).whileTrue(pulseLEDCommand);
         new JoystickButton(driverController, Button.kY.value).onTrue(new InstantCommand(() -> toggleAlign()));
 
         new JoystickButton(operatorController, Button.kX.value).onTrue(new InstantCommand(() -> toggleAmp()));
         new JoystickButton(operatorController, Button.kY.value).whileTrue(ejectNoteForwards);
         new JoystickButton(operatorController, Button.kA.value).whileTrue(ejectNoteBackwards);
         new JoystickButton(operatorController, Button.kB.value).whileTrue(reverseIntake);
+        new JoystickButton(operatorController, Button.kStart.value).whileTrue(revShooterCommand);
         new JoystickButton(operatorController, Button.kRightBumper.value).onTrue(new InstantCommand(() -> toggleShootCloseSpeaker()));
         new JoystickButton(operatorController, Button.kLeftBumper.value).onTrue(new InstantCommand(() -> toggleShootProtectedZone()));
     }
@@ -268,6 +278,10 @@ public class RobotContainer {
         if(!intakeCommand.isScheduled() && !handleAmpCommand.isScheduled()){
             shooterRotSubsystem.setGoal((0-90)*Math.PI/180);
         }
+    }
+
+    public PulseLEDCommand getPulseLEDCommand(){
+        return pulseLEDCommand;
     }
 
     public void setVarDistanceAngle(){

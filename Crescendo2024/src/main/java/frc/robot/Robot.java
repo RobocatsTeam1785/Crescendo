@@ -18,15 +18,18 @@ import frc.robot.subsystems.CameraSubsystem;
 public class Robot extends TimedRobot {
   private RobotContainer robotContainer;
   private Command autoCommand;
+  private boolean started;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
   @Override
   public void robotInit() {
+    started=false;
     robotContainer = new RobotContainer();
     robotContainer.resetGyro();
     robotContainer.zeroSwerveModules();
+    robotContainer.getPulseLEDCommand().initialize();
     //CameraSubsystem.cameraServerInit();
   }
 
@@ -34,11 +37,16 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     robotContainer.setPeriod(getPeriod());
+    if(!started){
+      robotContainer.getPulseLEDCommand().execute();
+    }
   }
 
   @Override
   public void autonomousInit() {
+    started=true;
     autoCommand = robotContainer.getAutonomousCommand();
+    robotContainer.getPulseLEDCommand().cancel();
     robotContainer.zeroSwerveModules();
     if(autoCommand != null){
       autoCommand.schedule();
@@ -50,9 +58,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    started=true;
     if(autoCommand!=null){
       autoCommand.cancel();
     }
+    robotContainer.getPulseLEDCommand().cancel();
   }
 
   @Override
