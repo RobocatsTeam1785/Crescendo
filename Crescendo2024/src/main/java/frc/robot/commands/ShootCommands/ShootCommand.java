@@ -102,7 +102,7 @@ public class ShootCommand extends Command {
     timer2.stop();
     timer2.reset();
     feeding=false;
-    shooterSubsystem.setVelocity(0);
+    //shooterSubsystem.setVelocity(0);
     shooterFeederSubsystem.setVelocity(0);
     if(!ShooterSubsystem.isAmping){
       ledSubsystem.changeColorToAlliance();

@@ -8,13 +8,15 @@
     "Close Paths",
     "Five Note Test",
     "Lower ",
-    "Test",
-    "Simple 2 Note"
+    "M2 Paths",
+    "Simple 2 Note",
+    "Test"
   ],
   "autoFolders": [
+    "Auto Align Test Autos",
     "Close Autos",
     "Lower Autos",
-    "Auto Align Test Autos",
+    "M2 Autos",
     "Upper Autos"
   ],
   "defaultMaxVel": 4.5,

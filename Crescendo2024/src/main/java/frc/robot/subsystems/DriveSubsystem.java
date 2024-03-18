@@ -192,10 +192,9 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void driveOnlyHeading(double angle){
-    double angleToBe = 0;
     double xSpeed = 0;
     double ySpeed = 0;
-    double rot = turnPID.calculate(angle, angleToBe);
+    double rot = turnPID.calculate(m_gyro.getYaw(), angle);
 
     var swerveModuleStates = m_kinematics.toSwerveModuleStates(
       new ChassisSpeeds(xSpeed, ySpeed, rot)
@@ -203,6 +202,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     setSwerveStates(swerveModuleStates);
   }
+
 
   public void drive(double leftX, double leftY, double rightX, double rightY, double leftTrigger, double rightTrigger, int FOV, double cameraYaw, boolean fieldRelative, double periodSeconds){
     double xSpeed =

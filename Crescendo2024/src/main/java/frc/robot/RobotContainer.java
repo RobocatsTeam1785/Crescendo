@@ -88,6 +88,12 @@ public class RobotContainer {
 
     private RevShooterCommand revShooterCommand;
 
+    private AutoAngleWaitCommand autoAngleWaitCommand;
+
+    private TurnShooterToSpeaker turnShooterToSpeaker;
+    
+    private IntakeWaitCommand intakeWaitCommand;
+
 
 
 
@@ -161,6 +167,12 @@ public class RobotContainer {
 
         revShooterCommand = new RevShooterCommand(shooterSubsystem);
 
+        autoAngleWaitCommand = new AutoAngleWaitCommand(shooterRotSubsystem, visionSubsystem, driveSubsystem, intakeCommand);
+
+        turnShooterToSpeaker = new TurnShooterToSpeaker(driveSubsystem);
+
+        intakeWaitCommand = new IntakeWaitCommand(intakeSubsystem, shooterFeederSubsystem, shooterRotSubsystem, ledSubsystem);
+
 
 
 
@@ -209,6 +221,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("CloseShootCommand", closeShootCommand);
         NamedCommands.registerCommand("AutoAlignCommand", autoAlignCommand);
         NamedCommands.registerCommand("ShootCloseStage", shootCloseStage);
+        NamedCommands.registerCommand("IntakeWaitCommand", intakeWaitCommand);
+        NamedCommands.registerCommand("TurnToSpeaker", turnShooterToSpeaker);
+        NamedCommands.registerCommand("AutoAngleWaitCommand", autoAngleWaitCommand);
 
     }
 

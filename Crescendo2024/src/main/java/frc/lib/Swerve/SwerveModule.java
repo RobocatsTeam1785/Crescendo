@@ -39,7 +39,7 @@ public class SwerveModule {
         driveMotor = new CANSparkMax(DRIVEMOTORID, MotorType.kBrushless);
         turnMotor = new CANSparkMax(TURNMOTORID, MotorType.kBrushless);
 
-        driveMotor.setSmartCurrentLimit(40);
+        driveMotor.setSmartCurrentLimit(60);
         turnMotor.setSmartCurrentLimit(40);
 
         driveMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
