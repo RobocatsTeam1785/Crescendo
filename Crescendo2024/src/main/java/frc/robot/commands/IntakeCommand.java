@@ -19,7 +19,7 @@ public class IntakeCommand extends Command {
   /** Creates a new IntakeCommand. */
   public IntakeCommand(IntakeSubsystem intake, ShooterFeederSubsystem shooterFeeder, ShooterRotSubsystem shooterRot, LEDSubsystem led) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intake, shooterFeeder, shooterRot);
+    addRequirements(intake, shooterFeeder, shooterRot, led);
     intakeSubsystem = intake;
     shooterFeederSubsystem = shooterFeeder;
     shooterRotSubsystem = shooterRot;
