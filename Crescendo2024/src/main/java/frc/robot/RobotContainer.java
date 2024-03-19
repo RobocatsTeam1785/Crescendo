@@ -94,6 +94,8 @@ public class RobotContainer {
     
     private IntakeWaitCommand intakeWaitCommand;
 
+    private GriffinBadCommand griffinBadCommand;
+
 
 
 
@@ -173,7 +175,7 @@ public class RobotContainer {
 
         intakeWaitCommand = new IntakeWaitCommand(intakeSubsystem, shooterFeederSubsystem, shooterRotSubsystem, ledSubsystem);
 
-
+        griffinBadCommand = new GriffinBadCommand(intakeSubsystem);
 
 
         configureButtonBindings();
@@ -231,6 +233,22 @@ public class RobotContainer {
         SmartDashboard.putNumber("REV", shooterRotSubsystem.getTrueAngle());
     }
 
+    public void helpGriffin(){
+        if(operatorController.getRightTriggerAxis()>0.6){
+            if(!revShooterCommand.isScheduled() && !shootCommand.isScheduled()){
+                revShooterCommand.schedule();
+            }
+        }
+        else{
+            if(revShooterCommand.isScheduled()){
+                revShooterCommand.cancel();
+            }
+        }
+        if(shootCommand.isScheduled()){
+            revShooterCommand.cancel();
+        }
+    }
+
     public void configureButtonBindings(){
         /*
          * Buttons:
@@ -262,7 +280,7 @@ public class RobotContainer {
         new JoystickButton(driverController, Button.kX.value).onTrue(new InstantCommand(() -> resetGyro()));
         new JoystickButton(driverController, Button.kB.value).onTrue(new InstantCommand(() -> setStraight()));
         new JoystickButton(driverController, Button.kA.value).whileTrue(pulseLEDCommand);
-        new JoystickButton(driverController, Button.kY.value).onTrue(new InstantCommand(() -> toggleAlign()));
+        new JoystickButton(driverController, Button.kY.value).whileTrue(griffinBadCommand);
 
         new JoystickButton(operatorController, Button.kX.value).onTrue(new InstantCommand(() -> toggleAmp()));
         new JoystickButton(operatorController, Button.kY.value).whileTrue(ejectNoteForwards);
@@ -283,7 +301,6 @@ public class RobotContainer {
         }
     }
     public void toggleAlign(){if(autoAlignCommand.isScheduled()){autoAlignCommand.cancel();}else{autoAlignCommand.schedule();}}
-
     public void toggleAmp(){if(handleAmpCommand.isScheduled()){handleAmpCommand.cancel();}else{handleAmpCommand.schedule();}}
     public void toggleShootCloseSpeaker(){if(shootCloseStage.isScheduled()){shootCloseStage.cancel();}else{shootCloseStage.schedule();}}
     public void toggleShootProtectedZone(){if(shootProtectedZone.isScheduled()){shootProtectedZone.cancel();}else{shootProtectedZone.schedule();}}

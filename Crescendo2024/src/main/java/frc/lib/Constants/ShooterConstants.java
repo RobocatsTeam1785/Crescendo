@@ -21,7 +21,7 @@ public class ShooterConstants {
     public static final double MAX_RPM_TOP = 4500/60;
     public static final double MAX_RPM_BOTTOM = 4500/60;
     public static final double DEFAULT_RPM = 3500/60;
-    public static final double AMP_RPM = 1600/60;
+    public static final double AMP_RPM = 1750/60;
 
     public static final double ENCODER_CONVERSION_FACTOR = 1;
 

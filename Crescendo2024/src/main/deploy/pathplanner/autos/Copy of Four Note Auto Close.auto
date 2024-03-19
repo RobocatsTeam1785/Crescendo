@@ -26,13 +26,19 @@
         {
           "type": "named",
           "data": {
+            "name": "IntakeWaitCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "AutoAlignCommand"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutoAngleCommand"
+            "name": "AutoAngleWaitCommand"
           }
         },
         {
@@ -50,13 +56,19 @@
         {
           "type": "named",
           "data": {
+            "name": "IntakeWaitCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "AutoAlignCommand"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutoAngleCommand"
+            "name": "AutoAngleWaitCommand"
           }
         },
         {
@@ -74,13 +86,19 @@
         {
           "type": "named",
           "data": {
+            "name": "IntakeWaitCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "AutoAlignCommand"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutoAngleCommand"
+            "name": "AutoAngleWaitCommand"
           }
         },
         {

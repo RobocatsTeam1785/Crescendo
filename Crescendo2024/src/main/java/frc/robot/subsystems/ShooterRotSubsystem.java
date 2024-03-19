@@ -23,6 +23,7 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
   private DutyCycleEncoder hexEncoder;
 
   private ArmFeedforward armFeedforward;
+  private double angleToBe;
   private InterpolatingDoubleTreeMap interpolatingDoubleTreeMap = new InterpolatingDoubleTreeMap();
 
   /** Creates a new ShooterRotSubsystem. */
@@ -55,6 +56,7 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
       ShooterRotConstants.KA_VALUE
     );
     setGoal((45-90)*Math.PI/180);
+    angleToBe = (45-90)*Math.PI/180;
     interpolatingDoubleTreeMap.put(1.0,(55-2-90)*Math.PI/180);
     interpolatingDoubleTreeMap.put(2.0,(43.0-2-90)*Math.PI/180);
     interpolatingDoubleTreeMap.put(3.0,(36.0-4.5-90)*Math.PI/180);
@@ -69,6 +71,10 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
     return interpolatingDoubleTreeMap.get(distance);
   }
 
+  public double getGoal(){
+    return angleToBe;
+  }
+
   @Override
   public void useOutput(double output, TrapezoidProfile.State setpoint) {
     // Use the output (and optionally the setpoint) here
@@ -81,6 +87,7 @@ public class ShooterRotSubsystem extends ProfiledPIDSubsystem {
     SmartDashboard.putNumber("PID Output", output);
     SmartDashboard.putNumber("Feedforward output", feedforward);
 
+    
     SmartDashboard.putNumber("Shooter Angle Goal", setpoint.position*180/Math.PI+90);
     SmartDashboard.putNumber("Shooter Angle Current", getMeasurement()*180/Math.PI+90);
 

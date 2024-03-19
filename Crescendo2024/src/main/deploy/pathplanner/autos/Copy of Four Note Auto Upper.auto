@@ -14,19 +14,19 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoAngleCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootCommand"
+            "name": "ShootCloseStage"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Note One Upper Far"
+            "pathName": "M2 Note 1 Path"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeWaitCommand"
           }
         },
         {
@@ -38,7 +38,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AutoAngleCommand"
+            "name": "AutoAngleWaitCommand"
           }
         },
         {
@@ -56,13 +56,19 @@
         {
           "type": "named",
           "data": {
+            "name": "IntakeWaitCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "AutoAlignCommand"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutoAngleCommand"
+            "name": "AutoAngleWaitCommand"
           }
         },
         {
@@ -80,13 +86,19 @@
         {
           "type": "named",
           "data": {
+            "name": "IntakeWaitCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "AutoAlignCommand"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutoAngleCommand"
+            "name": "AutoAngleWaitCommand"
           }
         },
         {

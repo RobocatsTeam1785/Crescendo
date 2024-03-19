@@ -29,7 +29,7 @@ public class TurnShooterToSpeaker extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if(180-Math.abs(driveSubsystem.getGyro().getAngle())<MARGIN_OF_ERROR){
+    if(180-Math.abs(driveSubsystem.getGyro().getYaw())<MARGIN_OF_ERROR){
       this.cancel();
       done = true;
     }
@@ -44,7 +44,7 @@ public class TurnShooterToSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(180-Math.abs(driveSubsystem.getGyro().getAngle())<MARGIN_OF_ERROR || timer.hasElapsed(1.5)){
+    if(180-Math.abs(driveSubsystem.getGyro().getYaw())<MARGIN_OF_ERROR || timer.hasElapsed(1.5)){
       this.cancel();
       done = true;
     }

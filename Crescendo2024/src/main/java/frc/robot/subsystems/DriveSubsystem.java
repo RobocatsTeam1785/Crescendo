@@ -194,7 +194,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void driveOnlyHeading(double angle){
     double xSpeed = 0;
     double ySpeed = 0;
-    double rot = turnPID.calculate(m_gyro.getYaw(), angle);
+    double rot = turnPID.calculate(-m_gyro.getYaw(), angle);
 
     var swerveModuleStates = m_kinematics.toSwerveModuleStates(
       new ChassisSpeeds(xSpeed, ySpeed, rot)
@@ -218,13 +218,15 @@ public class DriveSubsystem extends SubsystemBase {
     if(leftTrigger>0.6){
       xSpeed*=0.5;
       ySpeed*=0.5;
+      //rot=turnPID.calculate(-m_gyro.getYaw(), 0);
     }
     if(rightTrigger>0.6){
       rot=turnPID.calculate(cameraYaw, 0);
     }
     if(FOV!=-1){
       double f = normalizeAngle( (double) FOV);
-      rot=turnPID.calculate(m_gyro.getYaw(), f);
+      rot=turnPID.calculate(-m_gyro.getYaw(), -f);
+      SmartDashboard.putNumber("FOV", f);
     }
       
     var swerveModuleStates =

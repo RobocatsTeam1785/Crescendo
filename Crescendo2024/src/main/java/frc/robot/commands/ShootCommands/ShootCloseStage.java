@@ -71,7 +71,7 @@ public class ShootCloseStage extends Command {
         this.cancel();
       }
       else{
-        shooterFeederSubsystem.setVelocity(0.5);
+        shooterFeederSubsystem.setVelocity(0.75);
       }
     }
 
@@ -88,7 +88,7 @@ public class ShootCloseStage extends Command {
     timer2.stop();
     timer2.reset();
     shooterFeederSubsystem.setVelocity(0);
-    shooterSubsystem.setVelocity(0);
+    //shooterSubsystem.setVelocity(0);
     feeding=false;
   }
 

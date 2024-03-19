@@ -38,7 +38,7 @@ public class IntakeSubsystem extends SubsystemBase {
     topMotor.setInverted(false);
     bottomMotor.setInverted(false);
 
-    topMotor.setSmartCurrentLimit(60);
+    topMotor.setSmartCurrentLimit(40);
     bottomMotor.setSmartCurrentLimit(40);
 
     topMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
@@ -92,6 +92,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public double getVelocityTop(){
     return topEncoder.getVelocity();
+  }
+
+  public void setOpenLoop(double p){
+    topMotor.set(p);
+    bottomMotor.set(0);
   }
 
   public double getVelocityBottom(){

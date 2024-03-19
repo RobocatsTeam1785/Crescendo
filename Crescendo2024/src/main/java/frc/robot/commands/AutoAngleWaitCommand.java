@@ -11,11 +11,12 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ShooterRotSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoAngleWaitCommand extends Command {
 
-  private final double MARGIN_OF_ERROR = (1.25-90)*Math.PI/180;
-  private Timer timer;
+  private final double MARGIN_OF_ERROR = (2-90)*Math.PI/180;
+  private Timer timer = new Timer();
   private boolean done;
   private ShooterRotSubsystem shooterRotSubsystem;
   private VisionSubsystem visionSubsystem;
@@ -74,9 +75,16 @@ public class AutoAngleWaitCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(Math.abs(Math.abs(shooterRotSubsystem.getController().getGoal().position) - Math.abs(shooterRotSubsystem.getMeasurement()) ) < MARGIN_OF_ERROR || timer.hasElapsed(1.5)){
+    if(Math.abs(Math.abs(shooterRotSubsystem.getController().getGoal().position) - Math.abs(shooterRotSubsystem.getMeasurement()) ) < 0.5 * Math.PI/180 || timer.hasElapsed(1.5)){
       done=true;
       this.cancel();
+    }
+    else{
+      SmartDashboard.putNumber("Num 1", Math.abs(shooterRotSubsystem.getController().getGoal().position));
+      SmartDashboard.putNumber("Num 2", Math.abs(shooterRotSubsystem.getMeasurement()));
+      SmartDashboard.putNumber("Diff", Math.abs(Math.abs(shooterRotSubsystem.getController().getGoal().position) - Math.abs(shooterRotSubsystem.getMeasurement()) ));
+      SmartDashboard.putNumber("Error", MARGIN_OF_ERROR);
+      SmartDashboard.putBoolean("IsGood",Math.abs(Math.abs(shooterRotSubsystem.getController().getGoal().position) - Math.abs(shooterRotSubsystem.getMeasurement()) ) < MARGIN_OF_ERROR );
     }
   }
 
