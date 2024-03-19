@@ -185,7 +185,7 @@ public class RobotContainer {
             driverController.getLeftTriggerAxis(),
             driverController.getRightTriggerAxis(),
             driverController.getPOV(),
-            visionSubsystem.hasSpeakerTarget() ? Util1785.getRobotRelativeAngle(visionSubsystem.getYaw(), Util1785.getDistanceRobotRelative(visionSubsystem.getYaw(), visionSubsystem.getAprilTagDistance(), Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)),Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)) : 0,
+            visionSubsystem.hasSpeakerTarget() ? Util1785.getRobotRelativeAngle(visionSubsystem.getYaw(), Util1785.getDistanceRobotRelative(visionSubsystem.getYaw(), visionSubsystem.getAprilTagDistance(), Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)),Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)) : 400,
             //visionSubsystem.getYaw(),
             true,
             period
@@ -215,6 +215,8 @@ public class RobotContainer {
         shooterRotSubsystem.enable();
         shooterRotSubsystem.setDefaultCommand(new InstantCommand(() -> setVarDistanceAngle(), shooterRotSubsystem));
 
+        ledSubsystem.setDefaultCommand(new InstantCommand(() -> handleLEDS(), ledSubsystem));
+
         NamedCommands.registerCommand("ShootCommand", shootCommand);
         NamedCommands.registerCommand("IntakeCommand", intakeCommand);
         NamedCommands.registerCommand("AutoAngleCommand", autoAngleCommand);
@@ -225,6 +227,20 @@ public class RobotContainer {
         NamedCommands.registerCommand("TurnToSpeaker", turnShooterToSpeaker);
         NamedCommands.registerCommand("AutoAngleWaitCommand", autoAngleWaitCommand);
 
+    }
+
+    public void handleLEDS(){
+        if(driverController.getRightTriggerAxis() > 0.6){
+            if(!visionSubsystem.hasSpeakerTarget()){
+                ledSubsystem.setRGB(127,0,0);
+            }
+            else if(Util1785.getRobotRelativeAngle(visionSubsystem.getYaw(), Util1785.getDistanceRobotRelative(visionSubsystem.getYaw(), visionSubsystem.getAprilTagDistance(), Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)),Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)) < 2){
+                ledSubsystem.setRGB(0,125,255);
+            }
+            else{
+                ledSubsystem.setRGB(125,125,125);
+            }
+        }
     }
 
     public void e(){

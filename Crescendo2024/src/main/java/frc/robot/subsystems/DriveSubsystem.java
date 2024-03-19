@@ -56,6 +56,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
 public class DriveSubsystem extends SubsystemBase {
   private double speedMod = 1;
 
+  private boolean isFirstAngle = true;
+  private double lastAngle = 0;
+  private double lastYaw = 0;
+
   private final SwerveModule m_frontLeft = new SwerveModule(
     DriveConstants.FRONT_LEFT_DRIVE_ID,
     DriveConstants.FRONT_LEFT_TURN_ID,
@@ -219,9 +223,23 @@ public class DriveSubsystem extends SubsystemBase {
       xSpeed*=0.5;
       ySpeed*=0.5;
     }
+
     if(rightTrigger>0.6){
-      rot=turnPID.calculate(cameraYaw, 0);
+      if(cameraYaw<=399.0){
+        rot=turnPID.calculate(cameraYaw, 0);
+        lastAngle = cameraYaw;
+        lastYaw = m_gyro.getAngle();
+      }
+      else{
+        if(lastAngle<399.0){
+          rot=turnPID.calculate(m_gyro.getAngle(), lastYaw+lastAngle);
+        }
+      }
     }
+    else{
+      lastAngle = 400;
+    }
+
     if(FOV!=-1){
       double f = normalizeAngle( (double) FOV);
       rot=turnPID.calculate(m_gyro.getYaw(), f);
