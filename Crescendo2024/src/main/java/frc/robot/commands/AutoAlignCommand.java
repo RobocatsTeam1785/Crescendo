@@ -48,6 +48,8 @@ public class AutoAlignCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("AA Start");
+
     if(!visionSubsystem.hasSpeakerTarget()){
       done = true;
       this.cancel();
@@ -93,7 +95,7 @@ public class AutoAlignCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("WHY?");
+    System.out.println("AA End?");
     driveSubsystem.drive(
             0,
             0,

@@ -232,7 +232,7 @@ public class RobotContainer {
     }
 
     public void handleLEDS(){
-        if(driverController.getRightTriggerAxis() > 0.6){
+        if(driverController.getRightTriggerAxis() > 0.6 && !intakeCommand.isScheduled() && !shootCommand.isScheduled() && !intakeWaitCommand.isScheduled() && !intakeWaitCommand.isScheduled()){
             if(!visionSubsystem.hasSpeakerTarget()){
                 ledSubsystem.setRGB(127,0,0);
             }

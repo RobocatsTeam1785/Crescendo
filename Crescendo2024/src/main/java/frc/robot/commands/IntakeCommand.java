@@ -19,7 +19,7 @@ public class IntakeCommand extends Command {
   /** Creates a new IntakeCommand. */
   public IntakeCommand(IntakeSubsystem intake, ShooterFeederSubsystem shooterFeeder, ShooterRotSubsystem shooterRot, LEDSubsystem led) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intake, shooterFeeder, shooterRot, led);
+    addRequirements(intake, shooterFeeder, shooterRot);
     intakeSubsystem = intake;
     shooterFeederSubsystem = shooterFeeder;
     shooterRotSubsystem = shooterRot;
@@ -32,6 +32,8 @@ public class IntakeCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("I Start");
+
     if(shooterFeederSubsystem.getPhotoSensor()){
       this.cancel();
       done=true;
@@ -50,6 +52,7 @@ public class IntakeCommand extends Command {
       blinkLEDGreen.schedule();
       done=true;
       this.cancel();
+
     }
     else{
       intakeSubsystem.handleIntake(-0.85);
@@ -64,6 +67,8 @@ public class IntakeCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("I End");
+
     intakeSubsystem.handleIntake(0);
     shooterFeederSubsystem.setVelocity(0);
     if(!blinkLEDGreen.isScheduled() && !done){

@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2,
-        "y": 5.5479153815450495
+        "x": 0.8,
+        "y": 6.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3611088936463587,
-        "y": 5.5479153815450495
+        "x": 0.9611088936463588,
+        "y": 6.55
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.3,
-        "y": 7.4
+        "x": 2.9026396514331485,
+        "y": 7.0
       },
       "prevControl": {
-        "x": 3.326851446298392,
-        "y": 7.420138659673708
+        "x": 2.9294910977315407,
+        "y": 7.020138659673708
       },
       "nextControl": null,
       "isLocked": false,
@@ -50,8 +50,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.5,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 3.5,
+    "maxAcceleration": 2.0,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
   },
@@ -61,10 +61,10 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "Close Paths",
+  "folder": "M2 Paths",
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": -120.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

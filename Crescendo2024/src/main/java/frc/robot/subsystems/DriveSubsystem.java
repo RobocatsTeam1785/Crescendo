@@ -229,11 +229,11 @@ public class DriveSubsystem extends SubsystemBase {
       if(cameraYaw<=399.0){
         rot=turnPID.calculate(cameraYaw, 0);
         lastAngle = cameraYaw;
-        lastYaw = m_gyro.getAngle();
+        lastYaw = -m_gyro.getYaw();
       }
       else{
         if(lastAngle<399.0){
-          rot=turnPID.calculate(m_gyro.getAngle(), lastYaw+lastAngle);
+          rot=turnPID.calculate(-m_gyro.getYaw(), normalizeAngle(lastYaw-lastAngle));
         }
       }
     }

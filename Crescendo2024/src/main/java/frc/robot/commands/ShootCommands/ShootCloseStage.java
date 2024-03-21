@@ -33,6 +33,8 @@ public class ShootCloseStage extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("SC Start");
+
     if(!shooterFeederSubsystem.getPhotoSensor()){
       done=true;
       this.cancel();
@@ -83,6 +85,8 @@ public class ShootCloseStage extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("SC End");
+
     timer.stop();
     timer.reset();
     timer2.stop();

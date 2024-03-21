@@ -1,0 +1,85 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.2150295729162888,
+      "y": 5.534489640407853
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootCloseStage"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Note 2 Mid Start"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeWaitCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAngleWaitCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootCommand"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Note 3 Under Stage 2 Upper"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeWaitCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAngleWaitCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootCommand"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Good Autos",
+  "choreoAuto": false
+}

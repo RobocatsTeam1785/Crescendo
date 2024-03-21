@@ -38,6 +38,8 @@ public class AutoAngleWaitCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("AAW Start");
+
     done=false;
     if(!intakeCommand.isScheduled()){
       timer.stop();
@@ -91,6 +93,8 @@ public class AutoAngleWaitCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("AAW End");
+
     timer.stop();
     timer.reset();
   }

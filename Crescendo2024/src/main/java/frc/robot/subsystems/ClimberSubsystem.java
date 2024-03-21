@@ -45,14 +45,14 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void handleClimbers(double leftPow, double rightPow){
-    leftPow = MathUtil.applyDeadband(leftPow,0.1);
+    leftPow = -MathUtil.applyDeadband(leftPow,0.1);
     rightPow = MathUtil.applyDeadband(rightPow,0.1);
 
     if(leftLimitSwitch.isPressed() && leftPow<0){
       //leftPow = 0;
     }
     else{
-      leftPow = -leftPow;
+      //leftPow = -leftPow;
     }
     if(rightLimitSwitch.isPressed() && rightPow<0){
       //rightPow = 0;

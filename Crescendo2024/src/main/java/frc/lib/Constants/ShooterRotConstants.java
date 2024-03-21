@@ -28,6 +28,6 @@ public class ShooterRotConstants {
 
     public static final double PROTECTED_ZONE_ANGLE = (40-90)*Math.PI/180;
 
-    public static final double AMP_ANGLE = (47.5-5-90)*Math.PI/180;
+    public static final double AMP_ANGLE = (47.5-90)*Math.PI/180;
 
 }

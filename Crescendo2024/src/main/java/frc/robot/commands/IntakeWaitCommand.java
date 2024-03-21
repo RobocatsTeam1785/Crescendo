@@ -36,6 +36,7 @@ public class IntakeWaitCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("IW Start");
     if(shooterFeederSubsystem.getPhotoSensor()){
       this.cancel();
       done=true;
@@ -71,6 +72,8 @@ public class IntakeWaitCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("IW End");
+
     timer.stop();
     timer.reset();
     intakeSubsystem.handleIntake(0);
