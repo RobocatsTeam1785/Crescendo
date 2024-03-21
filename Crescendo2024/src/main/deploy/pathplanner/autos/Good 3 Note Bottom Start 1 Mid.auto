@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.8,
-      "y": 6.55
+      "x": 0.75,
+      "y": 4.5
     },
-    "rotation": -120.0
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "M2 Note 1 Top Start"
+            "pathName": "Note 3 Bottom Start"
           }
         },
         {
@@ -50,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Note Two Upper Far"
+            "pathName": "RAAAHHH"
           }
         },
         {
@@ -75,18 +75,6 @@
           "type": "named",
           "data": {
             "name": "ShootCommand"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Note Three Upper Far"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeWaitCommand"
           }
         }
       ]

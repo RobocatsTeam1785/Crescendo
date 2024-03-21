@@ -3,57 +3,57 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.75,
-        "y": 4.5
+        "x": 3.97,
+        "y": 6.43
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8006421808568094,
-        "y": 2.866428915755695
+        "x": 4.131108893646358,
+        "y": 6.43
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.6050292100584205,
-        "y": 1.5470445226604737
+        "x": 6.36410936639537,
+        "y": 6.268066781147808
       },
       "prevControl": {
-        "x": 3.2942323741792423,
-        "y": 2.5036285786862345
+        "x": 4.6042196127760935,
+        "y": 6.7585278600253105
       },
       "nextControl": {
-        "x": 5.915826045937599,
-        "y": 0.5904604666347102
+        "x": 7.5535798688518145,
+        "y": 5.936575001774701
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.1964149642585,
-        "y": 0.7482129249972782
+        "x": 8.293644849397962,
+        "y": 5.765218140122891
       },
       "prevControl": {
-        "x": 7.1964149642585,
-        "y": 0.7482129249972782
+        "x": 9.135623969253635,
+        "y": 5.426087661292132
       },
       "nextControl": {
-        "x": 9.1964149642585,
-        "y": 0.7482129249972782
+        "x": 5.468401775593013,
+        "y": 6.903163267072114
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.5,
-        "y": 2.5
+        "x": 3.97,
+        "y": 6.434840423125027
       },
       "prevControl": {
-        "x": 5.732138321419499,
-        "y": 1.691099096483907
+        "x": 3.996851446298392,
+        "y": 6.454979082798735
       },
       "nextControl": null,
       "isLocked": false,
@@ -62,16 +62,21 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 2.55,
+      "waypointRelativePos": 1.1500000000000001,
       "rotationDegrees": 180.0,
-      "rotateFast": true
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 2.15,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 1.4,
+      "waypointRelativePos": 0.7,
       "command": {
         "type": "sequential",
         "data": {
@@ -80,6 +85,23 @@
               "type": "named",
               "data": {
                 "name": "IntakeCommand"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 3.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 1.0
               }
             }
           ]
@@ -95,13 +117,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 130.0,
-    "rotateFast": true
+    "rotation": -164.88,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "Lower ",
+  "folder": "PayneBad2",
   "previewStartingState": {
-    "rotation": 120.0,
+    "rotation": -164.88,
     "velocity": 0
   },
   "useDefaultConstraints": false

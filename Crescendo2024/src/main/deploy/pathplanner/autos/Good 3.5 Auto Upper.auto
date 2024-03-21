@@ -88,24 +88,6 @@
           "data": {
             "name": "IntakeWaitCommand"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoAlignCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoAngleWaitCommand"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ShootCommand"
-          }
         }
       ]
     }

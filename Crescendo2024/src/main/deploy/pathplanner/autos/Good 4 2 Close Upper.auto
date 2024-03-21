@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.8,
-      "y": 6.55
+      "x": 1.2150295729162888,
+      "y": 5.534489640407853
     },
-    "rotation": -120.0
+    "rotation": 180.0
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "M2 Note 1 Top Start"
+            "pathName": "Note 1 Path"
           }
         },
         {
@@ -50,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Note Two Upper Far"
+            "pathName": "Note 2 Path"
           }
         },
         {
@@ -80,13 +80,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Note Three Upper Far"
+            "pathName": "REEEEEEEEEEEEEE"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "IntakeWaitCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAlignCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoAngleWaitCommand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootCommand"
           }
         }
       ]

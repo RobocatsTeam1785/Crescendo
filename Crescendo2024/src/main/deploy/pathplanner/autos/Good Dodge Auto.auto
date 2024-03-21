@@ -20,7 +20,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "M2 Note 1 Top Start"
+            "pathName": "Far Note Mid Dodge"
           }
         },
         {
@@ -50,7 +50,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Note Two Upper Far"
+            "pathName": "Far Note 2 Mid Dodge"
           }
         },
         {
@@ -75,18 +75,6 @@
           "type": "named",
           "data": {
             "name": "ShootCommand"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Note Three Upper Far"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeWaitCommand"
           }
         }
       ]

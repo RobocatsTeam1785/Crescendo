@@ -10,12 +10,14 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.lib.Constants.VisionConstants;
 import frc.lib.Utils.Util1785;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 
 public class AutoAlignCommand extends Command {
   private VisionSubsystem visionSubsystem;
   private DriveSubsystem driveSubsystem;
   private boolean done;
   private double period;
+  private Timer timer = new Timer();
 
   /** Creates a new AutoAlignCommand. */
   public AutoAlignCommand(DriveSubsystem drive, VisionSubsystem vision) {
@@ -56,6 +58,9 @@ public class AutoAlignCommand extends Command {
     }
     else{
       done=false;
+      timer.stop();
+      timer.reset();
+      timer.start();
     }
   }
 
@@ -68,7 +73,7 @@ public class AutoAlignCommand extends Command {
       System.out.println("bad");
     }
     else{
-      if(Math.abs(Util1785.getRobotRelativeAngle(visionSubsystem.getYaw(), Util1785.getDistanceRobotRelative(visionSubsystem.getYaw(), visionSubsystem.getAprilTagDistance(), Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)),Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET))) < 1.3){
+      if(Math.abs(Util1785.getRobotRelativeAngle(visionSubsystem.getYaw(), Util1785.getDistanceRobotRelative(visionSubsystem.getYaw(), visionSubsystem.getAprilTagDistance(), Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)),Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET))) < 1.3 || timer.hasElapsed(2.5)){
         done = true;
         this.cancel();
         System.out.println("bad 2");
@@ -96,6 +101,9 @@ public class AutoAlignCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     System.out.println("AA End?");
+    timer.stop();
+    timer.reset();
+
     driveSubsystem.drive(
             0,
             0,

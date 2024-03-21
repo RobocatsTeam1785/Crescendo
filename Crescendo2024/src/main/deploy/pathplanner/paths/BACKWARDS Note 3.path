@@ -3,75 +3,53 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.75,
-        "y": 4.5
+        "x": 3.32,
+        "y": 7.29
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8006421808568094,
-        "y": 2.866428915755695
+        "x": 4.32,
+        "y": 7.29
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.6050292100584205,
-        "y": 1.5470445226604737
+        "x": 8.289756056946795,
+        "y": 7.439065519461206
       },
       "prevControl": {
-        "x": 3.2942323741792423,
-        "y": 2.5036285786862345
+        "x": 7.617022739983724,
+        "y": 7.409816244810638
       },
       "nextControl": {
-        "x": 5.915826045937599,
-        "y": 0.5904604666347102
+        "x": 8.75073820420886,
+        "y": 7.459108221516078
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.1964149642585,
-        "y": 0.7482129249972782
+        "x": 2.9176392794590833,
+        "y": 5.547612425391122
       },
       "prevControl": {
-        "x": 7.1964149642585,
-        "y": 0.7482129249972782
-      },
-      "nextControl": {
-        "x": 9.1964149642585,
-        "y": 0.7482129249972782
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.5,
-        "y": 2.5
-      },
-      "prevControl": {
-        "x": 5.732138321419499,
-        "y": 1.691099096483907
+        "x": 2.859140730157946,
+        "y": 5.5768617000416905
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 2.55,
-      "rotationDegrees": 180.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 1.4,
+      "waypointRelativePos": 0.5,
       "command": {
         "type": "sequential",
         "data": {
@@ -89,19 +67,19 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 2.75,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 130.0,
+    "rotation": 180.0,
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "Lower ",
+  "folder": "PayneBad",
   "previewStartingState": {
-    "rotation": 120.0,
+    "rotation": -148.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

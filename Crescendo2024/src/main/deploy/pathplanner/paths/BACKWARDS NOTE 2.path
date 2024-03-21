@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.0,
-        "y": 6.2
+        "x": 2.17,
+        "y": 6.56
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.0,
-        "y": 6.2
+        "x": 2.966388070543364,
+        "y": 7.0490751907869615
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.309255573380506,
-        "y": 5.7523573479451
+        "x": 3.3173793663501825,
+        "y": 7.292819146208364
       },
       "prevControl": {
-        "x": 5.949814084898766,
-        "y": 7.536563101631303
+        "x": 3.3442308126485747,
+        "y": 7.312957805882072
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.25,
+      "name": "Intake",
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "sequential",
         "data": {
@@ -50,21 +50,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.5,
-    "maxAcceleration": 3.5,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 146.76828893202077,
+    "rotation": -148.0,
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "4 Note Upper",
+  "folder": "PayneBad",
   "previewStartingState": {
-    "rotation": -165.0,
+    "rotation": -148.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
