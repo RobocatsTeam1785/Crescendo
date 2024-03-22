@@ -99,8 +99,8 @@ public class DriveSubsystem extends SubsystemBase {
 
   private final SwerveDrivePoseEstimator odometry;
 
-  private final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);  
-  //private final AHRS m_gyro = new AHRS(I2C.Port.kOnboard);
+  //private final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);  
+  private final AHRS m_gyro = new AHRS(I2C.Port.kOnboard);
 
 
   private final double coef = 1.0/(1-0.05);

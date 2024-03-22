@@ -9,6 +9,7 @@ import frc.robot.commands.ShootCommands.CloseShootCommand;
 import frc.robot.commands.ShootCommands.ShootCloseStage;
 import frc.robot.commands.ShootCommands.ShootCommand;
 import frc.robot.commands.ShootCommands.ShootTestTuner;
+import frc.robot.commands.ShootCommands.ShootTrapCommand;
 import frc.robot.commands.ShootCommands.ShootProtectedZone;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -96,6 +97,11 @@ public class RobotContainer {
 
     private GriffinBadCommand griffinBadCommand;
 
+    private Command backRobotCommand;
+
+    private ShootTrapCommand shootTrapCommand;
+
+    private AmpThrow ampThrow;
 
 
 
@@ -177,6 +183,12 @@ public class RobotContainer {
 
         griffinBadCommand = new GriffinBadCommand(intakeSubsystem);
 
+        backRobotCommand  = new PathPlannerAuto("Back Auto");
+
+        shootTrapCommand = new ShootTrapCommand(shooterSubsystem, shooterFeederSubsystem, shooterRotSubsystem);
+
+        ampThrow = new AmpThrow(ampSubsystem);
+
 
         configureButtonBindings();
         driveSubsystem.setDefaultCommand(new InstantCommand(() -> driveSubsystem.drive(
@@ -249,6 +261,15 @@ public class RobotContainer {
         SmartDashboard.putNumber("REV", shooterRotSubsystem.getTrueAngle());
     }
 
+    public void scheduleBack(){
+        if(backRobotCommand.isScheduled()){
+            backRobotCommand.cancel();
+        }
+        else{
+            backRobotCommand.schedule();
+        }
+    }
+
     public void helpGriffin(){
         if(operatorController.getRightTriggerAxis()>0.6){
             if(!revShooterCommand.isScheduled() && !shootCommand.isScheduled()){
@@ -302,9 +323,9 @@ public class RobotContainer {
         new JoystickButton(operatorController, Button.kY.value).whileTrue(ejectNoteForwards);
         new JoystickButton(operatorController, Button.kA.value).whileTrue(ejectNoteBackwards);
         new JoystickButton(operatorController, Button.kB.value).whileTrue(reverseIntake);
-        new JoystickButton(operatorController, Button.kStart.value).whileTrue(revShooterCommand);
+        new JoystickButton(operatorController, Button.kBack.value).whileTrue(ampThrow);
         new JoystickButton(operatorController, Button.kRightBumper.value).onTrue(new InstantCommand(() -> toggleShootCloseSpeaker()));
-        new JoystickButton(operatorController, Button.kLeftBumper.value).onTrue(new InstantCommand(() -> toggleShootProtectedZone()));
+        new JoystickButton(operatorController, Button.kLeftBumper.value).onTrue(new InstantCommand(() -> toggleTrapShoot()));
     }
 
     public void toggleIntake(){if(intakeCommand.isScheduled()){intakeCommand.cancel();}else{intakeCommand.schedule();}}
@@ -314,6 +335,15 @@ public class RobotContainer {
         }
         else{
             shootCommand.schedule();
+        }
+    }
+
+    public void toggleTrapShoot(){
+        if(shootTrapCommand.isScheduled()){
+            shootTrapCommand.cancel();
+        }
+        else{
+            shootTrapCommand.schedule();
         }
     }
     public void toggleAlign(){if(autoAlignCommand.isScheduled()){autoAlignCommand.cancel();}else{autoAlignCommand.schedule();}}
