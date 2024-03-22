@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.9,
-        "y": 7.0
+        "x": 1.66,
+        "y": 3.94
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.9,
-        "y": 7.0
+        "x": 2.66,
+        "y": 3.94
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.455501946633348,
-        "y": 7.370817211943212
+        "x": 8.289756056946795,
+        "y": 2.447189312430883
       },
       "prevControl": {
-        "x": 5.9529528959512,
-        "y": 6.914745188688054
+        "x": 5.394077866540532,
+        "y": 0.08774782395170572
       },
       "nextControl": {
-        "x": 8.506952375069327,
-        "y": 7.380193691891825
+        "x": 9.033981643043404,
+        "y": 3.0535953455466394
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.9,
-        "y": 7.0
+        "x": 1.66,
+        "y": 3.94
       },
       "prevControl": {
-        "x": 5.742838141094345,
-        "y": 7.674114385602445
+        "x": 6.125309732804739,
+        "y": -0.1657458896865537
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,21 +46,21 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": -160.0,
+      "waypointRelativePos": 1,
+      "rotationDegrees": -150.0,
       "rotateFast": true
     },
     {
-      "waypointRelativePos": 1.55,
-      "rotationDegrees": -160.0,
-      "rotateFast": false
+      "waypointRelativePos": 0.65,
+      "rotationDegrees": 180.0,
+      "rotateFast": true
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
-      "waypointRelativePos": 0.5,
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.7,
       "command": {
         "type": "sequential",
         "data": {
@@ -77,20 +77,20 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 2.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 2.75,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -148.0,
+    "rotation": 134.0,
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "4 Note Upper",
+  "folder": "PayneBad3000",
   "previewStartingState": {
-    "rotation": -148.0,
+    "rotation": 134.0,
     "velocity": 0
   },
   "useDefaultConstraints": false
