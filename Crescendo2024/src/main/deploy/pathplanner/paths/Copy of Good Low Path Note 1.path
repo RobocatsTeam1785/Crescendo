@@ -3,41 +3,57 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.66,
-        "y": 3.94
+        "x": 0.75,
+        "y": 4.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.66,
-        "y": 3.94
+        "x": 2.8006421808568094,
+        "y": 2.866428915755695
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.289756056946795,
-        "y": 2.447189312430883
+        "x": 4.6050292100584205,
+        "y": 1.5470445226604737
       },
       "prevControl": {
-        "x": 5.394077866540532,
-        "y": 0.08774782395170572
+        "x": 3.2942323741792423,
+        "y": 2.5036285786862345
       },
       "nextControl": {
-        "x": 9.033981643043404,
-        "y": 3.0535953455466394
+        "x": 5.915826045937599,
+        "y": 0.5904604666347102
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.66,
-        "y": 3.94
+        "x": 8.367754122681642,
+        "y": 0.8092299319990566
       },
       "prevControl": {
-        "x": 6.125309732804739,
-        "y": -0.1657458896865537
+        "x": 7.367754122681642,
+        "y": 0.8092299319990566
+      },
+      "nextControl": {
+        "x": 9.367754122681642,
+        "y": 0.8092299319990566
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.6599204694846459,
+        "y": 3.9389023196098654
+      },
+      "prevControl": {
+        "x": 3.1321339602299183,
+        "y": 1.9207023687206517
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,12 +62,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1,
-      "rotationDegrees": -150.0,
-      "rotateFast": true
-    },
-    {
-      "waypointRelativePos": 0.65,
+      "waypointRelativePos": 2.55,
       "rotationDegrees": 180.0,
       "rotateFast": true
     }
@@ -59,8 +70,8 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.7,
+      "name": "Intake",
+      "waypointRelativePos": 1.4,
       "command": {
         "type": "sequential",
         "data": {
@@ -78,19 +89,19 @@
   ],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 3.25,
+    "maxAcceleration": 2.75,
     "maxAngularVelocity": 360.0,
     "maxAngularAcceleration": 180.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 134.0,
+    "rotation": 135.0,
     "rotateFast": true
   },
   "reversed": false,
   "folder": "PayneBad3000",
   "previewStartingState": {
-    "rotation": 134.0,
+    "rotation": 120.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

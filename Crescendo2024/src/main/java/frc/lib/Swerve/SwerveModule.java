@@ -64,6 +64,9 @@ public class SwerveModule {
         driveEncoder.setPositionConversionFactor(DriveConstants.DRIVE_CONVERSION_FACTOR);
         driveEncoder.setVelocityConversionFactor(DriveConstants.DRIVE_CONVERSION_FACTOR/60);
 
+        if(DRIVEMOTORID == 1){
+            driveMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        }
 
         turnEncoder = turnMotor.getEncoder();
         turnEncoder.setPosition(p*Math.PI/180);

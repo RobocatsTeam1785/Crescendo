@@ -42,7 +42,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.controller.PIDController;
 
 
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -91,6 +90,8 @@ public class DriveSubsystem extends SubsystemBase {
   private final SlewRateLimiter m_yspeedLimiter = new SlewRateLimiter(3.5*2);
   private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(2*Math.PI);
   
+  private boolean isSPI = false;
+  
 
   private final PIDController turnPID = new PIDController(
     DriveConstants.HEADING_KP,
@@ -100,7 +101,12 @@ public class DriveSubsystem extends SubsystemBase {
   private final SwerveDrivePoseEstimator odometry;
 
   //private final AHRS m_gyro = new AHRS(SerialPort.Port.kUSB1);  
-  private final AHRS m_gyro = new AHRS(I2C.Port.kOnboard);
+
+  //private final AHRS gyroOnRoborio = new AHRS(SPI.Port.kMXP);
+  //private final AHRS gyroMini = new AHRS(I2C.Port.kOnboard);
+  private AHRS m_gyro = new AHRS(I2C.Port.kMXP);
+
+
 
 
   private final double coef = 1.0/(1-0.05);
@@ -163,7 +169,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
   
   //Rotation2d.fromDegrees(-m_gyro.getAngle())
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //Rotation2d.fromDegrees(-m_gyro.getAngle())
 
 
@@ -193,6 +199,18 @@ public class DriveSubsystem extends SubsystemBase {
     var swerveModuleStates = m_kinematics.toSwerveModuleStates(c);
     setSwerveStates(swerveModuleStates);
 
+  }
+
+  public void toggleGyroType(){
+    if(isSPI){
+      //m_gyro = gyroOnRoborio;
+      isSPI = false;
+    }
+    else{
+      //m_gyro = gyroMini;
+      isSPI = true;
+
+    }
   }
 
   public void driveOnlyHeading(double angle){

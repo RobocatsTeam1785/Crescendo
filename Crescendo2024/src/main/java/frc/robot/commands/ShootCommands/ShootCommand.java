@@ -83,7 +83,7 @@ public class ShootCommand extends Command {
         done = true;
       }
       else{
-        shooterFeederSubsystem.setVelocity(0.6);
+        shooterFeederSubsystem.setVelocity(0.85);
       }
     }
 

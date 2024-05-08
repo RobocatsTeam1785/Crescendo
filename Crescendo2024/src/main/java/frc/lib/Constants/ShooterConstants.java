@@ -11,7 +11,7 @@ public class ShooterConstants {
     public static final double TOP_KV = 0.131822;//0.13000
     public static final double TOP_KA = 0.014356*0;
 
-    public static final double BOTTOM_KP = 0.0082625;
+    public static final double BOTTOM_KP = 0.0082625*2;
     public static final double BOTTOM_KI = 0;
     public static final double BOTTOM_KD = 0;
     public static final double BOTTOM_KS = 0.08264*0;

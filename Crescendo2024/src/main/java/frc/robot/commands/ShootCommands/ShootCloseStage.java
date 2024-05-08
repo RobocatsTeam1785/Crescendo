@@ -73,7 +73,7 @@ public class ShootCloseStage extends Command {
         this.cancel();
       }
       else{
-        shooterFeederSubsystem.setVelocity(0.75);
+        shooterFeederSubsystem.setVelocity(0.85);
       }
     }
 

@@ -103,6 +103,8 @@ public class RobotContainer {
 
     private AmpThrow ampThrow;
 
+    private boolean fieldRelative = true;
+
 
 
     
@@ -201,7 +203,7 @@ public class RobotContainer {
             driverController.getPOV(),
             visionSubsystem.hasSpeakerTarget() ? Util1785.getRobotRelativeAngle(visionSubsystem.getYaw(), Util1785.getDistanceRobotRelative(visionSubsystem.getYaw(), visionSubsystem.getAprilTagDistance(), Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)),Units.inchesToMeters(VisionConstants.FRONT_CAM_OFFSET)) : 400,
             //visionSubsystem.getYaw(),
-            true,
+            fieldRelative,
             period
         ), driveSubsystem));   
 
@@ -270,6 +272,10 @@ public class RobotContainer {
         }
     }
 
+    public void toggleFieldRelative(){
+        fieldRelative = !fieldRelative;
+    }
+
     public void helpGriffin(){
         if(operatorController.getRightTriggerAxis()>0.6){
             if(!revShooterCommand.isScheduled() && !shootCommand.isScheduled()){
@@ -316,7 +322,7 @@ public class RobotContainer {
         new JoystickButton(driverController, Button.kRightBumper.value).onTrue(new InstantCommand(() -> toggleShoot()));
         new JoystickButton(driverController, Button.kX.value).onTrue(new InstantCommand(() -> resetGyro()));
         new JoystickButton(driverController, Button.kB.value).onTrue(new InstantCommand(() -> setStraight()));
-        new JoystickButton(driverController, Button.kA.value).whileTrue(pulseLEDCommand);
+        new JoystickButton(driverController, Button.kA.value).onTrue(new InstantCommand(() -> toggleFieldRelative()));
         new JoystickButton(driverController, Button.kY.value).whileTrue(griffinBadCommand);
 
         new JoystickButton(operatorController, Button.kX.value).onTrue(new InstantCommand(() -> toggleAmp()));
